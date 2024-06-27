@@ -1,0 +1,103 @@
+---
+title: "Introduction"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(wgsLR)
+```
+
+# Estimating the genotype error probability, $w$
+
+A simple example:
+
+```{r}
+cases <- wgsLR::sample_data_Hp(n = 1000, w = 0.1, p = c(0.25, 0.25, 0.5))
+tab <- table(cases$X_D, cases$X_S)
+tab
+```
+
+## Maximum likelihood estimation
+
+```{r}
+w_mle <- wgsLR::estimate_w(tab)
+w_mle
+w_mle_se <- wgsLR::estimate_w_se(tab, w_mle)
+w_mle_se
+```
+
+## Bayesian inference
+
+The package contains a simple Metropolis-Hastings sampler (also see the "Using Stan for Bayesian inference" vignette):
+
+```{r}
+w_b <- wgsLR::estimate_w_bayesian(tab) |> lapply(\(x) x$samples) |> unlist()
+w_b_q <- quantile(w_b, c(0.025, 0.975))
+```
+
+```{r}
+hist(w_b, main = NULL, xlab = expression(hat(w)))
+abline(v = mean(w_b), col = "deeppink3", lwd = 3)
+abline(v = w_b_q[1], col = "deeppink3"); abline(v = w_b_q[2], col = "deeppink3")
+abline(v = w_mle, col = "yellow3", lwd = 3)
+abline(v = w_mle - 2*w_mle_se, col = "yellow3"); abline(v = w_mle + 2*w_mle_se, col = "yellow3")
+legend("topright", col = c("deeppink3", "yellow3"), legend = c("Bayesian", "MLE"), lty = 1, lwd = 2)
+```
+
+
+# Calculating likelihood ratios ($LR$'s)
+
+
+No errors and matching genotypes:
+
+```{r}
+LR_contribs <- wgsLR::calc_LRs(xs = c(0, 0), 
+                               xd = c(0, 0), 
+                               w = 0, 
+                               p = c(0.25, 0.25, 0.5))
+prod(LR_contribs)
+```
+
+No errors and non-matching genotypes:
+
+```{r}
+LR_contribs <- wgsLR::calc_LRs(xs = c(0, 0), 
+                               xd = c(1, 0), 
+                               w = 0, 
+                               p = c(0.25, 0.25, 0.5))
+prod(LR_contribs)
+```
+
+
+Errors possible and matching genotypes:
+
+```{r}
+LR_contribs <- wgsLR::calc_LRs(xs = c(0, 0), 
+                               xd = c(0, 0), 
+                               w = 0.001, 
+                               p = c(0.25, 0.25, 0.5))
+prod(LR_contribs)
+```
+
+Errors possible and non-matching genotypes:
+
+```{r}
+LR_contribs <- wgsLR::calc_LRs(xs = c(0, 0), 
+                               xd = c(1, 0), 
+                               w = 0.001, 
+                               p = c(0.25, 0.25, 0.5))
+prod(LR_contribs)
+```
+
+

@@ -1,0 +1,37 @@
+---
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# `wgsLR`: Shotgun sequencing for human identification: Dynamic SNP marker sets and likelihood ratio calculations accounting for errors
+
+Please refer to the online documentation at <https://mikldk.github.io/wgsLR>, including the vignettes.
+
+
+## A few small examples
+
+### Estimating the genotype error probability, $w$
+
+```{r}
+cases <- wgsLR::sample_data_Hp(n = 1000, w = 0.1, p = c(0.25, 0.25, 0.5))
+tab <- table(cases$X_D, cases$X_S)
+tab
+w_mle <- wgsLR::estimate_w(tab)
+w_mle
+```
+
+### Calculating likelihood ratios ($LR$'s)
+
+Errors possible and non-matching genotypes:
+
+```{r}
+LR_contribs <- wgsLR::calc_LRs(xs = c(0, 0, 2, 2), 
+                               xd = c(1, 0, 2, 2), 
+                               w = 0.001, 
+                               p = c(0.25, 0.25, 0.5))
+LR_contribs
+prod(LR_contribs)
+```

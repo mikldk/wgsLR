@@ -1,0 +1,77 @@
+---
+title: "Using Stan for Bayesian inference"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using Stan for Bayesian inference}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(wgsLR)
+```
+
+The package contains a simple Metropolis-Hastings sampler:
+
+```{r}
+tab <- array(c(35L, 0L, 0L, 0L, 1L, 0L, 0L, 0L, 0L), dim = c(3L, 3L))
+tab
+w_b <- wgsLR::estimate_w_bayesian(tab) |> lapply(\(x) x$samples) |> unlist()
+mean(w_b)
+```
+
+Instead of using the built-in simple Metropolis-Hastings sampler, 
+it may be a good idea to use e.g. Stan for production purposes:
+
+```{r, eval=require("cmdstanr", quietly = FALSE)}
+library(cmdstanr)
+model <- "
+// https://en.wikipedia.org/wiki/Beta_distribution#Four_parameters
+// https://discourse.mc-stan.org/t/four-parameter-beta-distribution/27216/2
+functions {
+  real beta_4p_lpdf(real y, real alpha, real beta, real lwr, real upr) {
+    // Scale 4-parameter Beta RV to 2-parameter Beta RV
+    real x = (y - lwr) / (upr - lwr);
+    
+    // Return scaled 2-parameter beta lpdf
+    return beta_lpdf(x | alpha, beta) - log(upr - lwr);
+  }
+}
+data {
+  int<lower = 1> N_trials;
+  array[3] int<lower = 0, upper = N_trials> ans;
+}
+parameters {
+  real<lower=0,upper=0.5> w;
+}
+transformed parameters {
+  simplex[3] p;
+  p[1] = w^4 + 4*w^2 * (1-w)^2 + (1-w)^4;
+  p[2] = 2*(w*(1-w))^2;
+  p[3] = 4 * w^3 * (1-w) + 4*w*(1-w)^3;
+}
+model {
+  w ~ beta_4p(1, 1, 0, 0.5);
+  ans ~ multinomial(p);
+}
+"
+f <- write_stan_file(model)
+m <- cmdstan_model(f)
+```
+
+```{r}
+ns <- wgsLR::get_ns(tab)
+ns
+fit_mn <- m$sample(data = list(N_trials = sum(ns), ans = ns), 
+                   chains = 4, 
+                   show_messages = FALSE)
+fit_mn
+fit_mn$draws("w") |> c() |> mean()
+```
