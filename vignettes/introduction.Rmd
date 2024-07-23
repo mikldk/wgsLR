@@ -101,3 +101,13 @@ prod(LR_contribs)
 ```
 
 
+# Verifying formulas
+
+The usual $LR$ values, $\frac{1}{p_{Z^S}}$ for matches and $0$ for non-matches, are obtained when setting $w = 0$.
+%, for
+%example with both packages \texttt{wgsLR} and \texttt{caracas} loaded
+%with the R command \texttt{d\_prob\_LR\$LRw0 <-
+%  sapply(d\_prob\_LR\$expr, \\(x) as\_sym(x) |> subs("w", 0) |>
+%  as\_character())} followed by potentially outputting the result by
+%\texttt{d\_prob\_LR[, c("XD\_MA", "XS\_MA", "LRw0")]}.
+
