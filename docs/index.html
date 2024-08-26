@@ -70,40 +70,70 @@
 </h1></div>
 <p>Please refer to the online documentation at <a href="https://mikldk.github.io/wgsLR" class="external-link uri">https://mikldk.github.io/wgsLR</a>, including the vignettes.</p>
 <div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>To install from Github with vignettes run this command from within <code>R</code> (please install <code>remotes</code> first if not already installed):</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># install.packages('remotes')</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"mikldk/wgsLR"</span>, <span class="at">build_vignettes =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p>You can also install the package without vignettes if needed as follows:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"mikldk/wgsLR"</span>)</span></code></pre></div>
+</div>
+<div class="section level2">
 <h2 id="a-few-small-examples">A few small examples<a class="anchor" aria-label="anchor" href="#a-few-small-examples"></a>
 </h2>
 <div class="section level3">
 <h3 id="estimating-the-genotype-error-probability-w">Estimating the genotype error probability, <span class="math inline"><em>w</em></span>
 <a class="anchor" aria-label="anchor" href="#estimating-the-genotype-error-probability-w"></a>
 </h3>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cases</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="reference/sample_data_Hp.html">sample_data_Hp</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, w <span class="op">=</span> <span class="fl">0.1</span>, p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">cases</span><span class="op">$</span><span class="va">X_D</span>, <span class="va">cases</span><span class="op">$</span><span class="va">X_S</span><span class="op">)</span></span>
 <span><span class="va">tab</span></span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="do">##    </span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="do">##       0   1   2</span></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="do">##   0 249  60   7</span></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="do">##   1  67 122  87</span></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="do">##   2   7  81 320</span></span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="do">##    </span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="do">##       0   1   2</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="do">##   0 251  52  15</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="do">##   1  77  97  80</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="do">##   2   9  86 333</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">w_mle</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="reference/estimate_w.html">estimate_w</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span></span>
 <span><span class="va">w_mle</span></span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="do">## [1] 0.09822341</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="do">## [1] 0.1060797</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="calculating-likelihood-ratios-lrs">Calculating likelihood ratios (<span class="math inline"><em>L</em><em>R</em></span>’s)<a class="anchor" aria-label="anchor" href="#calculating-likelihood-ratios-lrs"></a>
 </h3>
-<p>Errors possible and non-matching genotypes:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<p>Assume that a trace sample had four loci with genotypes (0/1 = 1, 0/0 = 0, 1/1 = 2, 1/1 = 2). A person of interest is then typed for the same four loci and has genotypes (0/0 = 0, 0/0 = 0, 1/1 = 2, 1/1 = 2), i.e. a mismatch on the first locus.</p>
+<p>For simplicity, assume that the genotype probabilites are P(0/0 = 0) = 0.25, P(0/1 = 1/0 = 1) = 0.25, and P(1/1 = 2) = 0.5.</p>
+<p>If no errors are possible, then <span class="math inline"><em>w</em> = 0</span> and</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="reference/calc_LRs.html">calc_LRs</a></span><span class="op">(</span>xs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, </span>
+<span>                xd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, </span>
+<span>                w <span class="op">=</span> <span class="fl">0</span>, </span>
+<span>                p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="do">## [1] 0 4 2 2</span></span></code></pre></div>
+<p>and the product is 0 due to the mismatch at the first locus.</p>
+<p>If instead we acknowledge that errors are possible, then for <span class="math inline"><em>w</em> = 0.001</span> we obtain that</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">LR_contribs</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="reference/calc_LRs.html">calc_LRs</a></span><span class="op">(</span>xs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, </span>
 <span>                               xd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, </span>
 <span>                               w <span class="op">=</span> <span class="fl">0.001</span>, </span>
 <span>                               p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">LR_contribs</span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="do">## [1] 0.01192834 3.99199202 1.99799850 1.99799850</span></span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="do">## [1] 0.01192834 3.99199202 1.99799850 1.99799850</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/prod.html" class="external-link">prod</a></span><span class="op">(</span><span class="va">LR_contribs</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="do">## [1] 0.1900904</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="do">## [1] 0.1900904</span></span></code></pre></div>
+<p>We can also consider the <span class="math inline"><em>L</em><em>R</em></span>s for a range for plausible values of <span class="math inline"><em>w</em></span>:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ws</span> <span class="op">&lt;-</span> <span class="fl">10</span><span class="op">^</span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">1</span>, length.out <span class="op">=</span> <span class="fl">11</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">LRs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">ws</span>, \<span class="op">(</span><span class="va">w</span><span class="op">)</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="reference/calc_LRs.html">calc_LRs</a></span><span class="op">(</span>xs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, </span>
+<span>                                       xd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, </span>
+<span>                                       w <span class="op">=</span> <span class="va">w</span>, </span>
+<span>                                       p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>                <span class="fu"><a href="https://rdrr.io/r/base/prod.html" class="external-link">prod</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ws</span>, <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="va">LRs</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"l"</span>, xlab <span class="op">=</span> <span class="st">"w"</span>, ylab <span class="op">=</span> <span class="st">"WoE = log10(LR)"</span>, log <span class="op">=</span> <span class="st">"x"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="fl">0</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<p><img src="README_files/figure-gfm/unnamed-chunk-4-1.png"><!-- --></p>
 </div>
 </div>
 </div>

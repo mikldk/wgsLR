@@ -51,11 +51,11 @@ w_b_q <- quantile(w_b, c(0.025, 0.975))
 ```{r}
 hist(w_b, main = NULL, xlab = expression(hat(w)))
 abline(v = mean(w_b), col = "deeppink3", lwd = 3)
-abline(v = w_b_q[1], col = "deeppink3", lty = "dashed")
-abline(v = w_b_q[2], col = "deeppink3", lty = "dashed")
+abline(v = w_b_q[1], col = "deeppink3", lty = 2)
+abline(v = w_b_q[2], col = "deeppink3", lty = 2)
 abline(v = w_mle, col = "yellow3", lwd = 3)
-abline(v = w_mle - 2*w_mle_se, col = "yellow3", lty = "dashed")
-abline(v = w_mle + 2*w_mle_se, col = "yellow3", lty = "dashed")
+abline(v = w_mle - 2*w_mle_se, col = "yellow3", lty = 2)
+abline(v = w_mle + 2*w_mle_se, col = "yellow3", lty = 2)
 legend("topright", col = c("deeppink3", "yellow3"), legend = c("Bayesian", "MLE"), lty = 1, lwd = 2)
 ```
 
