@@ -90,19 +90,21 @@
 <span><span class="va">tab</span></span>
 <span><span class="co">#&gt;    </span></span>
 <span><span class="co">#&gt;       0   1   2</span></span>
-<span><span class="co">#&gt;   0 229  74   8</span></span>
-<span><span class="co">#&gt;   1  67 118  82</span></span>
-<span><span class="co">#&gt;   2   9  77 336</span></span></code></pre></div>
+<span><span class="co">#&gt;   0 248  55   3</span></span>
+<span><span class="co">#&gt;   1  56 132  89</span></span>
+<span><span class="co">#&gt;   2   7  92 318</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="maximum-likelihood-estimation">Maximum likelihood estimation<a class="anchor" aria-label="anchor" href="#maximum-likelihood-estimation"></a>
 </h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">w_mle</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="../reference/estimate_w.html">estimate_w</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span></span>
 <span><span class="va">w_mle</span></span>
-<span><span class="co">#&gt; [1] 0.1024541</span></span>
+<span><span class="co">#&gt; [1] 0.09405962</span></span>
 <span><span class="va">w_mle_se</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="../reference/estimate_w_se.html">estimate_w_se</a></span><span class="op">(</span><span class="va">tab</span>, <span class="va">w_mle</span><span class="op">)</span></span>
 <span><span class="va">w_mle_se</span></span>
-<span><span class="co">#&gt; [1] 0.006167563</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.005788535</span></span></code></pre></div>
+<p>The last lines estimate the standard error that will be used below to
+construct approximate confidence intervals.</p>
 </div>
 <div class="section level3">
 <h3 id="bayesian-inference">Bayesian inference<a class="anchor" aria-label="anchor" href="#bayesian-inference"></a>
@@ -115,11 +117,15 @@ the “Using Stan for Bayesian inference” vignette):</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">w_b</span>, main <span class="op">=</span> <span class="cn">NULL</span>, xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/influence.measures.html" class="external-link">hat</a></span><span class="op">(</span><span class="va">w</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">w_b</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"deeppink3"</span>, lwd <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="va">w_b_q</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, col <span class="op">=</span> <span class="st">"deeppink3"</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="va">w_b_q</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, col <span class="op">=</span> <span class="st">"deeppink3"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="va">w_b_q</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, col <span class="op">=</span> <span class="st">"deeppink3"</span>, lty <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="va">w_b_q</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, col <span class="op">=</span> <span class="st">"deeppink3"</span>, lty <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="va">w_mle</span>, col <span class="op">=</span> <span class="st">"yellow3"</span>, lwd <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="va">w_mle</span> <span class="op">-</span> <span class="fl">2</span><span class="op">*</span><span class="va">w_mle_se</span>, col <span class="op">=</span> <span class="st">"yellow3"</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="va">w_mle</span> <span class="op">+</span> <span class="fl">2</span><span class="op">*</span><span class="va">w_mle_se</span>, col <span class="op">=</span> <span class="st">"yellow3"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="va">w_mle</span> <span class="op">-</span> <span class="fl">2</span><span class="op">*</span><span class="va">w_mle_se</span>, col <span class="op">=</span> <span class="st">"yellow3"</span>, lty <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="va">w_mle</span> <span class="op">+</span> <span class="fl">2</span><span class="op">*</span><span class="va">w_mle_se</span>, col <span class="op">=</span> <span class="st">"yellow3"</span>, lty <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"topright"</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"deeppink3"</span>, <span class="st">"yellow3"</span><span class="op">)</span>, legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Bayesian"</span>, <span class="st">"MLE"</span><span class="op">)</span>, lty <span class="op">=</span> <span class="fl">1</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<p>The dashed lines indicate approximate confidence intervals (maximum
+likelihood estimation) and credible interval (Bayesian inference).</p>
 </div>
 </div>
 <div class="section level2">
@@ -157,6 +163,29 @@ the “Using Stan for Bayesian inference” vignette):</p>
 <span>                               p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/prod.html" class="external-link">prod</a></span><span class="op">(</span><span class="va">LR_contribs</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0.04761785</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="verifying-formulas">Verifying formulas<a class="anchor" aria-label="anchor" href="#verifying-formulas"></a>
+</h2>
+<p>The usual <span class="math inline">\(LR\)</span> values, <span class="math inline">\(\frac{1}{p_{Z^S}}\)</span> for matches and <span class="math inline">\(0\)</span> for non-matches, are obtained when
+setting <span class="math inline">\(w = 0\)</span>. For example with
+both packages <code>wgsLR</code> and <code>caracas</code> loaded we can
+do the following:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-cas/caracas" class="external-link">caracas</a></span><span class="op">)</span></span>
+<span><span class="va">LR</span> <span class="op">&lt;-</span> <span class="va">d_prob_LR</span><span class="op">$</span><span class="va">expr</span></span>
+<span><span class="va">LRw0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">LR</span>, \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/pkg/caracas/man/as_sym.html" class="external-link">as_sym</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/pkg/caracas/man/subs.html" class="external-link">subs</a></span><span class="op">(</span><span class="st">"w"</span>, <span class="fl">0</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/pkg/caracas/man/as_character.html" class="external-link">as_character</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="va">d_prob_LR</span>, <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">XD_MA</span>, <span class="va">XS_MA</span>, <span class="va">LRw0</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       XD_MA XS_MA LRw0   </span></span>
+<span><span class="co">#&gt;  [1,] "0"   "0"   "1/p_0"</span></span>
+<span><span class="co">#&gt;  [2,] "0"   "1"   "0"    </span></span>
+<span><span class="co">#&gt;  [3,] "0"   "2"   "0"    </span></span>
+<span><span class="co">#&gt;  [4,] "1"   "0"   "0"    </span></span>
+<span><span class="co">#&gt;  [5,] "1"   "1"   "1/p_1"</span></span>
+<span><span class="co">#&gt;  [6,] "1"   "2"   "0"    </span></span>
+<span><span class="co">#&gt;  [7,] "2"   "0"   "0"    </span></span>
+<span><span class="co">#&gt;  [8,] "2"   "1"   "0"    </span></span>
+<span><span class="co">#&gt;  [9,] "2"   "2"   "1/p_2"</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

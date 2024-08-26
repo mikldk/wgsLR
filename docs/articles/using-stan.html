@@ -90,7 +90,7 @@
 <span><span class="co">#&gt; [3,]    0    0    0</span></span>
 <span><span class="va">w_b</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="../reference/estimate_w_bayesian.html">estimate_w_bayesian</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">$</span><span class="va">samples</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">w_b</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.00844547</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.009269546</span></span></code></pre></div>
 <p>Instead of using the built-in simple Metropolis-Hastings sampler, it
 may be a good idea to use e.g. Stan for production purposes:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -136,13 +136,13 @@ may be a good idea to use e.g. Stan for production purposes:</p>
 <span>                   show_messages <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">fit_mn</span></span>
 <span><span class="co">#&gt;  variable  mean median   sd  mad    q5   q95 rhat ess_bulk ess_tail</span></span>
-<span><span class="co">#&gt;      lp__ -5.86  -5.54 0.83 0.34 -7.51 -5.29 1.01     1143      858</span></span>
-<span><span class="co">#&gt;      w     0.01   0.01 0.01 0.01  0.00  0.02 1.01      950      695</span></span>
-<span><span class="co">#&gt;      p[1]  0.97   0.98 0.03 0.02  0.92  1.00 1.01      950      695</span></span>
-<span><span class="co">#&gt;      p[2]  0.00   0.00 0.00 0.00  0.00  0.00 1.01      950      695</span></span>
-<span><span class="co">#&gt;      p[3]  0.03   0.02 0.03 0.02  0.00  0.08 1.01      950      695</span></span>
+<span><span class="co">#&gt;      lp__ -5.88  -5.56 0.81 0.37 -7.61 -5.29 1.00     1192     1153</span></span>
+<span><span class="co">#&gt;      w     0.01   0.00 0.01 0.01  0.00  0.02 1.01     1034     1070</span></span>
+<span><span class="co">#&gt;      p[1]  0.97   0.98 0.03 0.02  0.92  1.00 1.01     1034     1070</span></span>
+<span><span class="co">#&gt;      p[2]  0.00   0.00 0.00 0.00  0.00  0.00 1.01     1034     1070</span></span>
+<span><span class="co">#&gt;      p[3]  0.03   0.02 0.03 0.02  0.00  0.08 1.01     1034     1070</span></span>
 <span><span class="va">fit_mn</span><span class="op">$</span><span class="fu">draws</span><span class="op">(</span><span class="st">"w"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.007127367</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.007062028</span></span></code></pre></div>
   </main>
 </div>
 
