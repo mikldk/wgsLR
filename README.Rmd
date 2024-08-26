@@ -75,13 +75,13 @@ prod(LR_contribs)
 We can also consider the $LR$s for a range for plausible values of $w$:
 
 ```{r}
-ws <- 10^(-seq(5, 1, length.out = 11))
+ws <- c(1e-6, 1e-3, 1e-2, 1e-1)
 LRs <- sapply(ws, \(w) wgsLR::calc_LRs(xs = c(0, 0, 2, 2), 
                                        xd = c(1, 0, 2, 2), 
                                        w = w, 
                                        p = c(0.25, 0.25, 0.5)) |> 
                 prod())
-plot(ws, log10(LRs), type = "l", xlab = "w", ylab = "WoE = log10(LR)", log = "x")
-abline(h = 0, lty = 2)
+data.frame(log10w = log10(ws), w = ws, 
+           LR = LRs, WoElog10LR = log10(LRs))
 ```
 

@@ -28,16 +28,16 @@ tab
 
     ##    
     ##       0   1   2
-    ##   0 251  52  15
-    ##   1  77  97  80
-    ##   2   9  86 333
+    ##   0 265  73   5
+    ##   1  63 119  76
+    ##   2   7  55 337
 
 ``` r
 w_mle <- wgsLR::estimate_w(tab)
 w_mle
 ```
 
-    ## [1] 0.1060797
+    ## [1] 0.08645948
 
 ### Calculating likelihood ratios ($LR$’s)
 
@@ -84,14 +84,18 @@ prod(LR_contribs)
 We can also consider the $LR$s for a range for plausible values of $w$:
 
 ``` r
-ws <- 10^(-seq(5, 1, length.out = 11))
+ws <- c(1e-6, 1e-3, 1e-2, 1e-1)
 LRs <- sapply(ws, \(w) wgsLR::calc_LRs(xs = c(0, 0, 2, 2), 
                                        xd = c(1, 0, 2, 2), 
                                        w = w, 
                                        p = c(0.25, 0.25, 0.5)) |> 
                 prod())
-plot(ws, log10(LRs), type = "l", xlab = "w", ylab = "WoE = log10(LR)", log = "x")
-abline(h = 0, lty = 2)
+data.frame(log10w = log10(ws), w = ws, 
+           LR = LRs, WoElog10LR = log10(LRs))
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+    ##   log10w     w           LR WoElog10LR
+    ## 1     -6 1e-06 0.0001919981 -3.7167031
+    ## 2     -3 1e-03 0.1900903523 -0.7210399
+    ## 3     -2 1e-02 1.7379421372  0.2400353
+    ## 4     -1 1e-01 7.1409934157  0.8537586
