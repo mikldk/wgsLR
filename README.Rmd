@@ -11,6 +11,22 @@ knitr::opts_chunk$set(echo = TRUE)
 Please refer to the online documentation at <https://mikldk.github.io/wgsLR>, including the vignettes.
 
 
+## Installation
+
+To install from Github with vignettes run this command from 
+within `R` (please install `remotes` first if not already installed):
+
+```
+# install.packages('remotes')
+remotes::install_github("mikldk/wgsLR", build_vignettes = TRUE)
+```
+
+You can also install the package without vignettes if needed as follows:
+
+```
+remotes::install_github("mikldk/wgsLR")
+```
+
 ## A few small examples
 
 ### Estimating the genotype error probability, $w$

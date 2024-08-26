@@ -49,12 +49,16 @@ w_b_q <- quantile(w_b, c(0.025, 0.975))
 ```{r}
 hist(w_b, main = NULL, xlab = expression(hat(w)))
 abline(v = mean(w_b), col = "deeppink3", lwd = 3)
-abline(v = w_b_q[1], col = "deeppink3"); abline(v = w_b_q[2], col = "deeppink3")
+abline(v = w_b_q[1], col = "deeppink3", lty = "dashed")
+abline(v = w_b_q[2], col = "deeppink3", lty = "dashed")
 abline(v = w_mle, col = "yellow3", lwd = 3)
-abline(v = w_mle - 2*w_mle_se, col = "yellow3"); abline(v = w_mle + 2*w_mle_se, col = "yellow3")
+abline(v = w_mle - 2*w_mle_se, col = "yellow3", lty = "dashed")
+abline(v = w_mle + 2*w_mle_se, col = "yellow3", lty = "dashed")
 legend("topright", col = c("deeppink3", "yellow3"), legend = c("Bayesian", "MLE"), lty = 1, lwd = 2)
 ```
 
+The dashed lines indicate approximative confidence intervals (maximum likelihood estimation) and 
+credible interval (Bayesian inference).
 
 # Calculating likelihood ratios ($LR$'s)
 
@@ -103,11 +107,13 @@ prod(LR_contribs)
 
 # Verifying formulas
 
-The usual $LR$ values, $\frac{1}{p_{Z^S}}$ for matches and $0$ for non-matches, are obtained when setting $w = 0$.
-%, for
-%example with both packages \texttt{wgsLR} and \texttt{caracas} loaded
-%with the R command \texttt{d\_prob\_LR\$LRw0 <-
-%  sapply(d\_prob\_LR\$expr, \\(x) as\_sym(x) |> subs("w", 0) |>
-%  as\_character())} followed by potentially outputting the result by
-%\texttt{d\_prob\_LR[, c("XD\_MA", "XS\_MA", "LRw0")]}.
+The usual $LR$ values, $\frac{1}{p_{Z^S}}$ for matches and $0$ for non-matches, 
+are obtained when setting $w = 0$.
+For example with both packages `wgsLR` and `caracas` loaded we can do the following:
 
+```{r, eval = require("caracas", quietly = TRUE), warning=FALSE}
+library(caracas)
+LR <- d_prob_LR$expr
+LRw0 <- sapply(LR, \(x) as_sym(x) |> subs("w", 0) |> as_character())
+with(d_prob_LR, cbind(XD_MA, XS_MA, LRw0))
+```

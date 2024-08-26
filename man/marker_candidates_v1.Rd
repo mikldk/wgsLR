@@ -14,6 +14,13 @@ An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) w
 marker_candidates_v1
 }
 \description{
-Marker candidates (v1)
+Data from The Genome Aggregation Database (gnomAD) for
+binary SNP loci with \code{rs} names, i.e.,
+where the \code{rs} column starts with \code{rs},
+there is one character in the \code{ref} column and one character in the \code{alt} column.
+}
+\details{
+The loci are filtered by MAF values for AFR, EAS, and NFE populations.
+The MAF values must be within 0.1, 0.15, 0.2 from 0.5.
 }
 \keyword{datasets}
