@@ -37,7 +37,7 @@ w_mle_se <- wgsLR::estimate_w_se(tab, w_mle)
 w_mle_se
 ```
 
-The last lines estimate the standard error that will be used below to construct approximate confidence intervals.
+The last lines estimate the standard error that will be used below to construct an approximate confidence interval.
 
 ## Bayesian inference
 
