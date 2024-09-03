@@ -66,7 +66,7 @@ f <- write_stan_file(model)
 m <- cmdstan_model(f)
 ```
 
-```{r}
+```{r, eval=require("cmdstanr", quietly = FALSE)}
 ns <- wgsLR::get_ns(tab)
 ns
 fit_mn <- m$sample(data = list(N_trials = sum(ns), ans = ns), 
