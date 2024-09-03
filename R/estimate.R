@@ -134,7 +134,7 @@ generate_mll <- function(x) {
   n3 <- ns[3L]
   
   mll <- function(w) {
-    -(n1*log(prob1func(w)) + n2*log(prob2func(w)) + n3*log(prob3theta(w)))
+    -(n1*log(prob1func(w)) + n2*log(prob2func(w)) + n3*log(prob3func(w)))
   }
   
   mll
