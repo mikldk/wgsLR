@@ -90,19 +90,19 @@
 <span><span class="va">tab</span></span>
 <span><span class="co">#&gt;    </span></span>
 <span><span class="co">#&gt;       0   1   2</span></span>
-<span><span class="co">#&gt;   0 257  65   6</span></span>
-<span><span class="co">#&gt;   1  59 120  94</span></span>
-<span><span class="co">#&gt;   2   9  75 315</span></span></code></pre></div>
+<span><span class="co">#&gt;   0 262  54   6</span></span>
+<span><span class="co">#&gt;   1  57 112  90</span></span>
+<span><span class="co">#&gt;   2  11  76 332</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="maximum-likelihood-estimation">Maximum likelihood estimation<a class="anchor" aria-label="anchor" href="#maximum-likelihood-estimation"></a>
 </h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">w_mle</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="../reference/estimate_w.html">estimate_w</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span></span>
 <span><span class="va">w_mle</span></span>
-<span><span class="co">#&gt; [1] 0.09824125</span></span>
+<span><span class="co">#&gt; [1] 0.0938015</span></span>
 <span><span class="va">w_mle_se</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="../reference/estimate_w_se.html">estimate_w_se</a></span><span class="op">(</span><span class="va">tab</span>, <span class="va">w_mle</span><span class="op">)</span></span>
 <span><span class="va">w_mle_se</span></span>
-<span><span class="co">#&gt; [1] 0.005978186</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.005784755</span></span></code></pre></div>
 <p>The last lines estimate the standard error that will be used below to
 construct an approximate confidence interval.</p>
 </div>
