@@ -30,6 +30,12 @@ mean(w_b)
 Instead of using the built-in simple Metropolis-Hastings sampler, 
 it may be a good idea to use e.g. Stan for production purposes:
 
+```{r, include=!require("cmdstanr", quietly = FALSE), results='markup'}
+cat("Note that the code below is not executed and thus there are no results below as the package 'cmdstanr' was not found.\n\n")
+cat("You can find the online version of this vignette at <https://mikldk.github.io/wgsLR/articles/using-stan.html>.\n\n")
+```
+
+
 ```{r, eval=require("cmdstanr", quietly = FALSE)}
 library(cmdstanr)
 model <- "
@@ -75,3 +81,5 @@ fit_mn <- m$sample(data = list(N_trials = sum(ns), ans = ns),
 fit_mn
 fit_mn$draws("w") |> c() |> mean()
 ```
+
+
