@@ -287,7 +287,8 @@ if (FALSE) {
 #' tab1 <- matrix(c(1000, 10, 2, 12, 100, 8, 1, 7, 200), nrow = 3)
 #' tab1
 #' estimate_w(tab1)
-#' y <- estimate_w_bayesian(tab1); q <- lapply(y, \(x) x$samples) |> unlist()
+#' y <- estimate_w_bayesian(tab1)
+#' q <- posterior_samples(y)
 #' mean(q); #plot(q, type = "l"); hist(q)
 #' sapply(y, \(x) x$acceptance_ratio)
 #' 
@@ -362,5 +363,23 @@ estimate_w_bayesian <- function(x,
     samples
   })
   
+  class(chain_samples) <- c("wgsLR_bayesian_sample", class(chain_samples))
   chain_samples
+}
+
+#' Extract posterior samples
+#' 
+#' @param x Result from [estimate_w_bayesian()]
+#' 
+#' @examples
+#' tab1 <- matrix(c(1000, 10, 2, 12, 100, 8, 1, 7, 200), nrow = 3)
+#' tab1
+#' y <- estimate_w_bayesian(tab1)
+#' q <- posterior_samples(y)
+#' mean(q); #plot(q, type = "l"); hist(q)
+#' 
+#' @export
+posterior_samples <- function(x) {
+  stopifnot(is(x, "wgsLR_bayesian_sample"))
+  lapply(x, \(y) y$samples) |> unlist()
 }

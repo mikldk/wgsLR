@@ -23,7 +23,7 @@ The package contains a simple Metropolis-Hastings sampler:
 ```{r}
 tab <- array(c(35L, 0L, 0L, 0L, 1L, 0L, 0L, 0L, 0L), dim = c(3L, 3L))
 tab
-w_b <- wgsLR::estimate_w_bayesian(tab) |> lapply(\(x) x$samples) |> unlist()
+w_b <- wgsLR::estimate_w_bayesian(tab) |> posterior_samples()
 mean(w_b)
 ```
 

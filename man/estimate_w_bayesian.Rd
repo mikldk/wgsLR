@@ -41,7 +41,8 @@ Bayesian approach.
 tab1 <- matrix(c(1000, 10, 2, 12, 100, 8, 1, 7, 200), nrow = 3)
 tab1
 estimate_w(tab1)
-y <- estimate_w_bayesian(tab1); q <- lapply(y, \(x) x$samples) |> unlist()
+y <- estimate_w_bayesian(tab1)
+q <- posterior_samples(y)
 mean(q); #plot(q, type = "l"); hist(q)
 sapply(y, \(x) x$acceptance_ratio)
 

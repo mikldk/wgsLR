@@ -44,7 +44,7 @@ The last lines estimate the standard error that will be used below to construct 
 The package contains a simple Metropolis-Hastings sampler (also see the "Using Stan for Bayesian inference" vignette):
 
 ```{r}
-w_b <- wgsLR::estimate_w_bayesian(tab) |> lapply(\(x) x$samples) |> unlist()
+w_b <- wgsLR::estimate_w_bayesian(tab) |> posterior_samples()
 w_b_q <- quantile(w_b, c(0.025, 0.975))
 ```
 

@@ -90,19 +90,19 @@
 <span><span class="va">tab</span></span>
 <span><span class="co">#&gt;    </span></span>
 <span><span class="co">#&gt;       0   1   2</span></span>
-<span><span class="co">#&gt;   0 262  54   6</span></span>
-<span><span class="co">#&gt;   1  57 112  90</span></span>
-<span><span class="co">#&gt;   2  11  76 332</span></span></code></pre></div>
+<span><span class="co">#&gt;   0 259  70   8</span></span>
+<span><span class="co">#&gt;   1  58 109  86</span></span>
+<span><span class="co">#&gt;   2  13  84 313</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="maximum-likelihood-estimation">Maximum likelihood estimation<a class="anchor" aria-label="anchor" href="#maximum-likelihood-estimation"></a>
 </h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">w_mle</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="../reference/estimate_w.html">estimate_w</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span></span>
 <span><span class="va">w_mle</span></span>
-<span><span class="co">#&gt; [1] 0.0938015</span></span>
+<span><span class="co">#&gt; [1] 0.1048484</span></span>
 <span><span class="va">w_mle_se</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="../reference/estimate_w_se.html">estimate_w_se</a></span><span class="op">(</span><span class="va">tab</span>, <span class="va">w_mle</span><span class="op">)</span></span>
 <span><span class="va">w_mle_se</span></span>
-<span><span class="co">#&gt; [1] 0.005784755</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.006280068</span></span></code></pre></div>
 <p>The last lines estimate the standard error that will be used below to
 construct an approximate confidence interval.</p>
 </div>
@@ -112,7 +112,7 @@ construct an approximate confidence interval.</p>
 <p>The package contains a simple Metropolis-Hastings sampler (also see
 the “Using Stan for Bayesian inference” vignette):</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">w_b</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="../reference/estimate_w_bayesian.html">estimate_w_bayesian</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">$</span><span class="va">samples</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">w_b</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="../reference/estimate_w_bayesian.html">estimate_w_bayesian</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/posterior_samples.html">posterior_samples</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">w_b_q</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">w_b</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">w_b</span>, main <span class="op">=</span> <span class="cn">NULL</span>, xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/influence.measures.html" class="external-link">hat</a></span><span class="op">(</span><span class="va">w</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
