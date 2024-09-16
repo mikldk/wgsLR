@@ -1,26 +1,34 @@
 cff-version: 1.2.0
 message: "If you use this work, please cite it as below."
 authors:
-  - family-names: Andersen
-    given-names: Mikkel Meyer
-  - family-names: Kampmann
-    given-names: Marie-Louise
-  - family-names: Jepsen
-    given-names: Alberte Honoré
-  - family-names: Morling
-    given-names: Niels
-  - family-names: Eriksen
-    given-names: Poul Svante
-  - family-names: Børsting
-    given-names: Claus
-  - family-names: Andersen
-    given-names: Jeppe Dyrberg
-title: "Shotgun DNA sequencing for human identification: Dynamic SNP selection and likelihood ratio calculations accounting for errors"
-doi: 10.1016/j.fsigen.2024.103146
-url: https://doi.org/10.1016/j.fsigen.2024.103146
-year: 2025
-journal: "Forensic Science International: Genetics"
-volume: 74
-publisher: "Elsevier BV"
-issn: 1872-4973
+    - family-names: Andersen
+      given-names: Mikkel Meyer
+    - family-names: Eriksen
+      given-names: Poul Svante
+title: "wgsLR"
+preferred-citation:
+  type: article
+  authors:
+    - family-names: Andersen
+      given-names: Mikkel Meyer
+    - family-names: Kampmann
+      given-names: Marie-Louise
+    - family-names: Jepsen
+      given-names: Alberte Honoré
+    - family-names: Morling
+      given-names: Niels
+    - family-names: Eriksen
+      given-names: Poul Svante
+    - family-names: Børsting
+      given-names: Claus
+    - family-names: Andersen
+      given-names: Jeppe Dyrberg
+  title: "Shotgun DNA sequencing for human identification: Dynamic SNP selection and likelihood ratio calculations accounting for errors"
+  doi: 10.1016/j.fsigen.2024.103146
+  url: https://doi.org/10.1016/j.fsigen.2024.103146
+  year: 2025
+  journal: "Forensic Science International: Genetics"
+  volume: 74
+  publisher: "Elsevier BV"
+  issn: 1872-4973
 
