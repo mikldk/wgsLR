@@ -70,6 +70,14 @@
 </h1></div>
 <p>Please refer to the online documentation at <a href="https://mikldk.github.io/wgsLR" class="external-link uri">https://mikldk.github.io/wgsLR</a>, including the vignettes.</p>
 <div class="section level2">
+<h2 id="scientific-publication">Scientific publication<a class="anchor" aria-label="anchor" href="#scientific-publication"></a>
+</h2>
+<p>The research associated with this software is described in</p>
+<blockquote>
+<p>Andersen, M. M., Kampmann, M.-L., Jepsen, A. H., Morling, N., Eriksen, P. S., Børsting, C., &amp; Andersen, J. D. (2025). <em>Shotgun DNA sequencing for human identification: Dynamic SNP selection and likelihood ratio calculations accounting for errors.</em> Forensic Science International: Genetics, 74, 103146. <a href="https://doi.org/10.1016/j.fsigen.2024.103146" class="external-link">doi:10.1016/j.fsigen.2024.103146</a>.</p>
+</blockquote>
+</div>
+<div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <p>To install from Github with vignettes run this command from within <code>R</code> (please install <code>remotes</code> first if not already installed):</p>
@@ -91,13 +99,18 @@
 <span><span class="va">tab</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="do">##    </span></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="do">##       0   1   2</span></span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="do">##   0 265  73   5</span></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="do">##   1  63 119  76</span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="do">##   2   7  55 337</span></span></code></pre></div>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="do">##   0 221  73   8</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="do">##   1  63 121  75</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="do">##   2   5  92 342</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">w_mle</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="reference/estimate_w.html">estimate_w</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span></span>
 <span><span class="va">w_mle</span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="do">## [1] 0.08645948</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="do">## [1] 0.1004706</span></span></code></pre></div>
+<div class="section level4">
+<h4 id="cautionary-note-not-just-standard-vcf-files">Cautionary note: not just standard VCF files<a class="anchor" aria-label="anchor" href="#cautionary-note-not-just-standard-vcf-files"></a>
+</h4>
+<p>It is necessary to obtain sequencing results for all bases in the selected segments (including read depth and genotype quality). Thus, it is <strong>not</strong> sufficient to just use information from “confirmed”/high probability variants from the reference genome (variants identified in standard vcf-file format), as this can introduce bias in the results. <strong>Information from all bases in the chosen genomic areas of interest is needed</strong>. One way to achieve this by using <a href="https://gatk.broadinstitute.org/hc/en-us/articles/9570334998171-HaplotypeCaller" class="external-link">GATK HaplotypeCaller</a> with the additional argument <code>--emit-ref-confidence BP_RESOLUTION</code> for the genomic areas of interest (using <code>-L areas.interval_list</code>).</p>
+</div>
 </div>
 <div class="section level3">
 <h3 id="calculating-likelihood-ratios-lrs">Calculating likelihood ratios (<span class="math inline"><em>L</em><em>R</em></span>’s)<a class="anchor" aria-label="anchor" href="#calculating-likelihood-ratios-lrs"></a>

@@ -39,6 +39,8 @@ w_mle_se
 
 The last lines estimate the standard error that will be used below to construct an approximate confidence interval.
 
+*Please be aware of the "Cautionary note" in the README (about not just using standard VCF-files).*
+
 ## Bayesian inference
 
 The package contains a simple Metropolis-Hastings sampler (also see the "Using Stan for Bayesian inference" vignette):
@@ -61,6 +63,8 @@ legend("topright", col = c("deeppink3", "yellow3"), legend = c("Bayesian", "MLE"
 
 The dashed lines indicate approximate confidence intervals (maximum likelihood estimation) and 
 credible interval (Bayesian inference).
+
+*Please be aware of the "Cautionary note" in the README (about not just using standard VCF-files).*
 
 # Calculating likelihood ratios ($LR$'s)
 

@@ -90,21 +90,23 @@
 <span><span class="va">tab</span></span>
 <span><span class="co">#&gt;    </span></span>
 <span><span class="co">#&gt;       0   1   2</span></span>
-<span><span class="co">#&gt;   0 259  70   8</span></span>
-<span><span class="co">#&gt;   1  58 109  86</span></span>
-<span><span class="co">#&gt;   2  13  84 313</span></span></code></pre></div>
+<span><span class="co">#&gt;   0 238  68  10</span></span>
+<span><span class="co">#&gt;   1  67 114  78</span></span>
+<span><span class="co">#&gt;   2   4  91 330</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="maximum-likelihood-estimation">Maximum likelihood estimation<a class="anchor" aria-label="anchor" href="#maximum-likelihood-estimation"></a>
 </h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">w_mle</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="../reference/estimate_w.html">estimate_w</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span></span>
 <span><span class="va">w_mle</span></span>
-<span><span class="co">#&gt; [1] 0.1048484</span></span>
+<span><span class="co">#&gt; [1] 0.1016306</span></span>
 <span><span class="va">w_mle_se</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="../reference/estimate_w_se.html">estimate_w_se</a></span><span class="op">(</span><span class="va">tab</span>, <span class="va">w_mle</span><span class="op">)</span></span>
 <span><span class="va">w_mle_se</span></span>
-<span><span class="co">#&gt; [1] 0.006280068</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.006126988</span></span></code></pre></div>
 <p>The last lines estimate the standard error that will be used below to
 construct an approximate confidence interval.</p>
+<p><em>Please be aware of the “Cautionary note” in the README (about not
+just using standard VCF-files).</em></p>
 </div>
 <div class="section level3">
 <h3 id="bayesian-inference">Bayesian inference<a class="anchor" aria-label="anchor" href="#bayesian-inference"></a>
@@ -126,6 +128,8 @@ the “Using Stan for Bayesian inference” vignette):</p>
 <p><img src="introduction_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <p>The dashed lines indicate approximate confidence intervals (maximum
 likelihood estimation) and credible interval (Bayesian inference).</p>
+<p><em>Please be aware of the “Cautionary note” in the README (about not
+just using standard VCF-files).</em></p>
 </div>
 </div>
 <div class="section level2">

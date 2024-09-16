@@ -10,6 +10,14 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Please refer to the online documentation at <https://mikldk.github.io/wgsLR>, including the vignettes.
 
+## Scientific publication
+
+The research associated with this software is described in 
+
+> Andersen, M. M., Kampmann, M.-L., Jepsen, A. H., Morling, N., Eriksen, P. S., Børsting, C., & Andersen, J. D. (2025). 
+> *Shotgun DNA sequencing for human identification: Dynamic SNP selection and likelihood ratio calculations accounting for errors.* 
+> Forensic Science International: Genetics, 74, 103146. [doi:10.1016/j.fsigen.2024.103146](https://doi.org/10.1016/j.fsigen.2024.103146).
+
 
 ## Installation
 
@@ -38,6 +46,20 @@ tab
 w_mle <- wgsLR::estimate_w(tab)
 w_mle
 ```
+
+
+#### Cautionary note: not just standard VCF files
+
+It is necessary to obtain sequencing results for all bases in the
+selected segments (including read depth and genotype quality). 
+Thus, it is **not** sufficient to just use information from
+"confirmed"/high probability variants from the reference genome (variants identified in standard vcf-file format), as this can introduce bias in the results. 
+**Information from all bases in the chosen genomic areas of interest is needed**. 
+One way to achieve this by using [GATK HaplotypeCaller](https://gatk.broadinstitute.org/hc/en-us/articles/9570334998171-HaplotypeCaller) 
+with the additional argument `--emit-ref-confidence BP_RESOLUTION` for the 
+genomic areas of interest (using `-L areas.interval_list`).
+
+
 
 ### Calculating likelihood ratios ($LR$'s)
 

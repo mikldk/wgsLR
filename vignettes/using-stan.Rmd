@@ -82,4 +82,4 @@ fit_mn
 fit_mn$draws("w") |> c() |> mean()
 ```
 
-
+*Please be aware of the "Cautionary note" in the README (about not just using standard VCF-files).*
