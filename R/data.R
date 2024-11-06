@@ -34,6 +34,43 @@
 
 
 
+
+
+
+#' Enumeration of possibilities under Hp for sample-dependent error probabilities, $w_D$ and $w_S$
+"d_formulas_Hp_wDwS"
+
+#' Formulas under Hp grouped by XD and XS for sample-dependent error probabilities, $w_D$ and $w_S$
+"d_prob_Hp_wDwS"
+
+#' Graph for enumeration of possibilities under Hp for sample-dependent error probabilities, $w_D$ and $w_S$
+"graph_Hp_wDwS"
+
+#' Enumeration of possibilities under Hd for sample-dependent error probabilities, $w_D$ and $w_S$
+"d_formulas_Hd_wDwS"
+
+#' Formulas under Hd grouped by XD and XS for sample-dependent error probabilities, $w_D$ and $w_S$
+"d_prob_Hd_wDwS"
+
+#' Graph for enumeration of possibilities under Hd for sample-dependent error probabilities, $w_D$ and $w_S$
+"graph_Hd_wDwS"
+
+#' Formulas for LR grouped by XD and XS for sample-dependent error probabilities, $w_D$ and $w_S$
+"d_prob_LR_wDwS"
+
+#' Probabilties for efficient sampling under Hp for sample-dependent error probabilities, $w_D$ and $w_S$
+"d_probtable_Hp_wDwS"
+
+#' Probabilties for efficient sampling under Hd for one error probability, $w$
+"d_probtable_Hd_wDwS"
+
+
+
+
+
+
+
+
 #' Marker candidates (v1)
 #' 
 #' Data from The Genome Aggregation Database (gnomAD) for 

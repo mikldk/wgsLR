@@ -103,18 +103,18 @@ add_errors_to_genotypes <- function(Z, w) {
 }
 
 
-#' Sample cases under Hp
+#' Sample cases under Hp for one error probability, $w$
 #' 
 #' Same latent genotype, Z, with independent errors for true donor (D) and 
 #' suspect (S).
 #'
 #' @examples
-#' sample_data_Hp(n = 10, w = 0.3, p = c(0.25, 0.25, 0.5))
-#' sample_data_Hp(n = 10, w = 0.1, p = list(
+#' sample_data_Hp_w(n = 10, w = 0.3, p = c(0.25, 0.25, 0.5))
+#' sample_data_Hp_w(n = 10, w = 0.1, p = list(
 #'   c(0.25, 0.25, 0.5), c(0.1, 0.8, 0.1)))
 #'   
-#' cases <- sample_data_Hp(n = 1000, w = 0.3, p = c(0.25, 0.25, 0.5))
-#' tab <- table(cases$X_D, cases$X_S)
+#' cases <- sample_data_Hp_w(n = 1000, w = 0.3, p = c(0.25, 0.25, 0.5))
+#' tab <- table(X_D = cases$X_D, X_S = cases$X_S)
 #' tab
 #' estimate_w(tab)
 #'
@@ -126,7 +126,7 @@ add_errors_to_genotypes <- function(Z, w) {
 #' @return list of two matrices, each of size n x loci with 
 #'         genotype in 0/1/2 format resembling the situation in real life.
 #' @export
-sample_data_Hp <- function(n, w, p) {
+sample_data_Hp_w <- function(n, w, p) {
   Z <- sample_profiles_without_error(n = n, p = p)
   
   X_D <- to012(add_errors_to_genotypes(Z, w = w))
@@ -135,18 +135,61 @@ sample_data_Hp <- function(n, w, p) {
   return(list(X_D = X_D, X_S = X_S))
 }
 
-#' Sample cases under Hd
+#' Sample cases under Hp for sample-dependent error probabilities, $w_D$ and $w_S$
+#' 
+#' Same latent genotype, Z, with independent errors for true donor (D) and 
+#' suspect (S).
+#'
+#' @examples
+#' sample_data_Hp_wDwS(n = 10, wD = 0.3, wS = 1e-6, p = c(0.25, 0.25, 0.5))
+#' sample_data_Hp_wDwS(n = 10, wD = 0.3, wS = 1e-6, p = list(
+#'   c(0.25, 0.25, 0.5), c(0.1, 0.8, 0.1)))
+#'   
+#' cases <- sample_data_Hp_wDwS(n = 1000, wD = 0, wS = 0, p = c(0.25, 0.25, 0.5))
+#' table(X_D = cases$X_D, X_S = cases$X_S)
+#' cases <- sample_data_Hp_wDwS(n = 1000, wD = 0.1, wS = 0, p = c(0.25, 0.25, 0.5))
+#' table(X_D = cases$X_D, X_S = cases$X_S)
+#' cases <- sample_data_Hp_wDwS(n = 1000, wD = 0, wS = 0.1, p = c(0.25, 0.25, 0.5))
+#' table(X_D = cases$X_D, X_S = cases$X_S)
+#'   
+#' cases <- sample_data_Hp_wDwS(n = 1000, wD = 1e-1, wS = 1e-8, p = c(0.25, 0.25, 0.5))
+#' tab <- table(X_D = cases$X_D, X_S = cases$X_S)
+#' tab
+#' estimate_w(tab)
+#'
+#' @param n number of samples
+#' @param wD error probability for donor sample
+#' @param wS error probability for PoI sample
+#' @param p list of genotype probabilities (length is number of loci) 
+#'          or vector of length 3 for single locus
+#'          
+#' @return list of two matrices, each of size n x loci with 
+#'         genotype in 0/1/2 format resembling the situation in real life.
+#' @export
+sample_data_Hp_wDwS <- function(n, wD, wS, p) {
+  Z <- sample_profiles_without_error(n = n, p = p)
+  
+  X_D <- to012(add_errors_to_genotypes(Z, w = wD))
+  X_S <- to012(add_errors_to_genotypes(Z, w = wS))
+  
+  return(list(X_D = X_D, X_S = X_S))
+}
+
+
+
+
+#' Sample cases under Hd for one error probability, $w$
 #' 
 #' One latent genotype, ZD, for true donor (D) and 
 #' one latent genotype, ZS, for suspect (S).
 #'
 #' @examples
-#' sample_data_Hd(n = 10, w = 0.3, p = c(0.25, 0.25, 0.5))
-#' sample_data_Hd(n = 10, w = 0.1, p = list(
+#' sample_data_Hd_w(n = 10, w = 0.3, p = c(0.25, 0.25, 0.5))
+#' sample_data_Hd_w(n = 10, w = 0.1, p = list(
 #'   c(0.25, 0.25, 0.5), c(0.1, 0.8, 0.1)))
 #'   
-#' cases <- sample_data_Hd(n = 1000, w = 0, p = c(0.25, 0.25, 0.5))
-#' tab <- table(cases$X_D, cases$X_S)
+#' cases <- sample_data_Hd_w(n = 1000, w = 0, p = c(0.25, 0.25, 0.5))
+#' tab <- table(X_D = cases$X_D, X_S = cases$X_S)
 #' tab
 #'
 #' @param n number of samples
@@ -157,7 +200,7 @@ sample_data_Hp <- function(n, w, p) {
 #' @return list of two matrices, each of size n x loci with 
 #'         genotype in 0/1/2 format resembling the situation in real life.
 #' @export
-sample_data_Hd <- function(n, w, p) {
+sample_data_Hd_w <- function(n, w, p) {
   Z_D <- sample_profiles_without_error(n = n, p = p)
   X_D <- to012(add_errors_to_genotypes(Z_D, w = w))
   rm(Z_D) # to avoid using it by mistake
@@ -168,7 +211,54 @@ sample_data_Hd <- function(n, w, p) {
   return(list(X_D = X_D, X_S = X_S))
 }
 
-#' Add Hp-errors to table
+
+
+#' Sample cases under Hd for sample-dependent error probabilities, $w_D$ and $w_S$
+#' 
+#' One latent genotype, ZD, for true donor (D) and 
+#' one latent genotype, ZS, for suspect (S).
+#'
+#' @examples
+#' sample_data_Hd_wDwS(n = 10, wD = 0.3, wS = 1e-6, p = c(0.25, 0.25, 0.5))
+#' sample_data_Hd_wDwS(n = 10, wD = 0.3, wS = 1e-6, p = list(
+#'   c(0.25, 0.25, 0.5), c(0.1, 0.8, 0.1)))
+#'   
+#' cases <- sample_data_Hd_wDwS(n = 1000, wD = 1e-1, wS = 1e-8, p = c(0.25, 0.25, 0.5))
+#' tab <- table(X_D = cases$X_D, X_S = cases$X_S)
+#' tab
+#' 
+#' cases <- sample_data_Hd_wDwS(n = 1000, wD = 0, wS = 0, p = c(0.25, 0.25, 0.5))
+#' tab <- table(X_D = cases$X_D, X_S = cases$X_S)
+#' tab
+#' 
+#' @param n number of samples
+#' @param wD error probability for donor sample
+#' @param wS error probability for PoI sample
+#' @param p list of genotype probabilities (length is number of loci) 
+#'          or vector of length 3 for single locus
+#'          
+#' @return list of two matrices, each of size n x loci with 
+#'         genotype in 0/1/2 format resembling the situation in real life.
+#' @export
+sample_data_Hd_wDwS <- function(n, wD, wS, p) {
+  Z_D <- sample_profiles_without_error(n = n, p = p)
+  X_D <- to012(add_errors_to_genotypes(Z_D, w = wD))
+  rm(Z_D) # to avoid using it by mistake
+  
+  Z_S <- sample_profiles_without_error(n = n, p = p)
+  X_S <- to012(add_errors_to_genotypes(Z_S, w = wS))
+  
+  return(list(X_D = X_D, X_S = X_S))
+}
+
+
+
+
+
+
+
+
+#' Add Hp-errors to table for one error probability, $w$
 #' 
 #' @param tab table to add errors to
 #' @param w error probability
@@ -177,20 +267,66 @@ sample_data_Hd <- function(n, w, p) {
 #' Z <- sample_profiles_without_error(n = 1000, p = c(0.25, 0.25, 0.5))
 #' tab <- table(to012(Z))
 #' tab
-#' new_tab <- add_errors_Hp(tab, w = 0.15)
+#' new_tab <- add_errors_Hp_w(tab, w = 0.15)
 #' new_tab
 #' estimate_w(new_tab)
 #' 
 #' @export
-add_errors_Hp <- function(tab, w) {
+add_errors_Hp_w <- function(tab, w) {
   if (is.integer(tab) && length(tab) == 3L) {
     tab <- diag(tab)
   }
   
   check_tab(tab)
   
-  d_probs <- wgsLR::d_probtable_Hp
+  d_probs <- wgsLR::d_probtable_Hp_w
   d_probs$prob <- unlist(lapply(d_probs$expr, function(z) eval(parse(text = z), list(w = w))))
+  probs <- split(d_probs, d_probs$Z012)
+  #lapply(probs, \(z) sum(z$prob))
+  
+  new_tab <- matrix(0L, nrow = 3L, ncol = 3L)
+  for (i in seq_len(nrow(tab))) {
+    #i <- 1
+    num_of_each <- rmultinom(n = 1L, size = tab[i, i], prob = probs[[i]]$prob)
+    
+    for (j in seq_along(num_of_each)) {
+      #j <- 1
+      row <- probs[[i]]$XD012[j] + 1L # 012 -> 123
+      col <- probs[[i]]$XS012[j] + 1L # 012 -> 123
+      new_tab[row, col] <- new_tab[row, col] + num_of_each[j]
+    }
+  }
+  
+  stopifnot(isTRUE(all.equal(sum(tab), sum(new_tab))))
+  
+  return(new_tab)
+}
+
+
+
+#' Add Hp-errors to table for sample-dependent error probabilities, $w_D$ and $w_S$
+#' 
+#' @param tab table to add errors to
+#' @param wD error probability for donor sample
+#' @param wS error probability for PoI sample
+#' 
+#' @examples
+#' Z <- sample_profiles_without_error(n = 1000, p = c(0.25, 0.25, 0.5))
+#' tab <- table(to012(Z))
+#' tab
+#' add_errors_Hp_wDwS(tab, wD = 0.1, wS = 1e-6)
+#' add_errors_Hp_w(tab, w = 0.05)
+#' 
+#' @export
+add_errors_Hp_wDwS <- function(tab, wD, wS) {
+  if (is.integer(tab) && length(tab) == 3L) {
+    tab <- diag(tab)
+  }
+  
+  check_tab(tab)
+  
+  d_probs <- wgsLR::d_probtable_Hp_wDwS
+  d_probs$prob <- unlist(lapply(d_probs$expr, function(z) eval(parse(text = z), list(wD = wD, wS = wS))))
   probs <- split(d_probs, d_probs$Z012)
   #lapply(probs, \(z) sum(z$prob))
   
@@ -213,7 +349,7 @@ add_errors_Hp <- function(tab, w) {
 }
  
 
-#' Add Hp-errors to table
+#' Add Hd-errors to table for one error probability, $w$
 #' 
 #' @param tab table to add errors to
 #' @param w error probability
@@ -223,21 +359,21 @@ add_errors_Hp <- function(tab, w) {
 #' Z_S <- sample_profiles_without_error(n = 1000, p = c(0.25, 0.25, 0.5))
 #' tab <- table(to012(Z_D), to012(Z_S))
 #' tab
-#' new_tab <- add_errors_Hd(tab, w = 0.15)
+#' new_tab <- add_errors_Hd_w(tab, w = 0.15)
 #' new_tab
 #' estimate_w(new_tab) # wrong!
 #' Z <- sample_profiles_without_error(n = 10000, p = c(0.25, 0.25, 0.5))
 #' tab <- table(to012(Z), to012(Z))
 #' tab
-#' new_tab <- add_errors_Hd(tab, w = 0.25)
+#' new_tab <- add_errors_Hp_w(tab, w = 0.25)
 #' new_tab
 #' estimate_w(new_tab) # ok
 #' 
 #' @export
-add_errors_Hd <- function(tab, w) {
+add_errors_Hd_w <- function(tab, w) {
   check_tab(tab)
   
-  d_probs <- wgsLR::d_probtable_Hd
+  d_probs <- wgsLR::d_probtable_Hd_w
   d_probs$prob <- unlist(lapply(d_probs$expr, function(z) eval(parse(text = z), list(w = w))))
   probs <- lapply(split(d_probs, d_probs$ZD012), 
                   function(l) split(l, l$ZS012))
@@ -265,3 +401,53 @@ add_errors_Hd <- function(tab, w) {
   
   return(new_tab)
 }
+
+
+
+#' Add Hd-errors to table for sample-dependent error probabilities, $w_D$ and $w_S$
+#' 
+#' @param tab table to add errors to
+#' @param wD error probability for donor sample
+#' @param wS error probability for PoI sample
+#' 
+#' @examples
+#' Z_D <- sample_profiles_without_error(n = 1000, p = c(0.25, 0.25, 0.5))
+#' Z_S <- sample_profiles_without_error(n = 1000, p = c(0.25, 0.25, 0.5))
+#' tab <- table(to012(Z_D), to012(Z_S))
+#' tab
+#' add_errors_Hd_wDwS(tab, wD = 0.1, wS = 1e-6)
+#' add_errors_Hd_w(tab, w = 0.05)
+#' 
+#' @export
+add_errors_Hd_wDwS <- function(tab, wD, wS) {
+  check_tab(tab)
+  
+  d_probs <- wgsLR::d_probtable_Hd_wDwS
+  d_probs$prob <- unlist(lapply(d_probs$expr, function(z) eval(parse(text = z), list(wD = wD, wS = wS))))
+  probs <- lapply(split(d_probs, d_probs$ZD012), 
+                  function(l) split(l, l$ZS012))
+  #lapply(probs, \(l1) lapply(l1, \(l) sum(l$prob))) |> unlist()
+  
+  new_tab <- matrix(0L, nrow = 3L, ncol = 3L)
+  for (i_row in seq_len(nrow(tab))) {
+    #i_row <- 1
+    for (i_col in seq_len(ncol(tab))) {
+      #i_col <- 1
+      d_tmp <- probs[[i_row]][[i_col]]
+      num_of_each <- rmultinom(n = 1L, size = tab[i_row, i_col], 
+                               prob = probs[[i_row]][[i_col]]$prob)
+      
+      for (j in seq_along(num_of_each)) {
+        #j <- 1
+        row <- d_tmp$XD012[j] + 1L # 012 -> 123
+        col <- d_tmp$XS012[j] + 1L # 012 -> 123
+        new_tab[row, col] <- new_tab[row, col] + num_of_each[j]
+      }
+    }
+  }
+  
+  stopifnot(isTRUE(all.equal(sum(tab), sum(new_tab))))
+  
+  return(new_tab)
+}
+
