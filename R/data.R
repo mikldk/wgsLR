@@ -4,32 +4,35 @@
 #' Graph for enumeration of possibilities for single observation
 "graph_single"
 
-#' Enumeration of possibilities under Hp
-"d_formulas_Hp"
+#' Enumeration of possibilities under Hp for one error probability, $w$
+"d_formulas_Hp_w"
 
-#' Formulas under Hp grouped by XD and XS
-"d_prob_Hp"
+#' Formulas under Hp grouped by XD and XS for one error probability, $w$
+"d_prob_Hp_w"
 
-#' Graph for enumeration of possibilities under Hp
-"graph_Hp"
+#' Graph for enumeration of possibilities under Hp for one error probability, $w$
+"graph_Hp_w"
 
-#' Enumeration of possibilities under Hd
-"d_formulas_Hd"
+#' Enumeration of possibilities under Hd for one error probability, $w$
+"d_formulas_Hd_w"
 
-#' Formulas under Hd grouped by XD and XS
-"d_prob_Hd"
+#' Formulas under Hd grouped by XD and XS for one error probability, $w$
+"d_prob_Hd_w"
 
-#' Graph for enumeration of possibilities under Hd
-"graph_Hd"
+#' Graph for enumeration of possibilities under Hd for one error probability, $w$
+"graph_Hd_w"
 
-#' Formulas for LR grouped by XD and XS
-"d_prob_LR"
+#' Formulas for LR grouped by XD and XS for one error probability, $w$
+"d_prob_LR_w"
 
-#' Probabilties for efficient sampling under Hp
-"d_probtable_Hp"
+#' Probabilties for efficient sampling under Hp for one error probability, $w$
+"d_probtable_Hp_w"
 
-#' Probabilties for efficient sampling under Hd
-"d_probtable_Hd"
+#' Probabilties for efficient sampling under Hd for one error probability, $w$
+"d_probtable_Hd_w"
+
+
+
 
 #' Marker candidates (v1)
 #' 
