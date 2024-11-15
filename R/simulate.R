@@ -40,6 +40,26 @@ sample_profiles_without_error <- function(n, p) {
   return(Z)
 }
 
+#' @examples
+#' a <- 2
+#' b <- 6
+#' m <- a / (a + b)
+#' v <- (a*b)/((a+b)^2 * (a + b +1))
+#' get_beta_parameters(m, v)
+#' # p <- get_beta_parameters(0.1, 0.01); curve(dbeta(x, p[1], p[2]), from = 0, to = 1)
+#' # p <- get_beta_parameters(0.1, 0.001); curve(dbeta(x, p[1], p[2]), from = 0, to = 1)
+#' # p <- get_beta_parameters(0.1, 0.0001); curve(dbeta(x, p[1], p[2]), from = 0, to = 1)
+get_beta_parameters <- function(mu, sigmasq) {
+  s1 <- ((1 - mu) / sigmasq - 1 / mu) * mu ^ 2
+  s2 <- s1 * (1 / mu - 1)
+  
+  if (s1 <= 0 || s2 <= 0) {
+    stop("s1 <= 0 || s2 <= 0: please try another (lower) variance")
+  }
+  
+  return(c(s1, s2))
+}
+
 
 #' Add errors to genotypes
 #'
@@ -53,19 +73,36 @@ sample_profiles_without_error <- function(n, p) {
 #' 
 #' 
 #' Z <- sample_profiles_without_error(n = 1000, p = c(0.5, 0.4, 0.1))
-#' X1 <- add_errors_to_genotypes(Z, 0.5)
-#' X2 <- add_errors_to_genotypes(Z, 0.5)
+#' X1 <- add_errors_to_genotypes(Z, 0.1)
+#' X2 <- add_errors_to_genotypes(Z, 0.1)
+#' tab <- table(to012(X1), to012(X2))
+#' tab
+#' estimate_w(tab)
+#' 
+#' X1 <- add_errors_to_genotypes(Z, 0.1, overdisp_var = 0.01)
+#' X2 <- add_errors_to_genotypes(Z, 0.1, overdisp_var = 0.01)
+#' tab <- table(to012(X1), to012(X2))
+#' tab
+#' estimate_w(tab)
+#' # p <- get_beta_parameters(0.1, 0.01); curve(dbeta(x, p[1], p[2]), from = 0, to = 1)
+#' 
+#' 
+#' # p <- get_beta_parameters(0.1, 0.01); curve(dbeta(x, p[1], p[2]), from = 0, to = 1)
+#' X1 <- add_errors_to_genotypes(Z, 0.1, overdisp_var = 0.01)
+#' X2 <- add_errors_to_genotypes(Z, 0.1, overdisp_var = 0.01)
 #' tab <- table(to012(X1), to012(X2))
 #' tab
 #' estimate_w(tab)
 #' 
 #' @param Z genotypes, e.g. created by [sample_profiles_without_error()]
 #' @param w error probability
+#' @param overdisp_var if set, use as modelling overdispersion in $w$ such that $w$ 
+#' follows a Beta distribution with mean value $w$ and variance `overdisp_var`
 #' 
 #' @return list, element for each locus is a matrix with n rows and two columns
 #' 
 #' @export
-add_errors_to_genotypes <- function(Z, w) {
+add_errors_to_genotypes <- function(Z, w, overdisp_var) {
   if (!is.list(Z)) {
     stop("This must be called on list of genotypes, ", 
          "e.g. from sample_profiles_without_error(), not on to012()-result.")
@@ -79,16 +116,40 @@ add_errors_to_genotypes <- function(Z, w) {
   
   n <- nrow(Z[[1L]])
   
+  use_overdisp <- isFALSE(missing(overdisp_var))
+
   # Z is list of length loci, each element a matrix with n rows
   
   Z_errors <- lapply(seq_len(loci), function(i) {
     Zi <- Z[[i]]
     
-    es <- matrix(sample(x = c(0L, 1L), 
-                        size = 2L*n, 
-                        prob = c(1-w, w), 
-                        replace = TRUE),
-                 ncol = 2)
+    # es <- matrix(sample(x = c(0L, 1L), 
+    #                     size = 2L*n, 
+    #                     prob = c(1-w, w), 
+    #                     replace = TRUE),
+    #              ncol = 2)
+    
+    es <- if (use_overdisp) {
+        overdisp_pars <- get_beta_parameters(w, overdisp_var)
+        overdisp_ws <- rbeta(n = n, shape1 = overdisp_pars[1L], shape2 = overdisp_pars[2L])
+        
+        #message("overdispersion used")
+        
+        matrix(unlist(lapply(overdisp_ws, \(w_tmp) {
+          sample(x = c(0L, 1L), 
+                 size = 2L, 
+                 prob = c(1-w_tmp, w_tmp), 
+                 replace = TRUE)
+        })), 
+        byrow = TRUE, 
+        ncol = 2L)
+      } else {
+        matrix(sample(x = c(0L, 1L), 
+                      size = 2L*n, 
+                      prob = c(1-w, w), 
+                      replace = TRUE),
+               ncol = 2L)
+      }
     
     # Z   e    newZ
     # 0 + 0 -> 0
@@ -117,20 +178,25 @@ add_errors_to_genotypes <- function(Z, w) {
 #' tab <- table(X_D = cases$X_D, X_S = cases$X_S)
 #' tab
 #' estimate_w(tab)
+#' 
+#' cases <- sample_data_Hp_w(n = 1000, w = 0, p = c(0.1, 0.7, 0.2))
+#' tab <- table(X_D = cases$X_D, X_S = cases$X_S)
+#' diag(tab/sum(tab))
 #'
 #' @param n number of samples
 #' @param w error probability
 #' @param p list of genotype probabilities (length is number of loci) 
 #'          or vector of length 3 for single locus
+#' @param \dots Passed on to [add_errors_to_genotypes()]
 #'          
 #' @return list of two matrices, each of size n x loci with 
 #'         genotype in 0/1/2 format resembling the situation in real life.
 #' @export
-sample_data_Hp_w <- function(n, w, p) {
+sample_data_Hp_w <- function(n, w, p, ...) {
   Z <- sample_profiles_without_error(n = n, p = p)
   
-  X_D <- to012(add_errors_to_genotypes(Z, w = w))
-  X_S <- to012(add_errors_to_genotypes(Z, w = w))
+  X_D <- to012(add_errors_to_genotypes(Z, w = w, ...))
+  X_S <- to012(add_errors_to_genotypes(Z, w = w, ...))
 
   return(list(X_D = X_D, X_S = X_S))
 }
@@ -156,12 +222,17 @@ sample_data_Hp_w <- function(n, w, p) {
 #' tab <- table(X_D = cases$X_D, X_S = cases$X_S)
 #' tab
 #' estimate_w(tab)
+#' 
+#' cases <- sample_data_Hp_wDwS(n = 1000, wD = 0, wS = 0, p = c(0.1, 0.7, 0.2))
+#' tab <- table(X_D = cases$X_D, X_S = cases$X_S)
+#' diag(tab/sum(tab))
 #'
 #' @param n number of samples
 #' @param wD error probability for donor sample
 #' @param wS error probability for PoI sample
 #' @param p list of genotype probabilities (length is number of loci) 
 #'          or vector of length 3 for single locus
+#' @param \dots Passed on to [add_errors_to_genotypes()]
 #'          
 #' @return list of two matrices, each of size n x loci with 
 #'         genotype in 0/1/2 format resembling the situation in real life.
@@ -169,8 +240,8 @@ sample_data_Hp_w <- function(n, w, p) {
 sample_data_Hp_wDwS <- function(n, wD, wS, p) {
   Z <- sample_profiles_without_error(n = n, p = p)
   
-  X_D <- to012(add_errors_to_genotypes(Z, w = wD))
-  X_S <- to012(add_errors_to_genotypes(Z, w = wS))
+  X_D <- to012(add_errors_to_genotypes(Z, w = wD, ...))
+  X_S <- to012(add_errors_to_genotypes(Z, w = wS, ...))
   
   return(list(X_D = X_D, X_S = X_S))
 }
@@ -196,17 +267,18 @@ sample_data_Hp_wDwS <- function(n, wD, wS, p) {
 #' @param w error probability
 #' @param p list of genotype probabilities (length is number of loci) 
 #'          or vector of length 3 for single locus
+#' @param \dots Passed on to [add_errors_to_genotypes()]
 #'          
 #' @return list of two matrices, each of size n x loci with 
 #'         genotype in 0/1/2 format resembling the situation in real life.
 #' @export
 sample_data_Hd_w <- function(n, w, p) {
   Z_D <- sample_profiles_without_error(n = n, p = p)
-  X_D <- to012(add_errors_to_genotypes(Z_D, w = w))
+  X_D <- to012(add_errors_to_genotypes(Z_D, w = w, ...))
   rm(Z_D) # to avoid using it by mistake
   
   Z_S <- sample_profiles_without_error(n = n, p = p)
-  X_S <- to012(add_errors_to_genotypes(Z_S, w = w))
+  X_S <- to012(add_errors_to_genotypes(Z_S, w = w, ...))
   
   return(list(X_D = X_D, X_S = X_S))
 }
@@ -236,17 +308,18 @@ sample_data_Hd_w <- function(n, w, p) {
 #' @param wS error probability for PoI sample
 #' @param p list of genotype probabilities (length is number of loci) 
 #'          or vector of length 3 for single locus
+#' @param \dots Passed on to [add_errors_to_genotypes()]
 #'          
 #' @return list of two matrices, each of size n x loci with 
 #'         genotype in 0/1/2 format resembling the situation in real life.
 #' @export
 sample_data_Hd_wDwS <- function(n, wD, wS, p) {
   Z_D <- sample_profiles_without_error(n = n, p = p)
-  X_D <- to012(add_errors_to_genotypes(Z_D, w = wD))
+  X_D <- to012(add_errors_to_genotypes(Z_D, w = wD, ...))
   rm(Z_D) # to avoid using it by mistake
   
   Z_S <- sample_profiles_without_error(n = n, p = p)
-  X_S <- to012(add_errors_to_genotypes(Z_S, w = wS))
+  X_S <- to012(add_errors_to_genotypes(Z_S, w = wS, ...))
   
   return(list(X_D = X_D, X_S = X_S))
 }

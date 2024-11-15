@@ -15,6 +15,8 @@ sample_data_Hp_wDwS(n, wD, wS, p)
 
 \item{p}{list of genotype probabilities (length is number of loci)
 or vector of length 3 for single locus}
+
+\item{\dots}{Passed on to \code{\link[=add_errors_to_genotypes]{add_errors_to_genotypes()}}}
 }
 \value{
 list of two matrices, each of size n x loci with
@@ -40,5 +42,9 @@ cases <- sample_data_Hp_wDwS(n = 1000, wD = 1e-1, wS = 1e-8, p = c(0.25, 0.25, 0
 tab <- table(X_D = cases$X_D, X_S = cases$X_S)
 tab
 estimate_w(tab)
+
+cases <- sample_data_Hp_wDwS(n = 1000, wD = 0, wS = 0, p = c(0.1, 0.7, 0.2))
+tab <- table(X_D = cases$X_D, X_S = cases$X_S)
+diag(tab/sum(tab))
 
 }

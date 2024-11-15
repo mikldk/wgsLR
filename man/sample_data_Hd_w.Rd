@@ -13,6 +13,8 @@ sample_data_Hd_w(n, w, p)
 
 \item{p}{list of genotype probabilities (length is number of loci)
 or vector of length 3 for single locus}
+
+\item{\dots}{Passed on to \code{\link[=add_errors_to_genotypes]{add_errors_to_genotypes()}}}
 }
 \value{
 list of two matrices, each of size n x loci with

@@ -4,12 +4,15 @@
 \alias{add_errors_to_genotypes}
 \title{Add errors to genotypes}
 \usage{
-add_errors_to_genotypes(Z, w)
+add_errors_to_genotypes(Z, w, overdisp_var)
 }
 \arguments{
 \item{Z}{genotypes, e.g. created by \code{\link[=sample_profiles_without_error]{sample_profiles_without_error()}}}
 
 \item{w}{error probability}
+
+\item{overdisp_var}{if set, use as modelling overdispersion in $w$ such that $w$
+follows a Beta distribution with mean value $w$ and variance \code{overdisp_var}}
 }
 \value{
 list, element for each locus is a matrix with n rows and two columns
@@ -27,8 +30,23 @@ to012(Z) - to012(add_errors_to_genotypes(Z, 0.0))
 
 
 Z <- sample_profiles_without_error(n = 1000, p = c(0.5, 0.4, 0.1))
-X1 <- add_errors_to_genotypes(Z, 0.5)
-X2 <- add_errors_to_genotypes(Z, 0.5)
+X1 <- add_errors_to_genotypes(Z, 0.1)
+X2 <- add_errors_to_genotypes(Z, 0.1)
+tab <- table(to012(X1), to012(X2))
+tab
+estimate_w(tab)
+
+X1 <- add_errors_to_genotypes(Z, 0.1, overdisp_var = 0.01)
+X2 <- add_errors_to_genotypes(Z, 0.1, overdisp_var = 0.01)
+tab <- table(to012(X1), to012(X2))
+tab
+estimate_w(tab)
+# p <- get_beta_parameters(0.1, 0.01); curve(dbeta(x, p[1], p[2]), from = 0, to = 1)
+
+
+# p <- get_beta_parameters(0.1, 0.01); curve(dbeta(x, p[1], p[2]), from = 0, to = 1)
+X1 <- add_errors_to_genotypes(Z, 0.1, overdisp_var = 0.01)
+X2 <- add_errors_to_genotypes(Z, 0.1, overdisp_var = 0.01)
 tab <- table(to012(X1), to012(X2))
 tab
 estimate_w(tab)

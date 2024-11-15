@@ -4,7 +4,7 @@
 \alias{sample_data_Hp_w}
 \title{Sample cases under Hp for one error probability, $w$}
 \usage{
-sample_data_Hp_w(n, w, p)
+sample_data_Hp_w(n, w, p, ...)
 }
 \arguments{
 \item{n}{number of samples}
@@ -13,6 +13,8 @@ sample_data_Hp_w(n, w, p)
 
 \item{p}{list of genotype probabilities (length is number of loci)
 or vector of length 3 for single locus}
+
+\item{\dots}{Passed on to \code{\link[=add_errors_to_genotypes]{add_errors_to_genotypes()}}}
 }
 \value{
 list of two matrices, each of size n x loci with
@@ -31,5 +33,9 @@ cases <- sample_data_Hp_w(n = 1000, w = 0.3, p = c(0.25, 0.25, 0.5))
 tab <- table(X_D = cases$X_D, X_S = cases$X_S)
 tab
 estimate_w(tab)
+
+cases <- sample_data_Hp_w(n = 1000, w = 0, p = c(0.1, 0.7, 0.2))
+tab <- table(X_D = cases$X_D, X_S = cases$X_S)
+diag(tab/sum(tab))
 
 }
