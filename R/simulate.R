@@ -30,8 +30,8 @@ sample_profiles_without_error <- function(n, p) {
     idx_het01 <- idx_het[idx_het01_idx]
     idx_het10 <- idx_het[!idx_het01_idx]
     
-    z_alleles[idx_het01, 1L] <- 1L
-    z_alleles[idx_het10, 0L] <- 1L
+    z_alleles[idx_het01, 2L] <- 1L
+    z_alleles[idx_het10, 1L] <- 1L
     z_alleles
   })
   
