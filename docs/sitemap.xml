@@ -19,10 +19,25 @@
     <loc>/index.html</loc>
   </url>
   <url>
+    <loc>/news/index.html</loc>
+  </url>
+  <url>
     <loc>/reference/add_errors_Hd.html</loc>
   </url>
   <url>
+    <loc>/reference/add_errors_Hd_w.html</loc>
+  </url>
+  <url>
+    <loc>/reference/add_errors_Hd_wDwS.html</loc>
+  </url>
+  <url>
     <loc>/reference/add_errors_Hp.html</loc>
+  </url>
+  <url>
+    <loc>/reference/add_errors_Hp_w.html</loc>
+  </url>
+  <url>
+    <loc>/reference/add_errors_Hp_wDwS.html</loc>
   </url>
   <url>
     <loc>/reference/add_errors_to_genotypes.html</loc>
@@ -34,10 +49,28 @@
     <loc>/reference/calc_LRs.html</loc>
   </url>
   <url>
+    <loc>/reference/calc_LRs_w.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_LRs_wDwS.html</loc>
+  </url>
+  <url>
     <loc>/reference/d_formulas_Hd.html</loc>
   </url>
   <url>
+    <loc>/reference/d_formulas_Hd_w.html</loc>
+  </url>
+  <url>
+    <loc>/reference/d_formulas_Hd_wDwS.html</loc>
+  </url>
+  <url>
     <loc>/reference/d_formulas_Hp.html</loc>
+  </url>
+  <url>
+    <loc>/reference/d_formulas_Hp_w.html</loc>
+  </url>
+  <url>
+    <loc>/reference/d_formulas_Hp_wDwS.html</loc>
   </url>
   <url>
     <loc>/reference/d_formulas_single.html</loc>
@@ -46,16 +79,46 @@
     <loc>/reference/d_prob_Hd.html</loc>
   </url>
   <url>
+    <loc>/reference/d_prob_Hd_w.html</loc>
+  </url>
+  <url>
+    <loc>/reference/d_prob_Hd_wDwS.html</loc>
+  </url>
+  <url>
     <loc>/reference/d_prob_Hp.html</loc>
+  </url>
+  <url>
+    <loc>/reference/d_prob_Hp_w.html</loc>
+  </url>
+  <url>
+    <loc>/reference/d_prob_Hp_wDwS.html</loc>
   </url>
   <url>
     <loc>/reference/d_prob_LR.html</loc>
   </url>
   <url>
+    <loc>/reference/d_prob_LR_w.html</loc>
+  </url>
+  <url>
+    <loc>/reference/d_prob_LR_wDwS.html</loc>
+  </url>
+  <url>
     <loc>/reference/d_probtable_Hd.html</loc>
   </url>
   <url>
+    <loc>/reference/d_probtable_Hd_w.html</loc>
+  </url>
+  <url>
+    <loc>/reference/d_probtable_Hd_wDwS.html</loc>
+  </url>
+  <url>
     <loc>/reference/d_probtable_Hp.html</loc>
+  </url>
+  <url>
+    <loc>/reference/d_probtable_Hp_w.html</loc>
+  </url>
+  <url>
+    <loc>/reference/d_probtable_Hp_wDwS.html</loc>
   </url>
   <url>
     <loc>/reference/estimate_w.html</loc>
@@ -73,13 +136,28 @@
     <loc>/reference/extract_profile_v1.html</loc>
   </url>
   <url>
+    <loc>/reference/get_beta_parameters.html</loc>
+  </url>
+  <url>
     <loc>/reference/get_ns.html</loc>
   </url>
   <url>
     <loc>/reference/graph_Hd.html</loc>
   </url>
   <url>
+    <loc>/reference/graph_Hd_w.html</loc>
+  </url>
+  <url>
+    <loc>/reference/graph_Hd_wDwS.html</loc>
+  </url>
+  <url>
     <loc>/reference/graph_Hp.html</loc>
+  </url>
+  <url>
+    <loc>/reference/graph_Hp_w.html</loc>
+  </url>
+  <url>
+    <loc>/reference/graph_Hp_wDwS.html</loc>
   </url>
   <url>
     <loc>/reference/graph_single.html</loc>
@@ -100,7 +178,19 @@
     <loc>/reference/sample_data_Hd.html</loc>
   </url>
   <url>
+    <loc>/reference/sample_data_Hd_w.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sample_data_Hd_wDwS.html</loc>
+  </url>
+  <url>
     <loc>/reference/sample_data_Hp.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sample_data_Hp_w.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sample_data_Hp_wDwS.html</loc>
   </url>
   <url>
     <loc>/reference/sample_profiles_without_error.html</loc>
