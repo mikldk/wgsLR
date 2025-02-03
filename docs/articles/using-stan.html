@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">wgsLR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9010</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,6 +44,9 @@
     <a class="dropdown-item" href="../articles/introduction.html">Introduction</a>
     <a class="dropdown-item" href="../articles/using-stan.html">Using Stan for Bayesian inference</a>
   </div>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="../news/index.html">Changelog</a>
 </li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
@@ -90,7 +93,7 @@
 <span><span class="co">#&gt; [3,]    0    0    0</span></span>
 <span><span class="va">w_b</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="../reference/estimate_w_bayesian.html">estimate_w_bayesian</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/posterior_samples.html">posterior_samples</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">w_b</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.008213987</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.008478139</span></span></code></pre></div>
 <p>Instead of using the built-in simple Metropolis-Hastings sampler, it
 may be a good idea to use e.g. Stan for production purposes:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -136,13 +139,13 @@ may be a good idea to use e.g. Stan for production purposes:</p>
 <span>                   show_messages <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">fit_mn</span></span>
 <span><span class="co">#&gt;  variable  mean median   sd  mad    q5   q95 rhat ess_bulk ess_tail</span></span>
-<span><span class="co">#&gt;      lp__ -5.89  -5.56 0.86 0.37 -7.54 -5.29 1.00     1096      854</span></span>
-<span><span class="co">#&gt;      w     0.01   0.00 0.01 0.01  0.00  0.02 1.00      878      792</span></span>
-<span><span class="co">#&gt;      p[1]  0.97   0.98 0.03 0.02  0.92  1.00 1.00      878      792</span></span>
-<span><span class="co">#&gt;      p[2]  0.00   0.00 0.00 0.00  0.00  0.00 1.00      878      792</span></span>
-<span><span class="co">#&gt;      p[3]  0.03   0.02 0.03 0.02  0.00  0.08 1.00      878      792</span></span>
+<span><span class="co">#&gt;      lp__ -5.87  -5.55 0.81 0.36 -7.52 -5.29 1.00     1116      823</span></span>
+<span><span class="co">#&gt;      w     0.01   0.00 0.01 0.00  0.00  0.02 1.00     1094      731</span></span>
+<span><span class="co">#&gt;      p[1]  0.97   0.98 0.03 0.02  0.92  1.00 1.00     1094      731</span></span>
+<span><span class="co">#&gt;      p[2]  0.00   0.00 0.00 0.00  0.00  0.00 1.00     1094      731</span></span>
+<span><span class="co">#&gt;      p[3]  0.03   0.02 0.03 0.02  0.00  0.08 1.00     1094      731</span></span>
 <span><span class="va">fit_mn</span><span class="op">$</span><span class="fu">draws</span><span class="op">(</span><span class="st">"w"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.006908506</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.006894489</span></span></code></pre></div>
 <p><em>Please be aware of the “Cautionary note” in the README (about not
 just using standard VCF-files).</em></p>
   </main>

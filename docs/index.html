@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="index.html">wgsLR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9010</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,6 +44,9 @@
     <a class="dropdown-item" href="articles/introduction.html">Introduction</a>
     <a class="dropdown-item" href="articles/using-stan.html">Using Stan for Bayesian inference</a>
   </div>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="news/index.html">Changelog</a>
 </li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
@@ -94,18 +97,18 @@
 <a class="anchor" aria-label="anchor" href="#estimating-the-genotype-error-probability-w"></a>
 </h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cases</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="reference/sample_data_Hp.html">sample_data_Hp</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, w <span class="op">=</span> <span class="fl">0.1</span>, p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">cases</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="reference/sample_data_Hp_w.html">sample_data_Hp_w</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, w <span class="op">=</span> <span class="fl">0.1</span>, p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">cases</span><span class="op">$</span><span class="va">X_D</span>, <span class="va">cases</span><span class="op">$</span><span class="va">X_S</span><span class="op">)</span></span>
 <span><span class="va">tab</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="do">##    </span></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="do">##       0   1   2</span></span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="do">##   0 221  73   8</span></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="do">##   1  63 121  75</span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="do">##   2   5  92 342</span></span></code></pre></div>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="do">##   0 180  55   9</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="do">##   1  59 188  88</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="do">##   2   4  89 328</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">w_mle</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="reference/estimate_w.html">estimate_w</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span></span>
 <span><span class="va">w_mle</span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="do">## [1] 0.1004706</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="do">## [1] 0.09596158</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="cautionary-note-not-just-standard-vcf-files">Cautionary note: not just standard VCF files<a class="anchor" aria-label="anchor" href="#cautionary-note-not-just-standard-vcf-files"></a>
 </h4>
@@ -119,18 +122,18 @@
 <p>For simplicity, assume that the genotype probabilites are P(0/0 = 0) = 0.25, P(0/1 = 1/0 = 1) = 0.25, and P(1/1 = 2) = 0.5.</p>
 <p>If no errors are possible, then <span class="math inline"><em>w</em> = 0</span> and</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="reference/calc_LRs.html">calc_LRs</a></span><span class="op">(</span>xs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, </span>
-<span>                xd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, </span>
-<span>                w <span class="op">=</span> <span class="fl">0</span>, </span>
-<span>                p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="reference/calc_LRs_w.html">calc_LRs_w</a></span><span class="op">(</span>xs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, </span>
+<span>                  xd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, </span>
+<span>                  w <span class="op">=</span> <span class="fl">0</span>, </span>
+<span>                  p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="do">## [1] 0 4 2 2</span></span></code></pre></div>
 <p>and the product is 0 due to the mismatch at the first locus.</p>
 <p>If instead we acknowledge that errors are possible, then for <span class="math inline"><em>w</em> = 0.001</span> we obtain that</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">LR_contribs</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="reference/calc_LRs.html">calc_LRs</a></span><span class="op">(</span>xs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, </span>
-<span>                               xd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, </span>
-<span>                               w <span class="op">=</span> <span class="fl">0.001</span>, </span>
-<span>                               p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">LR_contribs</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="reference/calc_LRs_w.html">calc_LRs_w</a></span><span class="op">(</span>xs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, </span>
+<span>                                 xd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, </span>
+<span>                                 w <span class="op">=</span> <span class="fl">0.001</span>, </span>
+<span>                                 p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">LR_contribs</span></span></code></pre></div>
 <div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="do">## [1] 0.01192834 3.99199202 1.99799850 1.99799850</span></span></code></pre></div>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
@@ -139,10 +142,10 @@
 <p>We can also consider the <span class="math inline"><em>L</em><em>R</em></span>s for a range for plausible values of <span class="math inline"><em>w</em></span>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ws</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1e-6</span>, <span class="fl">1e-3</span>, <span class="fl">1e-2</span>, <span class="fl">1e-1</span><span class="op">)</span></span>
-<span><span class="va">LRs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">ws</span>, \<span class="op">(</span><span class="va">w</span><span class="op">)</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="reference/calc_LRs.html">calc_LRs</a></span><span class="op">(</span>xs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, </span>
-<span>                                       xd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, </span>
-<span>                                       w <span class="op">=</span> <span class="va">w</span>, </span>
-<span>                                       p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span><span class="va">LRs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">ws</span>, \<span class="op">(</span><span class="va">w</span><span class="op">)</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="reference/calc_LRs_w.html">calc_LRs_w</a></span><span class="op">(</span>xs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, </span>
+<span>                                         xd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, </span>
+<span>                                         w <span class="op">=</span> <span class="va">w</span>, </span>
+<span>                                         p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>                <span class="fu"><a href="https://rdrr.io/r/base/prod.html" class="external-link">prod</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>log10w <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="va">ws</span><span class="op">)</span>, w <span class="op">=</span> <span class="va">ws</span>, </span>
 <span>           LR <span class="op">=</span> <span class="va">LRs</span>, WoElog10LR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="va">LRs</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -152,6 +155,19 @@
 <span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="do">## 3     -2 1e-02 1.7379421372  0.2400353</span></span>
 <span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="do">## 4     -1 1e-01 7.1409934157  0.8537586</span></span></code></pre></div>
 </div>
+</div>
+<div class="section level2">
+<h2 id="different-error-rates">Different error rates<a class="anchor" aria-label="anchor" href="#different-error-rates"></a>
+</h2>
+<p>Assume that the trace donor profile has <span class="math inline"><em>w</em><sub><em>D</em></sub> = 10<sup>−4</sup></span> and the suspect reference profile has <span class="math inline"><em>w</em><sub><em>S</em></sub> = 10<sup>−8</sup></span>. Then the <span class="math inline"><em>L</em><em>R</em></span> is:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">LR_contribs</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="reference/calc_LRs_wDwS.html">calc_LRs_wDwS</a></span><span class="op">(</span>xs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, </span>
+<span>                                    xd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, </span>
+<span>                                    wD <span class="op">=</span> <span class="fl">1e-4</span>, </span>
+<span>                                    wS <span class="op">=</span> <span class="fl">1e-8</span>,</span>
+<span>                                    p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/prod.html" class="external-link">prod</a></span><span class="op">(</span><span class="va">LR_contribs</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="do">## [1] 0.01279168</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

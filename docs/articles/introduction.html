@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">wgsLR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9010</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,6 +44,9 @@
     <a class="dropdown-item" href="../articles/introduction.html">Introduction</a>
     <a class="dropdown-item" href="../articles/using-stan.html">Using Stan for Bayesian inference</a>
   </div>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="../news/index.html">Changelog</a>
 </li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
@@ -85,24 +88,24 @@
 </h2>
 <p>A simple example:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cases</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="../reference/sample_data_Hp.html">sample_data_Hp</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, w <span class="op">=</span> <span class="fl">0.1</span>, p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">cases</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_data_Hp_w.html">sample_data_Hp_w</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, w <span class="op">=</span> <span class="fl">0.1</span>, p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">cases</span><span class="op">$</span><span class="va">X_D</span>, <span class="va">cases</span><span class="op">$</span><span class="va">X_S</span><span class="op">)</span></span>
 <span><span class="va">tab</span></span>
 <span><span class="co">#&gt;    </span></span>
 <span><span class="co">#&gt;       0   1   2</span></span>
-<span><span class="co">#&gt;   0 238  68  10</span></span>
-<span><span class="co">#&gt;   1  67 114  78</span></span>
-<span><span class="co">#&gt;   2   4  91 330</span></span></code></pre></div>
+<span><span class="co">#&gt;   0 182  55   1</span></span>
+<span><span class="co">#&gt;   1  59 186  76</span></span>
+<span><span class="co">#&gt;   2   7  89 345</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="maximum-likelihood-estimation">Maximum likelihood estimation<a class="anchor" aria-label="anchor" href="#maximum-likelihood-estimation"></a>
 </h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">w_mle</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="../reference/estimate_w.html">estimate_w</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span></span>
 <span><span class="va">w_mle</span></span>
-<span><span class="co">#&gt; [1] 0.1016306</span></span>
+<span><span class="co">#&gt; [1] 0.08784124</span></span>
 <span><span class="va">w_mle_se</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="../reference/estimate_w_se.html">estimate_w_se</a></span><span class="op">(</span><span class="va">tab</span>, <span class="va">w_mle</span><span class="op">)</span></span>
 <span><span class="va">w_mle_se</span></span>
-<span><span class="co">#&gt; [1] 0.006126988</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.005515077</span></span></code></pre></div>
 <p>The last lines estimate the standard error that will be used below to
 construct an approximate confidence interval.</p>
 <p><em>Please be aware of the “Cautionary note” in the README (about not
@@ -137,36 +140,51 @@ just using standard VCF-files).</em></p>
 </h2>
 <p>No errors and matching genotypes:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">LR_contribs</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="../reference/calc_LRs.html">calc_LRs</a></span><span class="op">(</span>xs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, </span>
-<span>                               xd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, </span>
-<span>                               w <span class="op">=</span> <span class="fl">0</span>, </span>
-<span>                               p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">LR_contribs</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="../reference/calc_LRs_w.html">calc_LRs_w</a></span><span class="op">(</span>xs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, </span>
+<span>                                 xd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, </span>
+<span>                                 w <span class="op">=</span> <span class="fl">0</span>, </span>
+<span>                                 p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/prod.html" class="external-link">prod</a></span><span class="op">(</span><span class="va">LR_contribs</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 16</span></span></code></pre></div>
 <p>No errors and non-matching genotypes:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">LR_contribs</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="../reference/calc_LRs.html">calc_LRs</a></span><span class="op">(</span>xs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, </span>
-<span>                               xd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>, </span>
-<span>                               w <span class="op">=</span> <span class="fl">0</span>, </span>
-<span>                               p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">LR_contribs</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="../reference/calc_LRs_w.html">calc_LRs_w</a></span><span class="op">(</span>xs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, </span>
+<span>                                 xd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>, </span>
+<span>                                 w <span class="op">=</span> <span class="fl">0</span>, </span>
+<span>                                 p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/prod.html" class="external-link">prod</a></span><span class="op">(</span><span class="va">LR_contribs</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0</span></span></code></pre></div>
 <p>Errors possible and matching genotypes:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">LR_contribs</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="../reference/calc_LRs.html">calc_LRs</a></span><span class="op">(</span>xs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, </span>
-<span>                               xd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, </span>
-<span>                               w <span class="op">=</span> <span class="fl">0.001</span>, </span>
-<span>                               p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">LR_contribs</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="../reference/calc_LRs_w.html">calc_LRs_w</a></span><span class="op">(</span>xs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, </span>
+<span>                                 xd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, </span>
+<span>                                 w <span class="op">=</span> <span class="fl">0.001</span>, </span>
+<span>                                 p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/prod.html" class="external-link">prod</a></span><span class="op">(</span><span class="va">LR_contribs</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 15.936</span></span></code></pre></div>
 <p>Errors possible and non-matching genotypes:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">LR_contribs</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="../reference/calc_LRs.html">calc_LRs</a></span><span class="op">(</span>xs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, </span>
-<span>                               xd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>, </span>
-<span>                               w <span class="op">=</span> <span class="fl">0.001</span>, </span>
-<span>                               p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">LR_contribs</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="../reference/calc_LRs_w.html">calc_LRs_w</a></span><span class="op">(</span>xs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, </span>
+<span>                                 xd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>, </span>
+<span>                                 w <span class="op">=</span> <span class="fl">0.001</span>, </span>
+<span>                                 p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/prod.html" class="external-link">prod</a></span><span class="op">(</span><span class="va">LR_contribs</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0.04761785</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="different-error-rates">Different error rates<a class="anchor" aria-label="anchor" href="#different-error-rates"></a>
+</h3>
+<p>Assume that the trace donor profile has <span class="math inline">\(w_D = 10^{-4}\)</span> and the suspect reference
+profile has <span class="math inline">\(w_S = 10^{-8}\)</span>. Then the
+<span class="math inline">\(LR\)</span> is:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">LR_contribs</span> <span class="op">&lt;-</span> <span class="fu">wgsLR</span><span class="fu">::</span><span class="fu"><a href="../reference/calc_LRs_wDwS.html">calc_LRs_wDwS</a></span><span class="op">(</span>xs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, </span>
+<span>                                    xd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>, </span>
+<span>                                    wD <span class="op">=</span> <span class="fl">1e-4</span>, </span>
+<span>                                    wS <span class="op">=</span> <span class="fl">1e-8</span>,</span>
+<span>                                    p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/prod.html" class="external-link">prod</a></span><span class="op">(</span><span class="va">LR_contribs</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 0.003198241</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="verifying-formulas">Verifying formulas<a class="anchor" aria-label="anchor" href="#verifying-formulas"></a>
@@ -175,11 +193,29 @@ just using standard VCF-files).</em></p>
 setting <span class="math inline">\(w = 0\)</span>. For example with
 both packages <code>wgsLR</code> and <code>caracas</code> loaded we can
 do the following:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-cas/caracas" class="external-link">caracas</a></span><span class="op">)</span></span>
-<span><span class="va">LR</span> <span class="op">&lt;-</span> <span class="va">d_prob_LR</span><span class="op">$</span><span class="va">expr</span></span>
+<span><span class="va">LR</span> <span class="op">&lt;-</span> <span class="va">d_prob_LR_w</span><span class="op">$</span><span class="va">expr</span></span>
 <span><span class="va">LRw0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">LR</span>, \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/pkg/caracas/man/as_sym.html" class="external-link">as_sym</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/pkg/caracas/man/subs.html" class="external-link">subs</a></span><span class="op">(</span><span class="st">"w"</span>, <span class="fl">0</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/pkg/caracas/man/as_character.html" class="external-link">as_character</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="va">d_prob_LR</span>, <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">XD_MA</span>, <span class="va">XS_MA</span>, <span class="va">LRw0</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="va">d_prob_LR_w</span>, <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">XD_MA</span>, <span class="va">XS_MA</span>, <span class="va">LRw0</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       XD_MA XS_MA LRw0   </span></span>
+<span><span class="co">#&gt;  [1,] "0"   "0"   "1/p_0"</span></span>
+<span><span class="co">#&gt;  [2,] "0"   "1"   "0"    </span></span>
+<span><span class="co">#&gt;  [3,] "0"   "2"   "0"    </span></span>
+<span><span class="co">#&gt;  [4,] "1"   "0"   "0"    </span></span>
+<span><span class="co">#&gt;  [5,] "1"   "1"   "1/p_1"</span></span>
+<span><span class="co">#&gt;  [6,] "1"   "2"   "0"    </span></span>
+<span><span class="co">#&gt;  [7,] "2"   "0"   "0"    </span></span>
+<span><span class="co">#&gt;  [8,] "2"   "1"   "0"    </span></span>
+<span><span class="co">#&gt;  [9,] "2"   "2"   "1/p_2"</span></span></code></pre></div>
+<p>And with sample specific error rates, <span class="math inline">\(w_D\)</span> and <span class="math inline">\(w_S\)</span>:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-cas/caracas" class="external-link">caracas</a></span><span class="op">)</span></span>
+<span><span class="va">LR</span> <span class="op">&lt;-</span> <span class="va">d_prob_LR_wDwS</span><span class="op">$</span><span class="va">expr</span></span>
+<span><span class="va">LRw0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">LR</span>, \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/pkg/caracas/man/as_sym.html" class="external-link">as_sym</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>                 <span class="fu"><a href="https://rdrr.io/pkg/caracas/man/subs.html" class="external-link">subs</a></span><span class="op">(</span><span class="st">"wD"</span>, <span class="fl">0</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>                 <span class="fu"><a href="https://rdrr.io/pkg/caracas/man/subs.html" class="external-link">subs</a></span><span class="op">(</span><span class="st">"wS"</span>, <span class="fl">0</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/pkg/caracas/man/as_character.html" class="external-link">as_character</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="va">d_prob_LR_wDwS</span>, <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">XD_MA</span>, <span class="va">XS_MA</span>, <span class="va">LRw0</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       XD_MA XS_MA LRw0   </span></span>
 <span><span class="co">#&gt;  [1,] "0"   "0"   "1/p_0"</span></span>
 <span><span class="co">#&gt;  [2,] "0"   "1"   "0"    </span></span>

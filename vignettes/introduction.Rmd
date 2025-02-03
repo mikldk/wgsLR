@@ -23,7 +23,7 @@ library(wgsLR)
 A simple example:
 
 ```{r}
-cases <- wgsLR::sample_data_Hp_w(n = 1000, w = 0.1, p = c(0.25, 0.25, 0.5))
+cases <- sample_data_Hp_w(n = 1000, w = 0.1, p = c(0.25, 0.25, 0.5))
 tab <- table(cases$X_D, cases$X_S)
 tab
 ```

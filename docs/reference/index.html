@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">wgsLR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9010</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,6 +27,9 @@
     <a class="dropdown-item" href="../articles/introduction.html">Introduction</a>
     <a class="dropdown-item" href="../articles/using-stan.html">Using Stan for Bayesian inference</a>
   </div>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="../news/index.html">Changelog</a>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
@@ -60,14 +63,24 @@
 
       <dl><dt>
           
-          <code><a href="add_errors_Hd.html">add_errors_Hd()</a></code> 
+          <code><a href="add_errors_Hd_w.html">add_errors_Hd_w()</a></code> 
         </dt>
-        <dd>Add Hp-errors to table</dd>
+        <dd>Add Hd-errors to table for one error probability, $w$</dd>
       </dl><dl><dt>
           
-          <code><a href="add_errors_Hp.html">add_errors_Hp()</a></code> 
+          <code><a href="add_errors_Hd_wDwS.html">add_errors_Hd_wDwS()</a></code> 
         </dt>
-        <dd>Add Hp-errors to table</dd>
+        <dd>Add Hd-errors to table for sample-dependent error probabilities, $w_D$ and $w_S$</dd>
+      </dl><dl><dt>
+          
+          <code><a href="add_errors_Hp_w.html">add_errors_Hp_w()</a></code> 
+        </dt>
+        <dd>Add Hp-errors to table for one error probability, $w$</dd>
+      </dl><dl><dt>
+          
+          <code><a href="add_errors_Hp_wDwS.html">add_errors_Hp_wDwS()</a></code> 
+        </dt>
+        <dd>Add Hp-errors to table for sample-dependent error probabilities, $w_D$ and $w_S$</dd>
       </dl><dl><dt>
           
           <code><a href="add_errors_to_genotypes.html">add_errors_to_genotypes()</a></code> 
@@ -80,19 +93,34 @@
         <dd>Allele probabilities to genotype probabilities assuming Hardy-Weinberg equilibrium</dd>
       </dl><dl><dt>
           
-          <code><a href="calc_LRs.html">calc_LRs()</a></code> 
+          <code><a href="calc_LRs_w.html">calc_LRs_w()</a></code> 
         </dt>
-        <dd>Calculate LR for a profile</dd>
+        <dd>Calculate LR for a profile for one error probability, $w$</dd>
       </dl><dl><dt>
           
-          <code><a href="d_formulas_Hd.html">d_formulas_Hd</a></code> 
+          <code><a href="calc_LRs_wDwS.html">calc_LRs_wDwS()</a></code> 
         </dt>
-        <dd>Enumeration of possibilities under Hd</dd>
+        <dd>Calculate LR for a profile for one error probability, $w$</dd>
       </dl><dl><dt>
           
-          <code><a href="d_formulas_Hp.html">d_formulas_Hp</a></code> 
+          <code><a href="d_formulas_Hd_w.html">d_formulas_Hd_w</a></code> 
         </dt>
-        <dd>Enumeration of possibilities under Hp</dd>
+        <dd>Enumeration of possibilities under Hd for one error probability, $w$</dd>
+      </dl><dl><dt>
+          
+          <code><a href="d_formulas_Hd_wDwS.html">d_formulas_Hd_wDwS</a></code> 
+        </dt>
+        <dd>Enumeration of possibilities under Hd for sample-dependent error probabilities, $w_D$ and $w_S$</dd>
+      </dl><dl><dt>
+          
+          <code><a href="d_formulas_Hp_w.html">d_formulas_Hp_w</a></code> 
+        </dt>
+        <dd>Enumeration of possibilities under Hp for one error probability, $w$</dd>
+      </dl><dl><dt>
+          
+          <code><a href="d_formulas_Hp_wDwS.html">d_formulas_Hp_wDwS</a></code> 
+        </dt>
+        <dd>Enumeration of possibilities under Hp for sample-dependent error probabilities, $w_D$ and $w_S$</dd>
       </dl><dl><dt>
           
           <code><a href="d_formulas_single.html">d_formulas_single</a></code> 
@@ -100,29 +128,54 @@
         <dd>Enumeration of possibilities for single observation</dd>
       </dl><dl><dt>
           
-          <code><a href="d_prob_Hd.html">d_prob_Hd</a></code> 
+          <code><a href="d_prob_Hd_w.html">d_prob_Hd_w</a></code> 
         </dt>
-        <dd>Formulas under Hd grouped by XD and XS</dd>
+        <dd>Formulas under Hd grouped by XD and XS for one error probability, $w$</dd>
       </dl><dl><dt>
           
-          <code><a href="d_prob_Hp.html">d_prob_Hp</a></code> 
+          <code><a href="d_prob_Hd_wDwS.html">d_prob_Hd_wDwS</a></code> 
         </dt>
-        <dd>Formulas under Hp grouped by XD and XS</dd>
+        <dd>Formulas under Hd grouped by XD and XS for sample-dependent error probabilities, $w_D$ and $w_S$</dd>
       </dl><dl><dt>
           
-          <code><a href="d_prob_LR.html">d_prob_LR</a></code> 
+          <code><a href="d_prob_Hp_w.html">d_prob_Hp_w</a></code> 
         </dt>
-        <dd>Formulas for LR grouped by XD and XS</dd>
+        <dd>Formulas under Hp grouped by XD and XS for one error probability, $w$</dd>
       </dl><dl><dt>
           
-          <code><a href="d_probtable_Hd.html">d_probtable_Hd</a></code> 
+          <code><a href="d_prob_Hp_wDwS.html">d_prob_Hp_wDwS</a></code> 
         </dt>
-        <dd>Probabilties for efficient sampling under Hd</dd>
+        <dd>Formulas under Hp grouped by XD and XS for sample-dependent error probabilities, $w_D$ and $w_S$</dd>
       </dl><dl><dt>
           
-          <code><a href="d_probtable_Hp.html">d_probtable_Hp</a></code> 
+          <code><a href="d_prob_LR_w.html">d_prob_LR_w</a></code> 
         </dt>
-        <dd>Probabilties for efficient sampling under Hp</dd>
+        <dd>Formulas for LR grouped by XD and XS for one error probability, $w$</dd>
+      </dl><dl><dt>
+          
+          <code><a href="d_prob_LR_wDwS.html">d_prob_LR_wDwS</a></code> 
+        </dt>
+        <dd>Formulas for LR grouped by XD and XS for sample-dependent error probabilities, $w_D$ and $w_S$</dd>
+      </dl><dl><dt>
+          
+          <code><a href="d_probtable_Hd_w.html">d_probtable_Hd_w</a></code> 
+        </dt>
+        <dd>Probabilties for efficient sampling under Hd for one error probability, $w$</dd>
+      </dl><dl><dt>
+          
+          <code><a href="d_probtable_Hd_wDwS.html">d_probtable_Hd_wDwS</a></code> 
+        </dt>
+        <dd>Probabilties for efficient sampling under Hd for one error probability, $w$</dd>
+      </dl><dl><dt>
+          
+          <code><a href="d_probtable_Hp_w.html">d_probtable_Hp_w</a></code> 
+        </dt>
+        <dd>Probabilties for efficient sampling under Hp for one error probability, $w$</dd>
+      </dl><dl><dt>
+          
+          <code><a href="d_probtable_Hp_wDwS.html">d_probtable_Hp_wDwS</a></code> 
+        </dt>
+        <dd>Probabilties for efficient sampling under Hp for sample-dependent error probabilities, $w_D$ and $w_S$</dd>
       </dl><dl><dt>
           
           <code><a href="estimate_w.html">estimate_w()</a></code> 
@@ -150,19 +203,34 @@
         <dd>Extract profile</dd>
       </dl><dl><dt>
           
+          <code><a href="get_beta_parameters.html">get_beta_parameters()</a></code> 
+        </dt>
+        <dd>Beta distribution parameterisation conversion</dd>
+      </dl><dl><dt>
+          
           <code><a href="get_ns.html">get_ns()</a></code> 
         </dt>
         <dd>Get counts from table</dd>
       </dl><dl><dt>
           
-          <code><a href="graph_Hd.html">graph_Hd</a></code> 
+          <code><a href="graph_Hd_w.html">graph_Hd_w</a></code> 
         </dt>
-        <dd>Graph for enumeration of possibilities under Hd</dd>
+        <dd>Graph for enumeration of possibilities under Hd for one error probability, $w$</dd>
       </dl><dl><dt>
           
-          <code><a href="graph_Hp.html">graph_Hp</a></code> 
+          <code><a href="graph_Hd_wDwS.html">graph_Hd_wDwS</a></code> 
         </dt>
-        <dd>Graph for enumeration of possibilities under Hp</dd>
+        <dd>Graph for enumeration of possibilities under Hd for sample-dependent error probabilities, $w_D$ and $w_S$</dd>
+      </dl><dl><dt>
+          
+          <code><a href="graph_Hp_w.html">graph_Hp_w</a></code> 
+        </dt>
+        <dd>Graph for enumeration of possibilities under Hp for one error probability, $w$</dd>
+      </dl><dl><dt>
+          
+          <code><a href="graph_Hp_wDwS.html">graph_Hp_wDwS</a></code> 
+        </dt>
+        <dd>Graph for enumeration of possibilities under Hp for sample-dependent error probabilities, $w_D$ and $w_S$</dd>
       </dl><dl><dt>
           
           <code><a href="graph_single.html">graph_single</a></code> 
@@ -185,14 +253,24 @@
         <dd>Re-use genotype probabilities</dd>
       </dl><dl><dt>
           
-          <code><a href="sample_data_Hd.html">sample_data_Hd()</a></code> 
+          <code><a href="sample_data_Hd_w.html">sample_data_Hd_w()</a></code> 
         </dt>
-        <dd>Sample cases under Hd</dd>
+        <dd>Sample cases under Hd for one error probability, $w$</dd>
       </dl><dl><dt>
           
-          <code><a href="sample_data_Hp.html">sample_data_Hp()</a></code> 
+          <code><a href="sample_data_Hd_wDwS.html">sample_data_Hd_wDwS()</a></code> 
         </dt>
-        <dd>Sample cases under Hp</dd>
+        <dd>Sample cases under Hd for sample-dependent error probabilities, $w_D$ and $w_S$</dd>
+      </dl><dl><dt>
+          
+          <code><a href="sample_data_Hp_w.html">sample_data_Hp_w()</a></code> 
+        </dt>
+        <dd>Sample cases under Hp for one error probability, $w$</dd>
+      </dl><dl><dt>
+          
+          <code><a href="sample_data_Hp_wDwS.html">sample_data_Hp_wDwS()</a></code> 
+        </dt>
+        <dd>Sample cases under Hp for sample-dependent error probabilities, $w_D$ and $w_S$</dd>
       </dl><dl><dt>
           
           <code><a href="sample_profiles_without_error.html">sample_profiles_without_error()</a></code> 

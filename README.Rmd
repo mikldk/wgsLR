@@ -40,7 +40,7 @@ remotes::install_github("mikldk/wgsLR")
 ### Estimating the genotype error probability, $w$
 
 ```{r}
-cases <- wgsLR::sample_data_Hp(n = 1000, w = 0.1, p = c(0.25, 0.25, 0.5))
+cases <- wgsLR::sample_data_Hp_w(n = 1000, w = 0.1, p = c(0.25, 0.25, 0.5))
 tab <- table(cases$X_D, cases$X_S)
 tab
 w_mle <- wgsLR::estimate_w(tab)
@@ -75,10 +75,10 @@ P(1/1 = 2) = 0.5.
 If no errors are possible, then $w=0$ and
 
 ```{r}
-wgsLR::calc_LRs(xs = c(0, 0, 2, 2), 
-                xd = c(1, 0, 2, 2), 
-                w = 0, 
-                p = c(0.25, 0.25, 0.5))
+wgsLR::calc_LRs_w(xs = c(0, 0, 2, 2), 
+                  xd = c(1, 0, 2, 2), 
+                  w = 0, 
+                  p = c(0.25, 0.25, 0.5))
 ```
 
 and the product is 0 due to the mismatch at the first locus.
@@ -86,10 +86,10 @@ and the product is 0 due to the mismatch at the first locus.
 If instead we acknowledge that errors are possible, then for $w = 0.001$ we obtain that
 
 ```{r}
-LR_contribs <- wgsLR::calc_LRs(xs = c(0, 0, 2, 2), 
-                               xd = c(1, 0, 2, 2), 
-                               w = 0.001, 
-                               p = c(0.25, 0.25, 0.5))
+LR_contribs <- wgsLR::calc_LRs_w(xs = c(0, 0, 2, 2), 
+                                 xd = c(1, 0, 2, 2), 
+                                 w = 0.001, 
+                                 p = c(0.25, 0.25, 0.5))
 LR_contribs
 prod(LR_contribs)
 ```
@@ -98,12 +98,27 @@ We can also consider the $LR$s for a range for plausible values of $w$:
 
 ```{r}
 ws <- c(1e-6, 1e-3, 1e-2, 1e-1)
-LRs <- sapply(ws, \(w) wgsLR::calc_LRs(xs = c(0, 0, 2, 2), 
-                                       xd = c(1, 0, 2, 2), 
-                                       w = w, 
-                                       p = c(0.25, 0.25, 0.5)) |> 
+LRs <- sapply(ws, \(w) wgsLR::calc_LRs_w(xs = c(0, 0, 2, 2), 
+                                         xd = c(1, 0, 2, 2), 
+                                         w = w, 
+                                         p = c(0.25, 0.25, 0.5)) |> 
                 prod())
 data.frame(log10w = log10(ws), w = ws, 
            LR = LRs, WoElog10LR = log10(LRs))
 ```
 
+
+## Different error rates
+
+Assume that the trace donor profile has $w_D = 10^{-4}$ and 
+the suspect reference profile has $w_S = 10^{-8}$. Then 
+the $LR$ is:
+
+```{r}
+LR_contribs <- wgsLR::calc_LRs_wDwS(xs = c(0, 0, 2, 2), 
+                                    xd = c(1, 0, 2, 2), 
+                                    wD = 1e-4, 
+                                    wS = 1e-8,
+                                    p = c(0.25, 0.25, 0.5))
+prod(LR_contribs)
+```

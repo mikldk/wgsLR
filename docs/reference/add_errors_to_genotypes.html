@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">wgsLR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9010</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,6 +27,9 @@
     <a class="dropdown-item" href="../articles/introduction.html">Introduction</a>
     <a class="dropdown-item" href="../articles/using-stan.html">Using Stan for Bayesian inference</a>
   </div>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="../news/index.html">Changelog</a>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
@@ -55,7 +58,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">add_errors_to_genotypes</span><span class="op">(</span><span class="va">Z</span>, <span class="va">w</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">add_errors_to_genotypes</span><span class="op">(</span><span class="va">Z</span>, <span class="va">w</span>, overdisp_var <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -66,6 +69,11 @@
 
 <dt>w</dt>
 <dd><p>error probability</p></dd>
+
+
+<dt>overdisp_var</dt>
+<dd><p>if set, use as modelling overdispersion in $w$ such that $w$
+follows a Beta distribution with mean value $w$ and variance <code>overdisp_var</code></p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -81,28 +89,28 @@
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.8</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="to012.html">to012</a></span><span class="op">(</span><span class="va">Z</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    2    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    2    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    0    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    1    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]    2    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    1    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    2    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    0    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]    1    1</span>
 <span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu">add_errors_to_genotypes</span><span class="op">(</span><span class="va">Z</span>, <span class="fl">0.5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">X</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    1    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    1    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    1    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    1    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]    0    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    0    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]    1    1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    1    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    1    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    1    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    1    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]    1    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    0    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]    1    1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="to012.html">to012</a></span><span class="op">(</span><span class="va">Z</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="to012.html">to012</a></span><span class="op">(</span><span class="fu">add_errors_to_genotypes</span><span class="op">(</span><span class="va">Z</span>, <span class="fl">0.0</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2]</span>
@@ -114,17 +122,44 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">Z</span> <span class="op">&lt;-</span> <span class="fu"><a href="sample_profiles_without_error.html">sample_profiles_without_error</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.4</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">X1</span> <span class="op">&lt;-</span> <span class="fu">add_errors_to_genotypes</span><span class="op">(</span><span class="va">Z</span>, <span class="fl">0.5</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">X2</span> <span class="op">&lt;-</span> <span class="fu">add_errors_to_genotypes</span><span class="op">(</span><span class="va">Z</span>, <span class="fl">0.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">X1</span> <span class="op">&lt;-</span> <span class="fu">add_errors_to_genotypes</span><span class="op">(</span><span class="va">Z</span>, <span class="fl">0.1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">X2</span> <span class="op">&lt;-</span> <span class="fu">add_errors_to_genotypes</span><span class="op">(</span><span class="va">Z</span>, <span class="fl">0.1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu"><a href="to012.html">to012</a></span><span class="op">(</span><span class="va">X1</span><span class="op">)</span>, <span class="fu"><a href="to012.html">to012</a></span><span class="op">(</span><span class="va">X2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">tab</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       0   1   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0  71 101  69</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   1 116 248 140</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   2  67 125  63</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0 352 106   8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   1 119 264  48</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   2   2  39  62</span>
 <span class="r-in"><span><span class="fu"><a href="estimate_w.html">estimate_w</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4999999</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1015527</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">X1</span> <span class="op">&lt;-</span> <span class="fu">add_errors_to_genotypes</span><span class="op">(</span><span class="va">Z</span>, <span class="fl">0.1</span>, overdisp_var <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">X2</span> <span class="op">&lt;-</span> <span class="fu">add_errors_to_genotypes</span><span class="op">(</span><span class="va">Z</span>, <span class="fl">0.1</span>, overdisp_var <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu"><a href="to012.html">to012</a></span><span class="op">(</span><span class="va">X1</span><span class="op">)</span>, <span class="fu"><a href="to012.html">to012</a></span><span class="op">(</span><span class="va">X2</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">tab</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0   1   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0 369  98  14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   1  98 274  34</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   2  11  28  74</span>
+<span class="r-in"><span><span class="fu"><a href="estimate_w.html">estimate_w</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.09281881</span>
+<span class="r-in"><span><span class="co"># p &lt;- get_beta_parameters(0.1, 0.01); curve(dbeta(x, p[1], p[2]), from = 0, to = 1)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># p &lt;- get_beta_parameters(0.1, 0.01); curve(dbeta(x, p[1], p[2]), from = 0, to = 1)</span></span></span>
+<span class="r-in"><span><span class="va">X1</span> <span class="op">&lt;-</span> <span class="fu">add_errors_to_genotypes</span><span class="op">(</span><span class="va">Z</span>, <span class="fl">0.1</span>, overdisp_var <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">X2</span> <span class="op">&lt;-</span> <span class="fu">add_errors_to_genotypes</span><span class="op">(</span><span class="va">Z</span>, <span class="fl">0.1</span>, overdisp_var <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu"><a href="to012.html">to012</a></span><span class="op">(</span><span class="va">X1</span><span class="op">)</span>, <span class="fu"><a href="to012.html">to012</a></span><span class="op">(</span><span class="va">X2</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">tab</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0   1   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0 382  97   7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   1 101 263  40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   2  10  36  64</span>
+<span class="r-in"><span><span class="fu"><a href="estimate_w.html">estimate_w</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.09269558</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

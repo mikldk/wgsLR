@@ -32,23 +32,23 @@ You can also install the package without vignettes if needed as follows:
 ### Estimating the genotype error probability, $w$
 
 ``` r
-cases <- wgsLR::sample_data_Hp(n = 1000, w = 0.1, p = c(0.25, 0.25, 0.5))
+cases <- wgsLR::sample_data_Hp_w(n = 1000, w = 0.1, p = c(0.25, 0.25, 0.5))
 tab <- table(cases$X_D, cases$X_S)
 tab
 ```
 
     ##    
     ##       0   1   2
-    ##   0 221  73   8
-    ##   1  63 121  75
-    ##   2   5  92 342
+    ##   0 180  55   9
+    ##   1  59 188  88
+    ##   2   4  89 328
 
 ``` r
 w_mle <- wgsLR::estimate_w(tab)
 w_mle
 ```
 
-    ## [1] 0.1004706
+    ## [1] 0.09596158
 
 #### Cautionary note: not just standard VCF files
 
@@ -76,10 +76,10 @@ For simplicity, assume that the genotype probabilites are P(0/0 = 0) =
 If no errors are possible, then $w=0$ and
 
 ``` r
-wgsLR::calc_LRs(xs = c(0, 0, 2, 2), 
-                xd = c(1, 0, 2, 2), 
-                w = 0, 
-                p = c(0.25, 0.25, 0.5))
+wgsLR::calc_LRs_w(xs = c(0, 0, 2, 2), 
+                  xd = c(1, 0, 2, 2), 
+                  w = 0, 
+                  p = c(0.25, 0.25, 0.5))
 ```
 
     ## [1] 0 4 2 2
@@ -90,10 +90,10 @@ If instead we acknowledge that errors are possible, then for $w = 0.001$
 we obtain that
 
 ``` r
-LR_contribs <- wgsLR::calc_LRs(xs = c(0, 0, 2, 2), 
-                               xd = c(1, 0, 2, 2), 
-                               w = 0.001, 
-                               p = c(0.25, 0.25, 0.5))
+LR_contribs <- wgsLR::calc_LRs_w(xs = c(0, 0, 2, 2), 
+                                 xd = c(1, 0, 2, 2), 
+                                 w = 0.001, 
+                                 p = c(0.25, 0.25, 0.5))
 LR_contribs
 ```
 
@@ -109,10 +109,10 @@ We can also consider the $LR$s for a range for plausible values of $w$:
 
 ``` r
 ws <- c(1e-6, 1e-3, 1e-2, 1e-1)
-LRs <- sapply(ws, \(w) wgsLR::calc_LRs(xs = c(0, 0, 2, 2), 
-                                       xd = c(1, 0, 2, 2), 
-                                       w = w, 
-                                       p = c(0.25, 0.25, 0.5)) |> 
+LRs <- sapply(ws, \(w) wgsLR::calc_LRs_w(xs = c(0, 0, 2, 2), 
+                                         xd = c(1, 0, 2, 2), 
+                                         w = w, 
+                                         p = c(0.25, 0.25, 0.5)) |> 
                 prod())
 data.frame(log10w = log10(ws), w = ws, 
            LR = LRs, WoElog10LR = log10(LRs))
@@ -123,3 +123,19 @@ data.frame(log10w = log10(ws), w = ws,
     ## 2     -3 1e-03 0.1900903523 -0.7210399
     ## 3     -2 1e-02 1.7379421372  0.2400353
     ## 4     -1 1e-01 7.1409934157  0.8537586
+
+## Different error rates
+
+Assume that the trace donor profile has $w_D = 10^{-4}$ and the suspect
+reference profile has $w_S = 10^{-8}$. Then the $LR$ is:
+
+``` r
+LR_contribs <- wgsLR::calc_LRs_wDwS(xs = c(0, 0, 2, 2), 
+                                    xd = c(1, 0, 2, 2), 
+                                    wD = 1e-4, 
+                                    wS = 1e-8,
+                                    p = c(0.25, 0.25, 0.5))
+prod(LR_contribs)
+```
+
+    ## [1] 0.01279168
