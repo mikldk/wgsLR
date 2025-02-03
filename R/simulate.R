@@ -40,6 +40,14 @@ sample_profiles_without_error <- function(n, p) {
   return(Z)
 }
 
+#' Beta distribution parameterisation conversion
+#' 
+#' Get beta distribution's two shape parameters from
+#' mean value and variance.
+#' 
+#' @param mu mean value
+#' @param sigmasq variance
+#' 
 #' @examples
 #' a <- 2
 #' b <- 6
@@ -102,7 +110,7 @@ get_beta_parameters <- function(mu, sigmasq) {
 #' @return list, element for each locus is a matrix with n rows and two columns
 #' 
 #' @export
-add_errors_to_genotypes <- function(Z, w, overdisp_var) {
+add_errors_to_genotypes <- function(Z, w, overdisp_var = NULL) {
   if (!is.list(Z)) {
     stop("This must be called on list of genotypes, ", 
          "e.g. from sample_profiles_without_error(), not on to012()-result.")
@@ -116,7 +124,7 @@ add_errors_to_genotypes <- function(Z, w, overdisp_var) {
   
   n <- nrow(Z[[1L]])
   
-  use_overdisp <- isFALSE(missing(overdisp_var))
+  use_overdisp <- isFALSE(is.null(overdisp_var))
 
   # Z is list of length loci, each element a matrix with n rows
   
@@ -237,7 +245,7 @@ sample_data_Hp_w <- function(n, w, p, ...) {
 #' @return list of two matrices, each of size n x loci with 
 #'         genotype in 0/1/2 format resembling the situation in real life.
 #' @export
-sample_data_Hp_wDwS <- function(n, wD, wS, p) {
+sample_data_Hp_wDwS <- function(n, wD, wS, p, ...) {
   Z <- sample_profiles_without_error(n = n, p = p)
   
   X_D <- to012(add_errors_to_genotypes(Z, w = wD, ...))
@@ -272,7 +280,7 @@ sample_data_Hp_wDwS <- function(n, wD, wS, p) {
 #' @return list of two matrices, each of size n x loci with 
 #'         genotype in 0/1/2 format resembling the situation in real life.
 #' @export
-sample_data_Hd_w <- function(n, w, p) {
+sample_data_Hd_w <- function(n, w, p, ...) {
   Z_D <- sample_profiles_without_error(n = n, p = p)
   X_D <- to012(add_errors_to_genotypes(Z_D, w = w, ...))
   rm(Z_D) # to avoid using it by mistake
@@ -313,7 +321,7 @@ sample_data_Hd_w <- function(n, w, p) {
 #' @return list of two matrices, each of size n x loci with 
 #'         genotype in 0/1/2 format resembling the situation in real life.
 #' @export
-sample_data_Hd_wDwS <- function(n, wD, wS, p) {
+sample_data_Hd_wDwS <- function(n, wD, wS, p, ...) {
   Z_D <- sample_profiles_without_error(n = n, p = p)
   X_D <- to012(add_errors_to_genotypes(Z_D, w = wD, ...))
   rm(Z_D) # to avoid using it by mistake

@@ -4,7 +4,7 @@
 \alias{sample_data_Hp_wDwS}
 \title{Sample cases under Hp for sample-dependent error probabilities, $w_D$ and $w_S$}
 \usage{
-sample_data_Hp_wDwS(n, wD, wS, p)
+sample_data_Hp_wDwS(n, wD, wS, p, ...)
 }
 \arguments{
 \item{n}{number of samples}

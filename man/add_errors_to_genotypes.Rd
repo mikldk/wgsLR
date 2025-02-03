@@ -4,7 +4,7 @@
 \alias{add_errors_to_genotypes}
 \title{Add errors to genotypes}
 \usage{
-add_errors_to_genotypes(Z, w, overdisp_var)
+add_errors_to_genotypes(Z, w, overdisp_var = NULL)
 }
 \arguments{
 \item{Z}{genotypes, e.g. created by \code{\link[=sample_profiles_without_error]{sample_profiles_without_error()}}}

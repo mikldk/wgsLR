@@ -4,7 +4,7 @@
 \alias{sample_data_Hd_w}
 \title{Sample cases under Hd for one error probability, $w$}
 \usage{
-sample_data_Hd_w(n, w, p)
+sample_data_Hd_w(n, w, p, ...)
 }
 \arguments{
 \item{n}{number of samples}
