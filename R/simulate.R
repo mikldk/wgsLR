@@ -54,6 +54,7 @@ sample_profiles_without_error <- function(n, p) {
 #' m <- a / (a + b)
 #' v <- (a*b)/((a+b)^2 * (a + b +1))
 #' get_beta_parameters(m, v)
+#' get_beta_parameters(1e-2, 1e-3)
 #' # p <- get_beta_parameters(0.1, 0.01); curve(dbeta(x, p[1], p[2]), from = 0, to = 1)
 #' # p <- get_beta_parameters(0.1, 0.001); curve(dbeta(x, p[1], p[2]), from = 0, to = 1)
 #' # p <- get_beta_parameters(0.1, 0.0001); curve(dbeta(x, p[1], p[2]), from = 0, to = 1)
