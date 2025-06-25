@@ -1,0 +1,32 @@
+---
+title: "Error rate uncertainty"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{error-rate-uncertainty}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(wgsLR)
+```
+
+```{r}
+q1 <- 0.4
+p1 <- c(q1^2, 2*q1*(1-q1), (1-q1)^2)
+sum(p1)
+q2 <- 0.3
+p2 <- c(q2^2, 2*q2*(1-q2), (1-q2)^2)
+sum(p2)
+# s: suspect
+# d: donor
+calc_LRs_wDwS(xD = c(0, 0), xS = c(0, 0), wD = 1e-2, wS = 1e-6, p = list(p1, p2))
+```
+

@@ -47,6 +47,8 @@ sample_profiles_without_error <- function(n, p) {
 #' 
 #' @param mu mean value
 #' @param sigmasq variance
+#' @param a lower support bound
+#' @param b upper support bound
 #' 
 #' @examples
 #' a <- 2
@@ -58,7 +60,33 @@ sample_profiles_without_error <- function(n, p) {
 #' # p <- get_beta_parameters(0.1, 0.01); curve(dbeta(x, p[1], p[2]), from = 0, to = 1)
 #' # p <- get_beta_parameters(0.1, 0.001); curve(dbeta(x, p[1], p[2]), from = 0, to = 1)
 #' # p <- get_beta_parameters(0.1, 0.0001); curve(dbeta(x, p[1], p[2]), from = 0, to = 1)
-get_beta_parameters <- function(mu, sigmasq) {
+#' 
+#' s12 <- get_beta_parameters(mu = 1e-2, sigmasq = 1e-3, a = 0, b = 0.5)
+#' x <- rbeta05(1000, s12[1L], s12[2L])
+#' mean(x); var(x)
+#' 
+#' s12 <- get_beta_parameters(mu = 1e-5, sigmasq = 1e-7, a = 0, b = 0.5)
+#' x <- rbeta05(10000, s12[1L], s12[2L])
+#' mean(x); var(x)
+#' 
+#' @export
+get_beta_parameters <- function(mu, sigmasq, a = 0, b = 1) {
+  # Normalise the mean and variance to standard Beta on [0,1]
+  mu_std <- (mu - a) / (b - a)
+  var_std <- sigmasq / ((b - a)^2)
+  
+  if (mu_std <= 0 || mu_std >= 1) stop("Mean must be strictly between a and b")
+  if (var_std <= 0 || var_std >= mu_std * (1 - mu_std)) stop("Invalid variance for Beta distribution")
+  
+  # Calculate the common term
+  temp <- mu_std * (1 - mu_std) / var_std - 1
+  alpha <- mu_std * temp
+  beta <- (1 - mu_std) * temp
+  
+  return(c(alpha, beta))
+}
+
+get_beta_parameters_old <- function(mu, sigmasq) {
   s1 <- ((1 - mu) / sigmasq - 1 / mu) * mu ^ 2
   s2 <- s1 * (1 / mu - 1)
   
@@ -68,6 +96,9 @@ get_beta_parameters <- function(mu, sigmasq) {
   
   return(c(s1, s2))
 }
+
+
+
 
 
 #' Add errors to genotypes

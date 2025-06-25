@@ -4,12 +4,16 @@
 \alias{get_beta_parameters}
 \title{Beta distribution parameterisation conversion}
 \usage{
-get_beta_parameters(mu, sigmasq)
+get_beta_parameters(mu, sigmasq, a = 0, b = 1)
 }
 \arguments{
 \item{mu}{mean value}
 
 \item{sigmasq}{variance}
+
+\item{a}{lower support bound}
+
+\item{b}{upper support bound}
 }
 \description{
 Get beta distribution's two shape parameters from
@@ -21,7 +25,17 @@ b <- 6
 m <- a / (a + b)
 v <- (a*b)/((a+b)^2 * (a + b +1))
 get_beta_parameters(m, v)
+get_beta_parameters(1e-2, 1e-3)
 # p <- get_beta_parameters(0.1, 0.01); curve(dbeta(x, p[1], p[2]), from = 0, to = 1)
 # p <- get_beta_parameters(0.1, 0.001); curve(dbeta(x, p[1], p[2]), from = 0, to = 1)
 # p <- get_beta_parameters(0.1, 0.0001); curve(dbeta(x, p[1], p[2]), from = 0, to = 1)
+
+s12 <- get_beta_parameters(mu = 1e-2, sigmasq = 1e-3, a = 0, b = 0.5)
+x <- rbeta05(1000, s12[1L], s12[2L])
+mean(x); var(x)
+
+s12 <- get_beta_parameters(mu = 1e-5, sigmasq = 1e-7, a = 0, b = 0.5)
+x <- rbeta05(10000, s12[1L], s12[2L])
+mean(x); var(x)
+
 }

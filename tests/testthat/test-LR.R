@@ -16,7 +16,7 @@ test_that("LR_w", {
   Hp_cases <- sample_data_Hp_w(n = 1000, w = w, p = p)
   
   LRs <- lapply(seq_len(nrow(Hp_cases$X_S)), function(i) {
-    calc_LRs_w(xs = Hp_cases$X_S[i, ], xd = Hp_cases$X_D[i, ], w = w, p = p)
+    calc_LRs_w(xD = Hp_cases$X_D[i, ], xS = Hp_cases$X_S[i, ], w = w, p = p)
   }) |> lapply(prod) |> unlist()
   expect_true(mean(log10(LRs)) > 0) # hist(log10(LRs))
   expect_true(mean(LRs > 1) > 0.8) # Expect more than 80% to have LR > 1
@@ -26,7 +26,7 @@ test_that("LR_w", {
   
   Hd_cases <- sample_data_Hd_w(n = 1000, w = w, p = p)
   LRs <- lapply(seq_len(nrow(Hd_cases$X_S)), function(i) {
-    calc_LRs_w(xs = Hd_cases$X_S[i, ], xd = Hd_cases$X_D[i, ], w = w, p = p)
+    calc_LRs_w(xD = Hd_cases$X_D[i, ], xS = Hd_cases$X_S[i, ], w = w, p = p)
   }) |> lapply(prod) |> unlist()
   expect_true(mean(log10(LRs)) < 0) # hist(log10(LRs))
   expect_true(mean(LRs > 1) < 0.2) # Expect less than 20% to have LR > 1
@@ -63,10 +63,10 @@ test_that("LR_wDwS", {
   Hp_cases <- sample_data_Hp_wDwS(n = 1000, wD = wD, wS = wS, p = p)
   
   LRs_w <- lapply(seq_len(nrow(Hp_cases$X_S)), function(i) {
-    calc_LRs_w(xs = Hp_cases$X_S[i, ], xd = Hp_cases$X_D[i, ], w = (wD+wS)/2, p = p)
+    calc_LRs_w(xD = Hp_cases$X_D[i, ], xS = Hp_cases$X_S[i, ], w = (wD+wS)/2, p = p)
   }) |> lapply(prod) |> unlist()
   LRs_wDwS <- lapply(seq_len(nrow(Hp_cases$X_S)), function(i) {
-    calc_LRs_wDwS(xs = Hp_cases$X_S[i, ], xd = Hp_cases$X_D[i, ], wD = wD, wS = wS, p = p)
+    calc_LRs_wDwS(xD = Hp_cases$X_D[i, ], xS = Hp_cases$X_S[i, ], wD = wD, wS = wS, p = p)
   }) |> lapply(prod) |> unlist()
   expect_true(mean(log10(LRs_w)) > 0) # hist(log10(LRs_w))
   expect_true(mean(log10(LRs_wDwS)) > 0) # hist(log10(LRs_wDwS))
@@ -77,7 +77,7 @@ test_that("LR_wDwS", {
   Hd_cases <- sample_data_Hd_wDwS(n = 1000, wD = wD, wS = wS, p = p)
   
   LRs_wDwS <- lapply(seq_len(nrow(Hd_cases$X_S)), function(i) {
-    calc_LRs_wDwS(xs = Hd_cases$X_S[i, ], xd = Hd_cases$X_D[i, ], wD = wD, wS = wS, p = p)
+    calc_LRs_wDwS(xD = Hd_cases$X_D[i, ], xS = Hd_cases$X_S[i, ], wD = wD, wS = wS, p = p)
   }) |> lapply(prod) |> unlist()
   expect_true(mean(log10(LRs_wDwS)) < 0) # hist(log10(LRs_wDwS))
   expect_true(mean(LRs_wDwS > 1) < 0.2) # Expect less than 20% to have LR > 1

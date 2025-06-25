@@ -491,6 +491,72 @@ if (FALSE) {
 }
 
 
+# 2025-04-15
+if (FALSE) {
+  d_tmp <- wgsLR::d_formulas_Hp_w |> 
+    filter(Z == "0/0") |> 
+    group_by(group) |>
+    summarise(expr = paste0(expr, collapse = " + "),
+              n = n(),
+              .groups = "drop") |>
+    rowwise() |>
+    mutate(expr = list(as_sym(expr))) |> 
+    mutate(expr_chr = as.character(expr))
+  d_tmp
+  x <- d_tmp |> pull(expr)
+  x <- x[[1]] + x[[2]] + x[[3]]
+  simplify(x)
+  
+  
+  
+  
+  
+  d_tmp <- wgsLR::d_formulas_Hp_wDwS |> 
+    filter(Z == "0/0") |> 
+    group_by(group) |>
+    summarise(expr = paste0(expr, collapse = " + "),
+              n = n(),
+              .groups = "drop") |>
+    rowwise() |>
+    mutate(expr = list(as_sym(expr))) |> 
+    mutate(expr_chr = as.character(expr))
+  d_tmp
+  x <- d_tmp |> pull(expr)
+  x <- x[[1]] + x[[2]] + x[[3]]
+  simplify(x)
+  
+  
+  d_tmp <- wgsLR::d_formulas_Hp_wDwS |> 
+    mutate(genotype_prob = paste0("p_", Z_MA)) |> 
+    group_by(group) |>
+    summarise(#expr = paste0(expr, collapse = " + "),
+      expr = paste0(genotype_prob, "*", expr, collapse = " + "),
+              n = n(),
+              .groups = "drop") |>
+    rowwise() |>
+    mutate(expr = list(as_sym(expr))) |> 
+    mutate(expr_chr = as.character(expr))
+  d_tmp
+  x <- d_tmp |> pull(expr)
+  x <- x[[1]] + x[[2]] + x[[3]]
+  simplify(x)
+  
+  
+  q <- 0.2
+  cases <- sample_data_Hp_wDwS(n = 100000, wD = 1e-2, wS = 1e-4, p = c(q^2, 2*q*(1-q), (1-q)^2))
+  table(X_D = cases$X_S, X_S = cases$X_D)
+  
+  set.seed(1)
+  qs <- runif(10000, min = 0.1, max = 0.4)
+  ps <- lapply(qs, \(q) c(q^2, 2*q*(1-q), (1-q)^2))
+  cases <- sample_data_Hp_wDwS(n = 1, wD = 1e-2, wS = 1e-4, p = ps)
+  table(X_D = cases$X_S, X_S = cases$X_D)
+  
+  
+  
+}
+
+
 ################################################################################
 # Hd graph
 ################################################################################

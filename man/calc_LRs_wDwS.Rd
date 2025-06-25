@@ -2,23 +2,23 @@
 % Please edit documentation in R/LR.R
 \name{calc_LRs_wDwS}
 \alias{calc_LRs_wDwS}
-\title{Calculate LR for a profile for one error probability, $w$}
+\title{Calculate LR for a profile for sample-specific error probabilities}
 \usage{
-calc_LRs_wDwS(xs, xd, wD, wS, p)
+calc_LRs_wDwS(xD, xS, wD, wS, p)
 }
 \arguments{
-\item{xs}{profile from suspect (of 0, 1, 2)}
+\item{xD}{profile from case (of 0, 1, 2)}
 
-\item{xd}{profile from case (of 0, 1, 2)}
+\item{xS}{profile from suspect (of 0, 1, 2)}
 
 \item{wD}{error probability for donor sample}
 
 \item{wS}{error probability for PoI sample}
 
-\item{p}{list of genotype probabilities (same length as \code{xd}/\code{xs}, or vector of length 3 for reuse)}
+\item{p}{list of genotype probabilities (same length as \code{xD}/\code{xS}, or vector of length 3 for reuse)}
 }
 \description{
-Calculate LR for a profile for one error probability, $w$
+Calculate LR for a profile for sample-specific error probabilities
 }
 \examples{
 calc_LRs_wDwS(c(0, 0), c(0, 0), wD = 0, wS = 0, p = c(0.25, 0.25, 0.5))

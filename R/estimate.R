@@ -249,6 +249,7 @@ dbeta05 <- function(x, shape1, shape2, log = FALSE) {
   d
 }
 
+
 if (FALSE) {
   x <- rbeta05(1000, 5, 1)
   hist(x, probability = TRUE)
