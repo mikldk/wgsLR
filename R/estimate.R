@@ -244,7 +244,16 @@ qbeta05 <- function(x, shape1, shape2) {
   qbeta(x, shape1, shape2) / 2
 }
 
+#' dbeta05(0.2, 1, 5)
+#' dbeta05(0.2, 1, 5, log = TRUE)
+#' dbeta05(0.2, 1, 5) |> 
 dbeta05 <- function(x, shape1, shape2, log = FALSE) {
+  if (log) {
+    d <- log(2) + dbeta(2 * x, shape1, shape2, log = TRUE)
+    d
+    return(d)
+  }
+  
   d <- 2 * dbeta(2 * x, shape1, shape2, log = log)
   d
 }
