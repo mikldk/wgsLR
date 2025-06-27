@@ -375,15 +375,14 @@ calc_LRs_wDwS_integrate_wD_mc <- function(xD, xS, shape1D, shape2D, wS, p, n_sam
 #'   wS = 1e-5, 
 #'   p = c(0.25, 0.25, 0.5),
 #'   n_samples = 100)
-#' calc_LRs_wDwS_integrate_wD_mc(
-#'   xD = c(0, 0), 
-#'   xS = c(0, 1), 
-#'   shape1D = 1, shape2D = 1, 
-#'   wS = 1e-5, 
+#' calc_LRs_wDwS_integrate_wD_num(
+#'   xD = c(0, 0),
+#'   xS = c(0, 1),
+#'   shape1D = 1, shape2D = 1,
+#'   wS = 1e-5,
 #'   p = c(0.25, 0.25, 0.5),
 #'   n_samples = 100)
 #' # curve(dbeta05(x, 1, 1), from = 0, to = 0.5)
-#'   
 #'   
 #' @param xD profile from case (of 0, 1, 2)
 #' @param xS profile from suspect (of 0, 1, 2)
@@ -409,12 +408,21 @@ calc_LRs_wDwS_integrate_wD_num <- function(xD, xS, shape1D, shape2D, wS, p, n_sa
     xSi <- xS[i]
     pi <- p[i]
     
-    f <- function(wD) {
-      z <- dbeta05(wD, shape1 = shape1D, shape2 = shape2D, log = TRUE) + 
-        log(calc_LRs_no_checks_wDwS(xD = xDi, xS = xSi, wD = wD, wS = wS, p = pi))
-      exp(z)
+    # Uniform prior has constant density 2 (on 0-0.5)
+    f <- if (abs(shape1D - 1.0) < 1e-4 & abs(shape2D - 1.0) < 1e-4) {
+      #message("Uniform/constant")
+      function(wD) {
+        z <- log(2) + log(calc_LRs_no_checks_wDwS(xD = xDi, xS = xSi, wD = wD, wS = wS, p = pi))
+        exp(z)
+      }
+    } else {
+      #message("dbeta05")
+      function(wD) {
+        z <- dbeta05(wD, shape1 = shape1D, shape2 = shape2D, log = TRUE) + 
+          log(calc_LRs_no_checks_wDwS(xD = xDi, xS = xSi, wD = wD, wS = wS, p = pi))
+        exp(z)
+      }
     }
-    #f(1e-12)
     
     integrate(f, lower = 0, upper = 0.5)
   })

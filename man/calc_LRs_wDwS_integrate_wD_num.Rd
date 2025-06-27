@@ -56,14 +56,13 @@ calc_LRs_wDwS_integrate_wD_mc(
   wS = 1e-5, 
   p = c(0.25, 0.25, 0.5),
   n_samples = 100)
-calc_LRs_wDwS_integrate_wD_mc(
-  xD = c(0, 0), 
-  xS = c(0, 1), 
-  shape1D = 1, shape2D = 1, 
-  wS = 1e-5, 
+calc_LRs_wDwS_integrate_wD_num(
+  xD = c(0, 0),
+  xS = c(0, 1),
+  shape1D = 1, shape2D = 1,
+  wS = 1e-5,
   p = c(0.25, 0.25, 0.5),
   n_samples = 100)
 # curve(dbeta05(x, 1, 1), from = 0, to = 0.5)
-  
   
 }
