@@ -296,6 +296,7 @@ calc_LRs_wDwS_integrate_wDwS_mc <- function(xD, xS, shape1D, shape2D, shape1S, s
 #'   wS = 1e-5, 
 #'   p = c(0.25, 0.25, 0.5),
 #'   n_samples = 100)
+#' # curve(dbeta05(x, shpD[1], shpD[2]), from = 0, to = 0.5)
 #' calc_LRs_wDwS_integrate_wD_mc(
 #'   xD = c(0, 0), 
 #'   xS = c(0, 1), 
@@ -314,7 +315,8 @@ calc_LRs_wDwS_integrate_wDwS_mc <- function(xD, xS, shape1D, shape2D, shape1S, s
 #'   shape1S = shpS[1], shape2S = shpS[2], 
 #'   p = c(0.25, 0.25, 0.5),
 #'   n_samples = 100)
-#'   
+#' # curve(dbeta05(x, shpS[1], shpS[2]), from = 0, to = 0.5)
+#' 
 #' @param xD profile from case (of 0, 1, 2)
 #' @param xS profile from suspect (of 0, 1, 2)
 #' @param shape1D `wD` has beta prior (with support on 0-0.5) with parameters `shape1D` and `shape2D`
@@ -343,4 +345,79 @@ calc_LRs_wDwS_integrate_wD_mc <- function(xD, xS, shape1D, shape2D, wS, p, n_sam
   }
   
   return(LR)
+}
+
+#' Calculate LR for a profile for sample-specific error probabilities integrated over the donor prior distribution using numerical integration
+#' 
+#' @examples
+#' calc_LRs_wDwS(xD = c(0, 0), xS = c(0, 1), wD = 1e-2, wS = 1e-5, p = c(0.25, 0.25, 0.5))
+#' 
+#' shpD <- get_beta_parameters(mu = 1e-2, sigmasq = 2*1e-3, a = 0, b = 0.5)
+#' calc_LRs_wDwS_integrate_wD_mc(
+#'   xD = c(0, 0), 
+#'   xS = c(0, 1), 
+#'   shape1D = shpD[1], shape2D = shpD[2], 
+#'   wS = 1e-5, 
+#'   p = c(0.25, 0.25, 0.5),
+#'   n_samples = 100)
+#' calc_LRs_wDwS_integrate_wD_num(
+#'   xD = c(0, 0), 
+#'   xS = c(0, 1), 
+#'   shape1D = shpD[1], shape2D = shpD[2], 
+#'   wS = 1e-5, 
+#'   p = c(0.25, 0.25, 0.5))
+#' # curve(dbeta05(x, shpD[1], shpD[2]), from = 0, to = 0.5)
+#' 
+#' calc_LRs_wDwS_integrate_wD_mc(
+#'   xD = c(0, 0), 
+#'   xS = c(0, 1), 
+#'   shape1D = 1, shape2D = 1, 
+#'   wS = 1e-5, 
+#'   p = c(0.25, 0.25, 0.5),
+#'   n_samples = 100)
+#' calc_LRs_wDwS_integrate_wD_mc(
+#'   xD = c(0, 0), 
+#'   xS = c(0, 1), 
+#'   shape1D = 1, shape2D = 1, 
+#'   wS = 1e-5, 
+#'   p = c(0.25, 0.25, 0.5),
+#'   n_samples = 100)
+#' # curve(dbeta05(x, 1, 1), from = 0, to = 0.5)
+#'   
+#'   
+#' @param xD profile from case (of 0, 1, 2)
+#' @param xS profile from suspect (of 0, 1, 2)
+#' @param shape1D `wD` has beta prior (with support on 0-0.5) with parameters `shape1D` and `shape2D`
+#' @param shape2D see `shape1D`
+#' @param wS error probability for PoI sample
+#' @param p list of genotype probabilities (same length as `xD`/`xS`, or vector of length 3 for reuse)
+#'
+#' @export
+calc_LRs_wDwS_integrate_wD_num <- function(xD, xS, shape1D, shape2D, wS, p, n_samples = 100) {
+  xD <- check_x(xD)
+  xS <- check_x(xS)
+  
+  stopifnot(length(xS) == length(xD))
+  
+  # reuse
+  p <- reuse_genotype_probs(p = p, n = length(xS))
+  check_p(p)
+  stopifnot(length(p) == length(xD))
+  
+  LRs <- lapply(seq_along(p), \(i) {
+    xDi <- xD[i]
+    xSi <- xS[i]
+    pi <- p[i]
+    
+    f <- function(wD) {
+      z <- dbeta05(wD, shape1 = shape1D, shape2 = shape2D, log = TRUE) + 
+        log(calc_LRs_no_checks_wDwS(xD = xDi, xS = xSi, wD = wD, wS = wS, p = pi))
+      exp(z)
+    }
+    #f(1e-12)
+    
+    integrate(f, lower = 0, upper = 0.5)
+  })
+  
+  return(LRs)
 }

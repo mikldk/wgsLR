@@ -35,6 +35,7 @@ calc_LRs_wDwS_integrate_wD_mc(
   wS = 1e-5, 
   p = c(0.25, 0.25, 0.5),
   n_samples = 100)
+# curve(dbeta05(x, shpD[1], shpD[2]), from = 0, to = 0.5)
 calc_LRs_wDwS_integrate_wD_mc(
   xD = c(0, 0), 
   xS = c(0, 1), 
@@ -53,5 +54,6 @@ calc_LRs_wDwS_integrate_wDwS_mc(
   shape1S = shpS[1], shape2S = shpS[2], 
   p = c(0.25, 0.25, 0.5),
   n_samples = 100)
-  
+# curve(dbeta05(x, shpS[1], shpS[2]), from = 0, to = 0.5)
+
 }
