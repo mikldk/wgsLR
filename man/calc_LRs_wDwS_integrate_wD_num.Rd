@@ -4,15 +4,7 @@
 \alias{calc_LRs_wDwS_integrate_wD_num}
 \title{Calculate LR for a profile for sample-specific error probabilities integrated over the donor prior distribution using numerical integration}
 \usage{
-calc_LRs_wDwS_integrate_wD_num(
-  xD,
-  xS,
-  shape1D,
-  shape2D,
-  wS,
-  p,
-  n_samples = 100
-)
+calc_LRs_wDwS_integrate_wD_num(xD, xS, shape1D, shape2D, wS, p)
 }
 \arguments{
 \item{xD}{profile from case (of 0, 1, 2)}

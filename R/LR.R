@@ -392,7 +392,7 @@ calc_LRs_wDwS_integrate_wD_mc <- function(xD, xS, shape1D, shape2D, wS, p, n_sam
 #' @param p list of genotype probabilities (same length as `xD`/`xS`, or vector of length 3 for reuse)
 #'
 #' @export
-calc_LRs_wDwS_integrate_wD_num <- function(xD, xS, shape1D, shape2D, wS, p, n_samples = 100) {
+calc_LRs_wDwS_integrate_wD_num <- function(xD, xS, shape1D, shape2D, wS, p) {
   xD <- check_x(xD)
   xS <- check_x(xS)
   
