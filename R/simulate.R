@@ -187,8 +187,8 @@ add_errors_to_genotypes <- function(Z, w, overdisp_var = NULL) {
     #              ncol = 2)
     
     es <- if (use_overdisp) {
-        overdisp_pars <- get_beta_parameters(w, overdisp_var)
-        overdisp_ws <- rbeta(n = n, shape1 = overdisp_pars[1L], shape2 = overdisp_pars[2L])
+        overdisp_pars <- get_beta_parameters(w, overdisp_var, a = 0, b = 0.5)
+        overdisp_ws <- rbeta05(n = n, shape1 = overdisp_pars[1L], shape2 = overdisp_pars[2L])
         
         #message("overdispersion used")
         

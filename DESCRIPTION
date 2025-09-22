@@ -1,5 +1,5 @@
 Package: wgsLR
-Version: 0.0.1.9012
+Version: 0.0.1.9013
 Title: Whole-genome sequencing genotype error estimation and forensic likelihood ratios accounting for errors
 Authors@R: c(
     person(given = "Mikkel Meyer", family = "Andersen",
