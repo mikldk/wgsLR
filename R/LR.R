@@ -425,7 +425,8 @@ calc_LRs_wDwS_integrate_wD_num <- function(xD, xS, shape1D, shape2D, wS, p, lowe
       }
     }
     
-    integrate(f, lower = lower_int, upper = 0.5)
+    integrate(f, lower = lower_int, upper = 0.5, 
+              subdivisions = 10000, rel.tol = 1e-12, abs.tol = 1e-12)
   })
   
   return(LRs)
