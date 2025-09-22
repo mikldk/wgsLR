@@ -390,9 +390,10 @@ calc_LRs_wDwS_integrate_wD_mc <- function(xD, xS, shape1D, shape2D, wS, p, n_sam
 #' @param shape2D see `shape1D`
 #' @param wS error probability for PoI sample
 #' @param p list of genotype probabilities (same length as `xD`/`xS`, or vector of length 3 for reuse)
+#' @param lower_int lowest value to integrate from; should be 0, but numerical instability can make this problematic
 #'
 #' @export
-calc_LRs_wDwS_integrate_wD_num <- function(xD, xS, shape1D, shape2D, wS, p) {
+calc_LRs_wDwS_integrate_wD_num <- function(xD, xS, shape1D, shape2D, wS, p, lower_int = 0) {
   xD <- check_x(xD)
   xS <- check_x(xS)
   
@@ -424,7 +425,7 @@ calc_LRs_wDwS_integrate_wD_num <- function(xD, xS, shape1D, shape2D, wS, p) {
       }
     }
     
-    integrate(f, lower = 0, upper = 0.5)
+    integrate(f, lower = lower_int, upper = 0.5)
   })
   
   return(LRs)

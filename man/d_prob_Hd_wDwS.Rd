@@ -3,7 +3,7 @@
 \docType{data}
 \name{d_prob_Hd_wDwS}
 \alias{d_prob_Hd_wDwS}
-\title{Formulas under Hd grouped by XD and XS for sample-dependent error probabilities, $w_D$ and $w_S$}
+\title{Formulas under Hd grouped by $X^D$ and $X^S$ for sample-dependent error probabilities, $w_D$ and $w_S$}
 \format{
 An object of class \code{rowwise_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 9 rows and 5 columns.
 }
@@ -11,6 +11,6 @@ An object of class \code{rowwise_df} (inherits from \code{tbl_df}, \code{tbl}, \
 d_prob_Hd_wDwS
 }
 \description{
-Formulas under Hd grouped by XD and XS for sample-dependent error probabilities, $w_D$ and $w_S$
+Formulas under Hd grouped by $X^D$ and $X^S$ for sample-dependent error probabilities, $w_D$ and $w_S$
 }
 \keyword{datasets}

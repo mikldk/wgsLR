@@ -2,9 +2,9 @@
 % Please edit documentation in R/simulate.R
 \name{get_beta_parameters}
 \alias{get_beta_parameters}
-\title{Beta distribution parameterisation conversion}
+\title{Parameterisation conversion for beta distribution}
 \usage{
-get_beta_parameters(mu, sigmasq, a = 0, b = 1)
+get_beta_parameters(mu, sigmasq, a = 0, b = 0.5)
 }
 \arguments{
 \item{mu}{mean value}

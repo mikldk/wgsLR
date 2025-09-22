@@ -7,7 +7,7 @@
 #' Enumeration of possibilities under Hp for one error probability, $w$
 "d_formulas_Hp_w"
 
-#' Formulas under Hp grouped by XD and XS for one error probability, $w$
+#' Formulas under Hp grouped by $X^D$ and $X^S$ for one error probability, $w$
 "d_prob_Hp_w"
 
 #' Graph for enumeration of possibilities under Hp for one error probability, $w$
@@ -16,13 +16,13 @@
 #' Enumeration of possibilities under Hd for one error probability, $w$
 "d_formulas_Hd_w"
 
-#' Formulas under Hd grouped by XD and XS for one error probability, $w$
+#' Formulas under Hd grouped by $X^D$ and $X^S$ for one error probability, $w$
 "d_prob_Hd_w"
 
 #' Graph for enumeration of possibilities under Hd for one error probability, $w$
 "graph_Hd_w"
 
-#' Formulas for LR grouped by XD and XS for one error probability, $w$
+#' Formulas for LR grouped by $X^D$ and $X^S$ for one error probability, $w$
 "d_prob_LR_w"
 
 #' Probabilties for efficient sampling under Hp for one error probability, $w$
@@ -40,7 +40,7 @@
 #' Enumeration of possibilities under Hp for sample-dependent error probabilities, $w_D$ and $w_S$
 "d_formulas_Hp_wDwS"
 
-#' Formulas under Hp grouped by XD and XS for sample-dependent error probabilities, $w_D$ and $w_S$
+#' Formulas under Hp grouped by $X^D$ and $X^S$ for sample-dependent error probabilities, $w_D$ and $w_S$
 "d_prob_Hp_wDwS"
 
 #' Graph for enumeration of possibilities under Hp for sample-dependent error probabilities, $w_D$ and $w_S$
@@ -49,13 +49,13 @@
 #' Enumeration of possibilities under Hd for sample-dependent error probabilities, $w_D$ and $w_S$
 "d_formulas_Hd_wDwS"
 
-#' Formulas under Hd grouped by XD and XS for sample-dependent error probabilities, $w_D$ and $w_S$
+#' Formulas under Hd grouped by $X^D$ and $X^S$ for sample-dependent error probabilities, $w_D$ and $w_S$
 "d_prob_Hd_wDwS"
 
 #' Graph for enumeration of possibilities under Hd for sample-dependent error probabilities, $w_D$ and $w_S$
 "graph_Hd_wDwS"
 
-#' Formulas for LR grouped by XD and XS for sample-dependent error probabilities, $w_D$ and $w_S$
+#' Formulas for LR grouped by $X^D$ and $X^S$ for sample-dependent error probabilities, $w_D$ and $w_S$
 "d_prob_LR_wDwS"
 
 #' Probabilties for efficient sampling under Hp for sample-dependent error probabilities, $w_D$ and $w_S$

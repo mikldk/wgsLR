@@ -32,11 +32,11 @@ sample_data_Hd_wDwS(n = 10, wD = 0.3, wS = 1e-6, p = list(
   c(0.25, 0.25, 0.5), c(0.1, 0.8, 0.1)))
   
 cases <- sample_data_Hd_wDwS(n = 1000, wD = 1e-1, wS = 1e-8, p = c(0.25, 0.25, 0.5))
-tab <- table(X_D = cases$X_D, X_S = cases$X_S)
+tab <- table(xD = cases$xD, xS = cases$xS)
 tab
 
 cases <- sample_data_Hd_wDwS(n = 1000, wD = 0, wS = 0, p = c(0.25, 0.25, 0.5))
-tab <- table(X_D = cases$X_D, X_S = cases$X_S)
+tab <- table(xD = cases$xD, xS = cases$xS)
 tab
 
 }

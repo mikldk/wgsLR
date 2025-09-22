@@ -232,21 +232,48 @@ estimate_w_se <- function(x, w, method.args = list()) {
   return(sqrt(1/H))
 }
 
+
+#' @rdname beta05
+#' @export
 rbeta05 <- function(n, shape1, shape2) {
   rbeta(n, shape1, shape2) / 2
 }
 
+#' @rdname beta05
+#' @export
 pbeta05 <- function(x, shape1, shape2) {
   pbeta(2 * x, shape1, shape2)
 }
 
+#' @rdname beta05
+#' @export
 qbeta05 <- function(x, shape1, shape2) {
   qbeta(x, shape1, shape2) / 2
 }
 
+#' Beta distribution on (0, 0.5)
+#' 
+#' @param x number between 0 and 0.5
+#' @param n number of random samples to draw
+#' @param shape1 first shape parameter
+#' @param shape2 second shape parameter
+#' @param log return result on log scale
+#' 
+#' @rdname beta05
+#' 
+#' @examples
 #' dbeta05(0.2, 1, 5)
 #' dbeta05(0.2, 1, 5, log = TRUE)
-#' dbeta05(0.2, 1, 5) |> 
+#' dbeta05(0.2, 1, 5) |> log()
+#' 
+#' pbeta05(0.5, 1, 5)
+#' 
+#' qbeta05(1, 1, 5)
+#' 
+#' #rbeta05(100, 1, 5) |> hist(probability = TRUE)
+#' #curve(dbeta05(x, 1, 5), from = 0, to = 0.5, add = TRUE)
+#' 
+#' @export
 dbeta05 <- function(x, shape1, shape2, log = FALSE) {
   if (log) {
     d <- log(2) + dbeta(2 * x, shape1, shape2, log = TRUE)

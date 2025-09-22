@@ -3,7 +3,7 @@
 \docType{data}
 \name{d_prob_LR_w}
 \alias{d_prob_LR_w}
-\title{Formulas for LR grouped by XD and XS for one error probability, $w$}
+\title{Formulas for LR grouped by $X^D$ and $X^S$ for one error probability, $w$}
 \format{
 An object of class \code{rowwise_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 9 rows and 5 columns.
 }
@@ -11,6 +11,6 @@ An object of class \code{rowwise_df} (inherits from \code{tbl_df}, \code{tbl}, \
 d_prob_LR_w
 }
 \description{
-Formulas for LR grouped by XD and XS for one error probability, $w$
+Formulas for LR grouped by $X^D$ and $X^S$ for one error probability, $w$
 }
 \keyword{datasets}

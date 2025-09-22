@@ -40,7 +40,24 @@ sample_profiles_without_error <- function(n, p) {
   return(Z)
 }
 
-#' Beta distribution parameterisation conversion
+#' Parameterisation conversion for beta distribution
+#' 
+#' Get beta distribution's mean and variance.
+#' 
+#' @param shape1 first shape parameter
+#' @param shape2 second shape parameter
+#' @param a lower support bound
+#' @param b upper support bound
+#' 
+#' @export
+get_beta_mu_sigma <- function(shape1, shape2, a = 0, b = 0.5) {
+  mean <- a + (b - a) * shape1 / (shape1 + shape2)
+  var  <- (b - a)^2 * (shape1 * shape2) / ((shape1 + shape2)^2 * (shape1 + shape2 + 1))
+  
+  return(list(mean = mean, var = var))
+}
+
+#' Parameterisation conversion for beta distribution
 #' 
 #' Get beta distribution's two shape parameters from
 #' mean value and variance.
@@ -70,7 +87,7 @@ sample_profiles_without_error <- function(n, p) {
 #' mean(x); var(x)
 #' 
 #' @export
-get_beta_parameters <- function(mu, sigmasq, a = 0, b = 1) {
+get_beta_parameters <- function(mu, sigmasq, a = 0, b = 0.5) {
   # Normalise the mean and variance to standard Beta on [0,1]
   mu_std <- (mu - a) / (b - a)
   var_std <- sigmasq / ((b - a)^2)
@@ -215,12 +232,12 @@ add_errors_to_genotypes <- function(Z, w, overdisp_var = NULL) {
 #'   c(0.25, 0.25, 0.5), c(0.1, 0.8, 0.1)))
 #'   
 #' cases <- sample_data_Hp_w(n = 1000, w = 0.3, p = c(0.25, 0.25, 0.5))
-#' tab <- table(X_D = cases$X_D, X_S = cases$X_S)
+#' tab <- table(xD = cases$xD, xS = cases$xS)
 #' tab
 #' estimate_w(tab)
 #' 
 #' cases <- sample_data_Hp_w(n = 1000, w = 0, p = c(0.1, 0.7, 0.2))
-#' tab <- table(X_D = cases$X_D, X_S = cases$X_S)
+#' tab <- table(xD = cases$xD, xS = cases$xS)
 #' diag(tab/sum(tab))
 #'
 #' @param n number of samples
@@ -235,10 +252,10 @@ add_errors_to_genotypes <- function(Z, w, overdisp_var = NULL) {
 sample_data_Hp_w <- function(n, w, p, ...) {
   Z <- sample_profiles_without_error(n = n, p = p)
   
-  X_D <- to012(add_errors_to_genotypes(Z, w = w, ...))
-  X_S <- to012(add_errors_to_genotypes(Z, w = w, ...))
+  xD <- to012(add_errors_to_genotypes(Z, w = w, ...))
+  xS <- to012(add_errors_to_genotypes(Z, w = w, ...))
 
-  return(list(X_D = X_D, X_S = X_S))
+  return(list(xD = xD, xS = xS))
 }
 
 #' Sample cases under Hp for sample-dependent error probabilities, $w_D$ and $w_S$
@@ -252,19 +269,19 @@ sample_data_Hp_w <- function(n, w, p, ...) {
 #'   c(0.25, 0.25, 0.5), c(0.1, 0.8, 0.1)))
 #'   
 #' cases <- sample_data_Hp_wDwS(n = 1000, wD = 0, wS = 0, p = c(0.25, 0.25, 0.5))
-#' table(X_D = cases$X_D, X_S = cases$X_S)
+#' table(xD = cases$xD, xS = cases$xS)
 #' cases <- sample_data_Hp_wDwS(n = 1000, wD = 0.1, wS = 0, p = c(0.25, 0.25, 0.5))
-#' table(X_D = cases$X_D, X_S = cases$X_S)
+#' table(xD = cases$xD, xS = cases$xS)
 #' cases <- sample_data_Hp_wDwS(n = 1000, wD = 0, wS = 0.1, p = c(0.25, 0.25, 0.5))
-#' table(X_D = cases$X_D, X_S = cases$X_S)
+#' table(xD = cases$xD, xS = cases$xS)
 #'   
 #' cases <- sample_data_Hp_wDwS(n = 1000, wD = 1e-1, wS = 1e-8, p = c(0.25, 0.25, 0.5))
-#' tab <- table(X_D = cases$X_D, X_S = cases$X_S)
+#' tab <- table(xD = cases$xD, xS = cases$xS)
 #' tab
 #' estimate_w(tab)
 #' 
 #' cases <- sample_data_Hp_wDwS(n = 1000, wD = 0, wS = 0, p = c(0.1, 0.7, 0.2))
-#' tab <- table(X_D = cases$X_D, X_S = cases$X_S)
+#' tab <- table(xD = cases$xD, xS = cases$xS)
 #' diag(tab/sum(tab))
 #'
 #' @param n number of samples
@@ -280,10 +297,10 @@ sample_data_Hp_w <- function(n, w, p, ...) {
 sample_data_Hp_wDwS <- function(n, wD, wS, p, ...) {
   Z <- sample_profiles_without_error(n = n, p = p)
   
-  X_D <- to012(add_errors_to_genotypes(Z, w = wD, ...))
-  X_S <- to012(add_errors_to_genotypes(Z, w = wS, ...))
+  xD <- to012(add_errors_to_genotypes(Z, w = wD, ...))
+  xS <- to012(add_errors_to_genotypes(Z, w = wS, ...))
   
-  return(list(X_D = X_D, X_S = X_S))
+  return(list(xD = xD, xS = xS))
 }
 
 
@@ -300,7 +317,7 @@ sample_data_Hp_wDwS <- function(n, wD, wS, p, ...) {
 #'   c(0.25, 0.25, 0.5), c(0.1, 0.8, 0.1)))
 #'   
 #' cases <- sample_data_Hd_w(n = 1000, w = 0, p = c(0.25, 0.25, 0.5))
-#' tab <- table(X_D = cases$X_D, X_S = cases$X_S)
+#' tab <- table(xD = cases$xD, xS = cases$xS)
 #' tab
 #'
 #' @param n number of samples
@@ -314,13 +331,13 @@ sample_data_Hp_wDwS <- function(n, wD, wS, p, ...) {
 #' @export
 sample_data_Hd_w <- function(n, w, p, ...) {
   Z_D <- sample_profiles_without_error(n = n, p = p)
-  X_D <- to012(add_errors_to_genotypes(Z_D, w = w, ...))
+  xD <- to012(add_errors_to_genotypes(Z_D, w = w, ...))
   rm(Z_D) # to avoid using it by mistake
   
   Z_S <- sample_profiles_without_error(n = n, p = p)
-  X_S <- to012(add_errors_to_genotypes(Z_S, w = w, ...))
+  xS <- to012(add_errors_to_genotypes(Z_S, w = w, ...))
   
-  return(list(X_D = X_D, X_S = X_S))
+  return(list(xD = xD, xS = xS))
 }
 
 
@@ -336,11 +353,11 @@ sample_data_Hd_w <- function(n, w, p, ...) {
 #'   c(0.25, 0.25, 0.5), c(0.1, 0.8, 0.1)))
 #'   
 #' cases <- sample_data_Hd_wDwS(n = 1000, wD = 1e-1, wS = 1e-8, p = c(0.25, 0.25, 0.5))
-#' tab <- table(X_D = cases$X_D, X_S = cases$X_S)
+#' tab <- table(xD = cases$xD, xS = cases$xS)
 #' tab
 #' 
 #' cases <- sample_data_Hd_wDwS(n = 1000, wD = 0, wS = 0, p = c(0.25, 0.25, 0.5))
-#' tab <- table(X_D = cases$X_D, X_S = cases$X_S)
+#' tab <- table(xD = cases$xD, xS = cases$xS)
 #' tab
 #' 
 #' @param n number of samples
@@ -355,13 +372,13 @@ sample_data_Hd_w <- function(n, w, p, ...) {
 #' @export
 sample_data_Hd_wDwS <- function(n, wD, wS, p, ...) {
   Z_D <- sample_profiles_without_error(n = n, p = p)
-  X_D <- to012(add_errors_to_genotypes(Z_D, w = wD, ...))
+  xD <- to012(add_errors_to_genotypes(Z_D, w = wD, ...))
   rm(Z_D) # to avoid using it by mistake
   
   Z_S <- sample_profiles_without_error(n = n, p = p)
-  X_S <- to012(add_errors_to_genotypes(Z_S, w = wS, ...))
+  xS <- to012(add_errors_to_genotypes(Z_S, w = wS, ...))
   
-  return(list(X_D = X_D, X_S = X_S))
+  return(list(xD = xD, xS = xS))
 }
 
 

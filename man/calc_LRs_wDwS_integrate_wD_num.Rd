@@ -4,7 +4,7 @@
 \alias{calc_LRs_wDwS_integrate_wD_num}
 \title{Calculate LR for a profile for sample-specific error probabilities integrated over the donor prior distribution using numerical integration}
 \usage{
-calc_LRs_wDwS_integrate_wD_num(xD, xS, shape1D, shape2D, wS, p)
+calc_LRs_wDwS_integrate_wD_num(xD, xS, shape1D, shape2D, wS, p, lower_int = 0)
 }
 \arguments{
 \item{xD}{profile from case (of 0, 1, 2)}
@@ -18,6 +18,8 @@ calc_LRs_wDwS_integrate_wD_num(xD, xS, shape1D, shape2D, wS, p)
 \item{wS}{error probability for PoI sample}
 
 \item{p}{list of genotype probabilities (same length as \code{xD}/\code{xS}, or vector of length 3 for reuse)}
+
+\item{lower_int}{lowest value to integrate from; should be 0, but numerical instability can make this problematic}
 }
 \description{
 Calculate LR for a profile for sample-specific error probabilities integrated over the donor prior distribution using numerical integration

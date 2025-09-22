@@ -55,45 +55,45 @@ test_that("add_errors_to_genotypes", {
 test_that("sample_data_Hp_w", {
   cases <- sample_data_Hp_w(n = 1000, w = 0.3, p = c(0.25, 0.25, 0.5))
   expect_true(is.list(cases))
-  expect_equal(names(cases), c("X_D", "X_S"))
+  expect_equal(names(cases), c("xD", "xS"))
   
-  expect_equal(sort(unique(c(cases$X_D, cases$X_S))), c(0L, 1L, 2L))
+  expect_equal(sort(unique(c(cases$xD, cases$xS))), c(0L, 1L, 2L))
   
-  expect_equal(ncol(cases$X_D), 1L) # 1 locus
-  expect_equal(nrow(cases$X_D), 1000L) # 1000 individuals
+  expect_equal(ncol(cases$xD), 1L) # 1 locus
+  expect_equal(nrow(cases$xD), 1000L) # 1000 individuals
   
-  expect_equal(ncol(cases$X_S), 1L) # 1 locus
-  expect_equal(nrow(cases$X_S), 1000L) # 1000 individuals
+  expect_equal(ncol(cases$xS), 1L) # 1 locus
+  expect_equal(nrow(cases$xS), 1000L) # 1000 individuals
   
-  tab <- table(cases$X_D, cases$X_S)
+  tab <- table(cases$xD, cases$xS)
   expect_equal(dim(tab), c(3L, 3L))
   
   ####
   
   cases <- sample_data_Hp_w(n = 1000, w = 0, p = c(0.25, 0.25, 0.5))
-  expect_true(all(cases$X_D == cases$X_S))
+  expect_true(all(cases$xD == cases$xS))
 })
 
 test_that("sample_data_Hp_wDwS", {
   cases <- sample_data_Hp_wDwS(n = 1000, wD = 0.3, wS = 1e-5, p = c(0.25, 0.25, 0.5))
   expect_true(is.list(cases))
-  expect_equal(names(cases), c("X_D", "X_S"))
+  expect_equal(names(cases), c("xD", "xS"))
   
-  expect_equal(sort(unique(c(cases$X_D, cases$X_S))), c(0L, 1L, 2L))
+  expect_equal(sort(unique(c(cases$xD, cases$xS))), c(0L, 1L, 2L))
   
-  expect_equal(ncol(cases$X_D), 1L) # 1 locus
-  expect_equal(nrow(cases$X_D), 1000L) # 1000 individuals
+  expect_equal(ncol(cases$xD), 1L) # 1 locus
+  expect_equal(nrow(cases$xD), 1000L) # 1000 individuals
   
-  expect_equal(ncol(cases$X_S), 1L) # 1 locus
-  expect_equal(nrow(cases$X_S), 1000L) # 1000 individuals
+  expect_equal(ncol(cases$xS), 1L) # 1 locus
+  expect_equal(nrow(cases$xS), 1000L) # 1000 individuals
   
-  tab <- table(cases$X_D, cases$X_S)
+  tab <- table(cases$xD, cases$xS)
   expect_equal(dim(tab), c(3L, 3L))
   
   ####
   
   cases <- sample_data_Hp_wDwS(n = 1000, wD = 0, wS = 0, p = c(0.25, 0.25, 0.5))
-  expect_true(all(cases$X_D == cases$X_S))
+  expect_true(all(cases$xD == cases$xS))
 })
 
 
@@ -103,44 +103,44 @@ test_that("sample_data_Hp_wDwS", {
 test_that("sample_data_Hd_w", {
   cases <- sample_data_Hd_w(n = 1000, w = 0.3, p = c(0.25, 0.25, 0.5))
   expect_true(is.list(cases))
-  expect_equal(names(cases), c("X_D", "X_S"))
+  expect_equal(names(cases), c("xD", "xS"))
   
-  expect_equal(sort(unique(c(cases$X_D, cases$X_S))), c(0L, 1L, 2L))
+  expect_equal(sort(unique(c(cases$xD, cases$xS))), c(0L, 1L, 2L))
   
-  expect_equal(ncol(cases$X_D), 1L) # 1 locus
-  expect_equal(nrow(cases$X_D), 1000L) # 1000 individuals
+  expect_equal(ncol(cases$xD), 1L) # 1 locus
+  expect_equal(nrow(cases$xD), 1000L) # 1000 individuals
   
-  expect_equal(ncol(cases$X_S), 1L) # 1 locus
-  expect_equal(nrow(cases$X_S), 1000L) # 1000 individuals
+  expect_equal(ncol(cases$xS), 1L) # 1 locus
+  expect_equal(nrow(cases$xS), 1000L) # 1000 individuals
   
-  tab <- table(cases$X_D, cases$X_S)
+  tab <- table(cases$xD, cases$xS)
   expect_equal(dim(tab), c(3L, 3L))
   
   ####
   
   cases <- sample_data_Hd_w(n = 1000, w = 0, p = c(0.25, 0.25, 0.5))
-  expect_false(all(cases$X_D == cases$X_S))
+  expect_false(all(cases$xD == cases$xS))
 })
 
 
 test_that("sample_data_Hd_wDwS", {
   cases <- sample_data_Hd_wDwS(n = 1000, wD = 0.3, wS = 1e-5, p = c(0.25, 0.25, 0.5))
   expect_true(is.list(cases))
-  expect_equal(names(cases), c("X_D", "X_S"))
+  expect_equal(names(cases), c("xD", "xS"))
   
-  expect_equal(sort(unique(c(cases$X_D, cases$X_S))), c(0L, 1L, 2L))
+  expect_equal(sort(unique(c(cases$xD, cases$xS))), c(0L, 1L, 2L))
   
-  expect_equal(ncol(cases$X_D), 1L) # 1 locus
-  expect_equal(nrow(cases$X_D), 1000L) # 1000 individuals
+  expect_equal(ncol(cases$xD), 1L) # 1 locus
+  expect_equal(nrow(cases$xD), 1000L) # 1000 individuals
   
-  expect_equal(ncol(cases$X_S), 1L) # 1 locus
-  expect_equal(nrow(cases$X_S), 1000L) # 1000 individuals
+  expect_equal(ncol(cases$xS), 1L) # 1 locus
+  expect_equal(nrow(cases$xS), 1000L) # 1000 individuals
   
-  tab <- table(cases$X_D, cases$X_S)
+  tab <- table(cases$xD, cases$xS)
   expect_equal(dim(tab), c(3L, 3L))
   
   ####
   
   cases <- sample_data_Hd_wDwS(n = 1000, wD = 0, wS = 0, p = c(0.25, 0.25, 0.5))
-  expect_false(all(cases$X_D == cases$X_S))
+  expect_false(all(cases$xD == cases$xS))
 })
