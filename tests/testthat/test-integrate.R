@@ -72,7 +72,7 @@ test_that("exact vs numeric integration", {
       
       ####
       
-      cat("P(E | Hp) = ", x1p, "; P(E | Hd) = ", x1d, "; LR = ", (x1p / x1d), "\n")
+      #cat("P(E | Hp) = ", x1p, "; P(E | Hd) = ", x1d, "; LR = ", (x1p / x1d), "\n")
     }
   }
 })
@@ -97,8 +97,13 @@ test_that("integration uniform prior", {
   wS_shp <- get_beta_parameters(mu = wS_mean, sigmasq = wS_var, a = 0, b = 0.5)
   #curve(dbeta05(x, wS_shp[1], wS_shp[2]), from = 0, to = 1e-3); abline(v = wS_mean)
 
-  unif_LR_wD_mc <- calc_LRs_wDwS_integrate_wD_mc(xD = case$xD, xS = case$xS, shape1D = 1, shape2D = 1, wS = 1e-4, p = p, n_samples = 2000)
-  unif_LR_wD_exact <- calc_LRs_wDwS_integrate_wD(xD = case$xD, xS = case$xS, shape1D = 1, shape2D = 1, wS = 1e-4, p = p)
+  unif_LR_wD_mc <- calc_LRs_wDwS_integrate_wD_mc(xD = case$xD, xS = case$xS, 
+                                                 shape1D = 1, shape2D = 1, wS = 1e-4, p = p, 
+                                                 n_samples = 2000)
+  unif_LR_wD_exact <- calc_LRs_wDwS_integrate_wD(xD = case$xD, xS = case$xS, 
+                                                 shape1D_H1 = 1, shape2D_H1 = 1,
+                                                 shape1D_H2 = 1, shape2D_H2 = 1, 
+                                                 wS = 1e-4, p = p)
   
   WoE1 <- sum(log10(unif_LR_wD_mc))
   WoE2 <- sum(log10(unif_LR_wD_exact))
@@ -107,14 +112,15 @@ test_that("integration uniform prior", {
   
   
   ############
-  unif_LR_wD_num <- calc_LRs_wDwS_integrate_wD_num(xD = case$xD, xS = case$xS, shape1D = 1, shape2D = 1, wS = 1e-4, p = p, 
+  unif_LR_wD_num <- calc_LRs_wDwS_integrate_wD_num(xD = case$xD, xS = case$xS, 
+                                                   shape1D_H1 = 1, shape2D_H1 = 1,
+                                                   shape1D_H2 = 1, shape2D_H2 = 1, 
+                                                   wS = 1e-4, p = p, 
                                                    abs.tol = 1e-12, rel.tol = 1e-12, subdivisions = 100000)
-  unif_LR_wD_exact <- calc_LRs_wDwS_integrate_wD(xD = case$xD, xS = case$xS, shape1D = 1, shape2D = 1, wS = 1e-4, p = p)
   
-  WoE1 <- sum(log10(unif_LR_wD_num))
-  WoE2 <- sum(log10(unif_LR_wD_exact))
+  WoE3 <- sum(log10(unif_LR_wD_num))
   
-  expect_equal(WoE1, WoE2, tolerance = 1e-1)
+  expect_equal(WoE2, WoE3, tolerance = 1e-10)
   
   ############
   
@@ -135,13 +141,19 @@ test_that("exact vs numeric integration", {
 
   for (i in seq_along(case$xD)) {
     unif_LR_wD_num <- calc_LRs_wDwS_integrate_wD_num(xD = case$xD[i], xS = case$xS[i], 
-                                                     shape1D = case$shp1[i], shape2D = case$shp2[i], 
+                                                     shape1D_H1 = case$shp1[i], 
+                                                     shape2D_H1 = case$shp2[i],
+                                                     shape1D_H2 = case$shp1[i], 
+                                                     shape2D_H2 = case$shp2[i], 
                                                      wS = case$wS[i], 
                                                      p = p, 
                                                      abs.tol = 1e-13, rel.tol = 1e-13, subdivisions = 100000)
     
     unif_LR_wD_exact <- calc_LRs_wDwS_integrate_wD(xD = case$xD[i], xS = case$xS[i], 
-                                                   shape1D = case$shp1[i], shape2D = case$shp2[i], 
+                                                   shape1D_H1 = case$shp1[i], 
+                                                   shape2D_H1 = case$shp2[i],
+                                                   shape1D_H2 = case$shp1[i], 
+                                                   shape2D_H2 = case$shp2[i], 
                                                    wS = case$wS[i], 
                                                    p = p)
     
@@ -149,7 +161,7 @@ test_that("exact vs numeric integration", {
     unif_LR_wD_exact
     
     #waldo::compare(unif_LR_wD_num, unif_LR_wD_exact)
-    expect_equal(unif_LR_wD_num, unif_LR_wD_exact, tolerance = 1e-2)
+    expect_equal(unif_LR_wD_num, unif_LR_wD_exact, tolerance = 1e-10)
   }
   
 })
@@ -169,19 +181,29 @@ test_that("integration error", {
   wS_shp <- get_beta_parameters(mu = wS_mean, sigmasq = wS_var, a = 0, b = 0.5)
   #curve(dbeta05(x, wS_shp[1], wS_shp[2]), from = 0, to = 1e-3); abline(v = wS_mean)
   
-  LR_wD_num <- calc_LRs_wDwS_integrate_wD_num(xD = case$xD, xS = case$xS, shape1D = wS_shp[1], shape2D = wS_shp[2], wS = 1e-4, p = p)
-  LR_wD_num_precise <- calc_LRs_wDwS_integrate_wD_num(xD = case$xD, xS = case$xS, shape1D = wS_shp[1], shape2D = wS_shp[2], wS = 1e-4, p = p, 
-                                                           abs.tol = 1e-13, rel.tol = 1e-13, subdivisions = 100000)
+  LR_wD_num <- calc_LRs_wDwS_integrate_wD_num(xD = case$xD, xS = case$xS, 
+                                              shape1D_H1 = wS_shp[1], shape2D_H1 = wS_shp[2],
+                                              shape1D_H2 = wS_shp[1], shape2D_H2 = wS_shp[2], 
+                                              wS = 1e-4, p = p)
+  LR_wD_num_precise <- calc_LRs_wDwS_integrate_wD_num(xD = case$xD, xS = case$xS, 
+                                                      shape1D_H1 = wS_shp[1], shape2D_H1 = wS_shp[2],
+                                                      shape1D_H2 = wS_shp[1], shape2D_H2 = wS_shp[2], 
+                                                      wS = 1e-4, p = p, 
+                                                      abs.tol = 1e-13, rel.tol = 1e-13, subdivisions = 100000)
   WoE3 <- sum(log10(LR_wD_num))
   WoE4 <- sum(log10(LR_wD_num_precise))
   expect_false(isTRUE(all.equal(WoE3, WoE4)))
   ####
   
-  LR_wD <- calc_LRs_wDwS_integrate_wD(xD = case$xD, xS = case$xS, shape1D = wS_shp[1], shape2D = wS_shp[2], wS = 1e-4, p = p)
+  LR_wD <- calc_LRs_wDwS_integrate_wD(xD = case$xD, xS = case$xS, 
+                                      shape1D_H1 = wS_shp[1], shape2D_H1 = wS_shp[2],
+                                      shape1D_H2 = wS_shp[1], shape2D_H2 = wS_shp[2], 
+                                      wS = 1e-4, 
+                                      p = p)
   #LR_wD
   WoE6 <- sum(log10(LR_wD))
   #WoE6
-  expect_equal(WoE4, WoE6, tolerance = 1e-4)
+  expect_equal(WoE4, WoE6, tolerance = 1e-10)
 
 })
 

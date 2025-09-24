@@ -7,11 +7,12 @@
 calc_LRs_wDwS_integrate_wD_num(
   xD,
   xS,
-  shape1D,
-  shape2D,
+  shape1D_H1,
+  shape2D_H1,
+  shape1D_H2,
+  shape2D_H2,
   wS,
   p,
-  value_only = TRUE,
   lower_int = 0,
   ...
 )
@@ -21,15 +22,17 @@ calc_LRs_wDwS_integrate_wD_num(
 
 \item{xS}{profile from suspect (of 0, 1, 2)}
 
-\item{shape1D}{\code{wD} has beta prior (with support on 0-0.5) with parameters \code{shape1D} and \code{shape2D}}
+\item{shape1D_H1}{Under $H_1$ (in $LR$'s numerator), \code{wD} has beta prior on (0, 0.5) with parameters \code{shape1D_H1} and \code{shape2D_H1}}
 
-\item{shape2D}{see \code{shape1D}}
+\item{shape2D_H1}{see \code{shape1D_Hp}}
+
+\item{shape1D_H2}{Under $H_2$ (in $LR$'s denominator), \code{wD} has beta prior (on 0-0.5) with parameters \code{shape1D_H2} and \code{shape2D_H2}}
+
+\item{shape2D_H2}{see \code{shape1D_H2}}
 
 \item{wS}{error probability for PoI sample}
 
 \item{p}{list of genotype probabilities (same length as \code{xD}/\code{xS}, or vector of length 3 for reuse)}
-
-\item{value_only}{only return the numerical integration value, not the error}
 
 \item{lower_int}{lowest value to integrate from; should be 0, but numerical instability can make this problematic}
 

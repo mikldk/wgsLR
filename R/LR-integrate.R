@@ -347,16 +347,17 @@ calc_LRs_wDwS_integrate_wD_mc <- function(xD, xS, shape1D, shape2D, wS, p, n_sam
 #'   
 #' @param xD profile from case (of 0, 1, 2)
 #' @param xS profile from suspect (of 0, 1, 2)
-#' @param shape1D `wD` has beta prior (with support on 0-0.5) with parameters `shape1D` and `shape2D`
-#' @param shape2D see `shape1D`
+#' @param shape1D_H1 Under $H_1$ (in $LR$'s numerator), `wD` has beta prior on (0, 0.5) with parameters `shape1D_H1` and `shape2D_H1`
+#' @param shape2D_H1 see `shape1D_Hp`
+#' @param shape1D_H2 Under $H_2$ (in $LR$'s denominator), `wD` has beta prior (on 0-0.5) with parameters `shape1D_H2` and `shape2D_H2`
+#' @param shape2D_H2 see `shape1D_H2`
 #' @param wS error probability for PoI sample
 #' @param p list of genotype probabilities (same length as `xD`/`xS`, or vector of length 3 for reuse)
-#' @param value_only only return the numerical integration value, not the error
 #' @param lower_int lowest value to integrate from; should be 0, but numerical instability can make this problematic
 #' @param \dots pass on to [integrate()], e.g., `rel.tol` and `abs.tol`
 #'
 #' @export
-calc_LRs_wDwS_integrate_wD_num <- function(xD, xS, shape1D, shape2D, wS, p, value_only = TRUE, lower_int = 0, ...) {
+calc_LRs_wDwS_integrate_wD_num <- function(xD, xS, shape1D_H1, shape2D_H1, shape1D_H2, shape2D_H2, wS, p, lower_int = 0, ...) {
   xD <- check_x(xD)
   xS <- check_x(xS)
   
@@ -367,65 +368,40 @@ calc_LRs_wDwS_integrate_wD_num <- function(xD, xS, shape1D, shape2D, wS, p, valu
   check_p(p)
   stopifnot(length(p) == length(xD))
   
-  
-  # Uniform
-  funcs <- if (FALSE) {#if (abs(shape1D - 1.0) < 1e-4 & abs(shape2D - 1.0) < 1e-4) {
-    #message("Uniform/constant")
-    lapply(seq_along(p), \(i) {
-      xDi <- xD[i]
-      xSi <- xS[i]
-      pi <- p[[i]]
-      
-      f <- function(wD) {
-        LR_i_wD <- calc_LR_single_no_checks_wDwS(xD = xDi, 
-                                                 xS = xSi, 
-                                                 wD = wD, 
-                                                 wS = wS,
-                                                 p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L])
-        z <- log(2) + log(LR_i_wD)
-        exp(z)
-      }
-      
-      f
-    })
-  } else {
-    #message("dbeta05")
-    
-    lapply(seq_along(p), \(i) {
-      xDi <- xD[i]
-      xSi <- xS[i]
-      pi <- p[[i]]
-      
-      f <- function(wD) {
-        LR_num <- calc_LR_num_Hp_single_no_checks_wDwS(xD = xDi, 
-                                                       xS = xSi,
-                                                       wD = wD, 
-                                                       wS = wS,
-                                                       p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L])
-        LR_den <- calc_LR_den_Hd_single_no_checks_wDwS(xD = xDi, 
-                                                       xS = xSi,
-                                                       wD = wD, 
-                                                       wS = wS,
-                                                       p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L])
-        
-        
-        z <- dbeta05(wD, shape1 = shape1D, shape2 = shape2D, log = TRUE) + 
-          (log(LR_num) - log(LR_den))
-        
-        exp(z)
-      }
-      
-      f
-    })
-  }
-  
   LRs <- lapply(seq_along(p), \(i) {
-      integrate(funcs[[i]], lower = lower_int, upper = 0.5, ...)
-    })
+    xDi <- xD[i]
+    xSi <- xS[i]
+    pi <- p[[i]]
+    
+    f_num <- function(wD) {
+      LR_num <- calc_LR_num_Hp_single_no_checks_wDwS(xD = xDi, 
+                                                     xS = xSi,
+                                                     wD = wD, 
+                                                     wS = wS,
+                                                     p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L])
+      
+      z <- dbeta05(wD, shape1 = shape1D_H1, shape2 = shape2D_H1, log = TRUE) + log(LR_num)
+      exp(z)
+    }
+    
+    f_den <- function(wD) {
+      LR_den <- calc_LR_den_Hd_single_no_checks_wDwS(xD = xDi, 
+                                                     xS = xSi,
+                                                     wD = wD, 
+                                                     wS = wS,
+                                                     p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L])
+      
+      z <- dbeta05(wD, shape1 = shape1D_H2, shape2 = shape2D_H2, log = TRUE) + log(LR_den)
+      exp(z)
+    }
+    
+    LR_num <- integrate(f_num, lower = lower_int, upper = 0.5, ...)
+    LR_den <- integrate(f_den, lower = lower_int, upper = 0.5, ...)
+    
+    LR_num$value / LR_den$value
+  })
 
-  if (value_only) {
-    LRs <- unlist(lapply(LRs, \(z) z$value))
-  }
+  LRs <- unlist(LRs)
   
   return(LRs)
 }
@@ -469,18 +445,19 @@ calc_LRs_wDwS_integrate_wD_num <- function(xD, xS, shape1D, shape2D, wS, p, valu
 #'   
 #' @param xD profile from case (of 0, 1, 2)
 #' @param xS profile from suspect (of 0, 1, 2)
-#' @param shape1D `wD` has beta prior (with support on 0-0.5) with parameters `shape1D` and `shape2D`
-#' @param shape2D see `shape1D`
+#' @param shape1D_H1 Under $H_1$ (in $LR$'s numerator), `wD` has beta prior on (0, 0.5) with parameters `shape1D_H1` and `shape2D_H1`
+#' @param shape2D_H1 see `shape1D_Hp`
+#' @param shape1D_H2 Under $H_2$ (in $LR$'s denominator), `wD` has beta prior (on 0-0.5) with parameters `shape1D_H2` and `shape2D_H2`
+#' @param shape2D_H2 see `shape1D_H2`
 #' @param wS error probability for PoI sample
 #' @param p list of genotype probabilities (same length as `xD`/`xS`, or vector of length 3 for reuse)
-#' @param value_only only return the numerical integration value, not the error
-#' @param lower_int lowest value to integrate from; should be 0, but numerical instability can make this problematic
-#' @param \dots pass on to [integrate()], e.g., `rel.tol` and `abs.tol`
+#' @param use_mpfr use higher precision numbers via the `Rmpfr` package
+#' @param stop_on_infinite stop if infinite numbers are encountered (if so, try `use_mpfr = TRUE`)
 #' 
 #' @importFrom Rmpfr beta
 #' 
 #' @export
-calc_LRs_wDwS_integrate_wD <- function(xD, xS, shape1D, shape2D, wS, p, ...) {
+calc_LRs_wDwS_integrate_wD <- function(xD, xS, shape1D_H1, shape2D_H1, shape1D_H2, shape2D_H2, wS, p, use_mpfr = TRUE, stop_on_infinite = TRUE) {
   xD <- check_x(xD)
   xS <- check_x(xS)
   
@@ -491,25 +468,41 @@ calc_LRs_wDwS_integrate_wD <- function(xD, xS, shape1D, shape2D, wS, p, ...) {
   check_p(p)
   stopifnot(length(p) == length(xD))
   
-  shape1D <- mpfr(shape1D, precBits = 256)
-  shape2D <- mpfr(shape2D, precBits = 256)
-  wS <- mpfr(wS, precBits = 256)
+  if (use_mpfr) {
+    shape1D_H1 <- mpfr(shape1D_H1, precBits = 256)
+    shape2D_H1 <- mpfr(shape2D_H1, precBits = 256)
+    
+    shape1D_H2 <- mpfr(shape1D_H2, precBits = 256)
+    shape2D_H2 <- mpfr(shape2D_H2, precBits = 256)
+    
+    wS <- mpfr(wS, precBits = 256)
+  }
   
   LRs <- lapply(seq_along(p), \(i) {
     xDi <- xD[i]
     xSi <- xS[i]
     pi <- p[[i]]
     
-    pi <- mpfr(pi, precBits = 256)
+    if (use_mpfr) {
+      pi <- mpfr(pi, precBits = 256)
+    }
     
-    # Uniform prior has constant density 2 (on 0-0.5)
+    LR_num <- int_LR_num_Hp_single_no_checks_wDwS(xD = xDi, xS = xSi, wS = wS, p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L], shape1D = shape1D_H1, shape2D = shape2D_H1)
+    LR_den <- int_LR_den_Hd_single_no_checks_wDwS(xD = xDi, xS = xSi, wS = wS, p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L], shape1D = shape1D_H2, shape2D = shape2D_H2)
     
-    LR_num <- int_LR_num_Hp_single_no_checks_wDwS(xD = xDi, xS = xSi, wS = wS, p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L], shape1D = shape1D, shape2D = shape2D)
-    LR_den <- int_LR_den_Hd_single_no_checks_wDwS(xD = xDi, xS = xSi, wS = wS, p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L], shape1D = shape1D, shape2D = shape2D)
+    LR <- LR_num/LR_den
     
-    as.numeric(LR_num/LR_den)
+    if (use_mpfr) {
+      LR <- as.numeric(LR_num/LR_den)
+    }
+    
+    LR
   })
   LRs <- unlist(LRs)
+  
+  if (stop_on_infinite && any(!is.finite(LRs))) {
+    stop("Numeric problems, consider calling with argument use_mpfr = TRUE")
+  }
   
   return(LRs)
 }
