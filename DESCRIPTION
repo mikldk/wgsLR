@@ -12,7 +12,9 @@ Encoding: UTF-8
 Description: Forensic likelihood ratios for whole-genome sequencing accounting for errors.
 Depends: 
   R (>= 3.0),
-  methods
+  methods,
+  dplyr,
+  Rmpfr
 License: GPL
 URL: https://github.com/mikldk/wgsLR
 BugReports: https://github.com/mikldk/wgsLR/issues
