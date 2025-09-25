@@ -7,8 +7,10 @@
 calc_LRs_wDwS_integrate_wD_mc(
   xD,
   xS,
-  shape1D,
-  shape2D,
+  shape1D_H1,
+  shape2D_H1,
+  shape1D_H2,
+  shape2D_H2,
   wS,
   p,
   n_samples = 1000
@@ -19,9 +21,13 @@ calc_LRs_wDwS_integrate_wD_mc(
 
 \item{xS}{profile from suspect (of 0, 1, 2)}
 
-\item{shape1D}{\code{wD} has beta prior (with support on 0-0.5) with parameters \code{shape1D} and \code{shape2D}}
+\item{shape1D_H1}{Under $H_1$ (in $LR$'s numerator), \code{wD} has beta prior on (0, 0.5) with parameters \code{shape1D_H1} and \code{shape2D_H1}}
 
-\item{shape2D}{see \code{shape1D}}
+\item{shape2D_H1}{see \code{shape1D_Hp}}
+
+\item{shape1D_H2}{Under $H_2$ (in $LR$'s denominator), \code{wD} has beta prior (on 0-0.5) with parameters \code{shape1D_H2} and \code{shape2D_H2}}
+
+\item{shape2D_H2}{see \code{shape1D_H2}}
 
 \item{wS}{error probability for PoI sample}
 

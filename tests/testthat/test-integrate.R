@@ -98,7 +98,9 @@ test_that("integration uniform prior", {
   #curve(dbeta05(x, wS_shp[1], wS_shp[2]), from = 0, to = 1e-3); abline(v = wS_mean)
 
   unif_LR_wD_mc <- calc_LRs_wDwS_integrate_wD_mc(xD = case$xD, xS = case$xS, 
-                                                 shape1D = 1, shape2D = 1, wS = 1e-4, p = p, 
+                                                 shape1D_H1 = 1, shape2D_H1 = 1,
+                                                 shape1D_H2 = 1, shape2D_H2 = 1, 
+                                                 wS = 1e-4, p = p, 
                                                  n_samples = 2000)
   unif_LR_wD_exact <- calc_LRs_wDwS_integrate_wD(xD = case$xD, xS = case$xS, 
                                                  shape1D_H1 = 1, shape2D_H1 = 1,
@@ -209,22 +211,54 @@ test_that("integration error", {
 
 
 
-test_that("integration both error rates", {
-  q <- 0.4
-  p <- c(q^2, 2*q*(1-q), (1-q)^2)
+
+
+
+test_that("calc_LRs_wDwS_integrate_wD", {
+  LRwDwS <- calc_LRs_wDwS(c(0, 0), c(0, 0), wD = 0, wS = 0, p = c(0.25, 0.25, 0.5))
+  expect_equal(LRwDwS, c(4, 4))
   
-  case <- list(xD = structure(c(1, 1, 2, 0, 1, 0, 0, 2, 2, 1, 1, 1, 2, 1, 2, 2, 2, 0, 1, 2), dim = c(20L, 1L)), 
-               xS = structure(c(1, 1, 2, 0, 1, 0, 0, 2, 2, 1, 1, 1, 2, 1, 2, 2, 2, 0, 1, 2), dim = c(20L, 1L)))
+  LRwDwS <- calc_LRs_wDwS(c(0, 0), c(0, 1), wD = 1e-2, wS = 1e-5, p = c(0.25, 0.25, 0.5))
+  expect_equal(LRwDwS, c(3.95916096870935, 0.040068717630562))
   
+  z1 <- calc_LRs_wDwS_integrate_wD_mc(
+    xD = c(0, 0),
+    xS = c(0, 1),
+    shape1D_H1 = 1, shape2D_H1 = 1,
+    shape1D_H2 = 1, shape2D_H2 = 1,
+    wS = 1e-5,
+    p = c(0.25, 0.25, 0.5),
+    n_samples = 10000)
+  z2 <- calc_LRs_wDwS_integrate_wD_num(
+    xD = c(0, 0),
+    xS = c(0, 1),
+    shape1D_H1 = 1, shape2D_H1 = 1,
+    shape1D_H2 = 1, shape2D_H2 = 1,
+    wS = 1e-5,
+    p = c(0.25, 0.25, 0.5))
+  expect_equal(z2, c(2.5454363632, 0.727294544363689), tolerance = 1e-8)
+  expect_equal(z1, z2, tolerance = 1e-2)
   
-  wS_mean <- 1e-4
-  wS_var <- 1e-9
-  wS_shp <- get_beta_parameters(mu = wS_mean, sigmasq = wS_var, a = 0, b = 0.5)
-  wS_mean <- 1e-4
-  wS_var <- 1e-9
-  wS_shp <- get_beta_parameters(mu = wS_mean, sigmasq = wS_var, a = 0, b = 0.5)
-  
-  # Call to 
-  # calc_LRs_wDwS_integrate_wDwS_mc()
+  shpD <- get_beta_parameters(mu = 1e-2, sigmasq = 1e-6, a = 0, b = 0.5)
+  z1 <- calc_LRs_wDwS_integrate_wD_mc(
+    xD = c(0, 0),
+    xS = c(0, 1),
+    shape1D_H1 = shpD[1], shape2D_H1 = shpD[2],
+    shape1D_H2 = shpD[1], shape2D_H2 = shpD[2],
+    wS = 1e-5,
+    p = c(0.25, 0.25, 0.5),
+    n_samples = 10000)
+  z2 <- calc_LRs_wDwS_integrate_wD_num(
+    xD = c(0, 0),
+    xS = c(0, 1),
+    shape1D_H1 = shpD[1], shape2D_H1 = shpD[2],
+    shape1D_H2 = shpD[1], shape2D_H2 = shpD[2],
+    wS = 1e-5,
+    p = c(0.25, 0.25, 0.5)) 
+  expect_equal(z2, c(3.95915701153502, 0.0400645976050952), tolerance = 1e-8)
+  expect_equal(z1, z2, tolerance = 1e-2)
+  expect_equal(LRwDwS, z1, tolerance = 1e-3)
+  expect_equal(LRwDwS, z2, tolerance = 1e-3)
 })
+
 

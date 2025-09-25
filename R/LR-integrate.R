@@ -178,72 +178,6 @@ int_LR_den_Hd_single_no_checks_wDwS <- function(xD, xS, wD, wS, p_0, p_1, p_2, s
 
 
 
-
-#' Calculate LR for a profile for sample-specific error probabilities integrated over the prior distributions using Monte Carlo integration
-#' 
-#' @examples
-#' calc_LRs_wDwS(xD = c(0, 0), xS = c(0, 1), wD = 1e-2, wS = 1e-5, p = c(0.25, 0.25, 0.5))
-#' 
-#' shpD <- get_beta_parameters(mu = 1e-2, sigmasq = 2*1e-3, a = 0, b = 0.5)
-#' # curve(dbeta05(x, shpD[1L], shpD[2L]), from = 0, to = 0.5)
-#' shpS <- get_beta_parameters(mu = 1e-5, sigmasq = 2e-6, a = 0, b = 0.5)
-#' # curve(dbeta05(x, shpS[1L], shpS[2L]), from = 0, to = 0.5)
-#' 
-#' calc_LRs_wDwS_integrate_wDwS_mc(
-#'   xD = c(0, 0), 
-#'   xS = c(0, 1), 
-#'   shape1D = shpD[1], shape2D = shpD[2], 
-#'   shape1S = shpS[1], shape2S = shpS[2], 
-#'   p = c(0.25, 0.25, 0.5),
-#'   n_samples = 100)
-#'   
-#' calc_LRs_wDwS_integrate_wDwS_mc(
-#'   xD = c(0, 0), 
-#'   xS = c(0, 1), 
-#'   shape1D = 1, shape2D = 1, 
-#'   shape1S = 1, shape2S = 1, 
-#'   p = c(0.25, 0.25, 0.5),
-#'   n_samples = 100)
-#' # curve(dbeta05(x, 1, 1), from = 0, to = 0.5)
-#' 
-#' @param xD profile from case (of 0, 1, 2)
-#' @param xS profile from suspect (of 0, 1, 2)
-#' @param shape1D `wD` has beta prior (with support on 0-0.5) with parameters `shape1D` and `shape2D`
-#' @param shape2D see `shape1D`
-#' @param shape1S `wS` has beta prior (with support on 0-0.5) with parameters `shape1S` and `shape2S`
-#' @param shape2S see `shape1S`
-#' @param p list of genotype probabilities (same length as `xD`/`xS`, or vector of length 3 for reuse)
-#' @param n_samples number of random samples from each prior distribution
-#'
-#' @export
-calc_LRs_wDwS_integrate_wDwS_mc <- function(xD, xS, shape1D, shape2D, shape1S, shape2S, p, n_samples = 1000) {
-  xD <- check_x(xD)
-  xS <- check_x(xS)
-  
-  stopifnot(length(xS) == length(xD))
-  
-  # reuse
-  p <- reuse_genotype_probs(p = p, n = length(xS))
-  check_p(p)
-  stopifnot(length(p) == length(xD))
-  
-  wDs <- rbeta05(n_samples, shape1 = shape1D, shape2 = shape2D)
-  wSs <- rbeta05(n_samples, shape1 = shape1S, shape2 = shape2S)
-  
-  n2 <- n_samples*n_samples
-  
-  LR <- rep(0, length(p))
-  for (wD in wDs) {
-    for (wS in wSs) {
-      LR <- LR + calc_LRs_no_checks_wDwS(xD = xD, xS = xS, wD = wD, wS = wS, p = p)/n2
-    }
-  }
-  
-  return(LR)
-}
-
-
-
 #' Calculate LR for a profile for sample-specific error probabilities integrated over the donor prior distribution using Monte Carlo integration
 #' 
 #' @examples
@@ -280,14 +214,16 @@ calc_LRs_wDwS_integrate_wDwS_mc <- function(xD, xS, shape1D, shape2D, shape1S, s
 #' 
 #' @param xD profile from case (of 0, 1, 2)
 #' @param xS profile from suspect (of 0, 1, 2)
-#' @param shape1D `wD` has beta prior (with support on 0-0.5) with parameters `shape1D` and `shape2D`
-#' @param shape2D see `shape1D`
+#' @param shape1D_H1 Under $H_1$ (in $LR$'s numerator), `wD` has beta prior on (0, 0.5) with parameters `shape1D_H1` and `shape2D_H1`
+#' @param shape2D_H1 see `shape1D_Hp`
+#' @param shape1D_H2 Under $H_2$ (in $LR$'s denominator), `wD` has beta prior (on 0-0.5) with parameters `shape1D_H2` and `shape2D_H2`
+#' @param shape2D_H2 see `shape1D_H2`
 #' @param wS error probability for PoI sample
 #' @param p list of genotype probabilities (same length as `xD`/`xS`, or vector of length 3 for reuse)
 #' @param n_samples number of random samples from each prior distribution
 #'
 #' @export
-calc_LRs_wDwS_integrate_wD_mc <- function(xD, xS, shape1D, shape2D, wS, p, n_samples = 1000) {
+calc_LRs_wDwS_integrate_wD_mc <- function(xD, xS, shape1D_H1, shape2D_H1, shape1D_H2, shape2D_H2, wS, p, n_samples = 1000) {
   xD <- check_x(xD)
   xS <- check_x(xS)
   
@@ -298,14 +234,39 @@ calc_LRs_wDwS_integrate_wD_mc <- function(xD, xS, shape1D, shape2D, wS, p, n_sam
   check_p(p)
   stopifnot(length(p) == length(xD))
   
-  wDs <- rbeta05(n_samples, shape1 = shape1D, shape2 = shape2D)
+  wDs_H1 <- rbeta05(n_samples, shape1 = shape1D_H1, shape2 = shape2D_H1)
+  wDs_H2 <- rbeta05(n_samples, shape1 = shape1D_H2, shape2 = shape2D_H2)
   
-  LR <- rep(0, length(p))
-  for (wD in wDs) {
-    LR <- LR + calc_LRs_no_checks_wDwS(xD = xD, xS = xS, wD = wD, wS = wS, p = p)/n_samples
-  }
+  LR_mc <- lapply(seq_len(n_samples), \(i_mc) {
+    wD_H1_i_mc <- wDs_H1[i_mc]
+    wD_H2_i_mc <- wDs_H2[i_mc]
+    
+    LRs_i_mc <- unlist(lapply(seq_along(xS), function(i) {
+      pi <- p[[i]]
+      
+      LR_num <- calc_LR_num_Hp_single_no_checks_wDwS(
+        xS = xS[i], xD = xD[i], 
+        wD = wD_H1_i_mc, 
+        wS = wS,
+        p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L])
+      
+      LR_den <- calc_LR_den_Hd_single_no_checks_wDwS(
+        xS = xS[i], xD = xD[i], 
+        wD = wD_H2_i_mc, 
+        wS = wS,
+        p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L])
+      
+      LR_num / LR_den
+    }))
+    
+    LRs_i_mc
+  })
   
-  return(LR)
+  LRs <- unlist(lapply(seq_along(xS), function(i) {
+    mean(unlist(lapply(seq_along(LR_mc), \(j) LR_mc[[j]][i])))
+  }))
+  
+  return(LRs)
 }
 
 #' Calculate LR for a profile for sample-specific error probabilities integrated over the donor prior distribution using numerical integration
