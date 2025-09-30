@@ -39,7 +39,7 @@ calc_LRs_wDwS_integrate_wD_num(
 \item{\dots}{pass on to \code{\link[=integrate]{integrate()}}, e.g., \code{rel.tol} and \code{abs.tol}}
 }
 \description{
-Calculate LR for a profile for sample-specific error probabilities integrated over the donor prior distribution using numerical integration
+NOTE: Unless you have a reason, please use \code{\link[=calc_LRs_wDwS_integrate_wD]{calc_LRs_wDwS_integrate_wD()}} instead.
 }
 \examples{
 calc_LRs_wDwS(xD = c(0, 0), xS = c(0, 1), wD = 1e-2, wS = 1e-5, p = c(0.25, 0.25, 0.5))

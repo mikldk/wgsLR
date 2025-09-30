@@ -30,3 +30,15 @@ sum(p2)
 calc_LRs_wDwS(xD = c(0, 0), xS = c(0, 0), wD = 1e-2, wS = 1e-6, p = list(p1, p2))
 ```
 
+```{r}
+# shppars <- get_beta_parameters(mu = 0.1, sigmasq = 0.01); shppars; curve(dbeta05(x, shppars[1], shppars[2]), from = 0, to = 0.5)
+calc_LRs_wDwS_integrate_wD(xD = c(0, 0), xS = c(0, 0), wS = 1e-6, 
+                           shape1D_H1 = shppars[1],
+                           shape2D_H1 = shppars[2],
+                           shape1D_H2 = shppars[1],
+                           shape2D_H2 = shppars[2], 
+                           p = list(p1, p2),
+                           use_mpfr = FALSE)
+```
+
+

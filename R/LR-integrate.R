@@ -271,6 +271,8 @@ calc_LRs_wDwS_integrate_wD_mc <- function(xD, xS, shape1D_H1, shape2D_H1, shape1
 
 #' Calculate LR for a profile for sample-specific error probabilities integrated over the donor prior distribution using numerical integration
 #' 
+#' NOTE: Unless you have a reason, please use [calc_LRs_wDwS_integrate_wD()] instead.
+#' 
 #' @examples
 #' calc_LRs_wDwS(xD = c(0, 0), xS = c(0, 1), wD = 1e-2, wS = 1e-5, p = c(0.25, 0.25, 0.5))
 #' 
@@ -369,6 +371,8 @@ calc_LRs_wDwS_integrate_wD_num <- function(xD, xS, shape1D_H1, shape2D_H1, shape
 
 #' Calculate LR for a profile for sample-specific error probabilities integrated over the donor prior distribution using exact integration
 #' 
+#' NOTE: Unless you have a reason, please use [calc_LRs_wDwS_integrate_wD()] instead.
+#' 
 #' @examples
 #' calc_LRs_wDwS(xD = c(0, 0), xS = c(0, 1), wD = 1e-2, wS = 1e-5, p = c(0.25, 0.25, 0.5))
 #' 
@@ -414,11 +418,12 @@ calc_LRs_wDwS_integrate_wD_num <- function(xD, xS, shape1D_H1, shape2D_H1, shape
 #' @param p list of genotype probabilities (same length as `xD`/`xS`, or vector of length 3 for reuse)
 #' @param use_mpfr use higher precision numbers via the `Rmpfr` package
 #' @param stop_on_infinite stop if infinite numbers are encountered (if so, try `use_mpfr = TRUE`)
+#' @param mpfr_precision number of bits to use
 #' 
 #' @importFrom Rmpfr beta
 #' 
 #' @export
-calc_LRs_wDwS_integrate_wD <- function(xD, xS, shape1D_H1, shape2D_H1, shape1D_H2, shape2D_H2, wS, p, use_mpfr = TRUE, stop_on_infinite = TRUE) {
+calc_LRs_wDwS_integrate_wD <- function(xD, xS, shape1D_H1, shape2D_H1, shape1D_H2, shape2D_H2, wS, p, use_mpfr = TRUE, stop_on_infinite = TRUE, mpfr_precision = 256) {
   xD <- check_x(xD)
   xS <- check_x(xS)
   
@@ -430,13 +435,13 @@ calc_LRs_wDwS_integrate_wD <- function(xD, xS, shape1D_H1, shape2D_H1, shape1D_H
   stopifnot(length(p) == length(xD))
   
   if (use_mpfr) {
-    shape1D_H1 <- mpfr(shape1D_H1, precBits = 256)
-    shape2D_H1 <- mpfr(shape2D_H1, precBits = 256)
+    shape1D_H1 <- mpfr(shape1D_H1, precBits = mpfr_precision)
+    shape2D_H1 <- mpfr(shape2D_H1, precBits = mpfr_precision)
     
-    shape1D_H2 <- mpfr(shape1D_H2, precBits = 256)
-    shape2D_H2 <- mpfr(shape2D_H2, precBits = 256)
+    shape1D_H2 <- mpfr(shape1D_H2, precBits = mpfr_precision)
+    shape2D_H2 <- mpfr(shape2D_H2, precBits = mpfr_precision)
     
-    wS <- mpfr(wS, precBits = 256)
+    wS <- mpfr(wS, precBits = mpfr_precision)
   }
   
   LRs <- lapply(seq_along(p), \(i) {
@@ -445,7 +450,7 @@ calc_LRs_wDwS_integrate_wD <- function(xD, xS, shape1D_H1, shape2D_H1, shape1D_H
     pi <- p[[i]]
     
     if (use_mpfr) {
-      pi <- mpfr(pi, precBits = 256)
+      pi <- mpfr(pi, precBits = mpfr_precision)
     }
     
     LR_num <- int_LR_num_Hp_single_no_checks_wDwS(xD = xDi, xS = xSi, wS = wS, p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L], shape1D = shape1D_H1, shape2D = shape2D_H1)
