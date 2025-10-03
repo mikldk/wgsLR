@@ -435,26 +435,40 @@ calc_LRs_wDwS_integrate_wD <- function(xD, xS, shape1D_H1, shape2D_H1, shape1D_H
   stopifnot(length(p) == length(xD))
   
   if (use_mpfr) {
-    shape1D_H1 <- mpfr(shape1D_H1, precBits = mpfr_precision)
-    shape2D_H1 <- mpfr(shape2D_H1, precBits = mpfr_precision)
+    if (!inherits(shape1D_H1, "mpfr")) {
+      shape1D_H1 <- mpfr(shape1D_H1, precBits = mpfr_precision)
+    }
+    if (!inherits(shape2D_H1, "mpfr")) {
+      shape2D_H1 <- mpfr(shape2D_H1, precBits = mpfr_precision)
+    }
     
-    shape1D_H2 <- mpfr(shape1D_H2, precBits = mpfr_precision)
-    shape2D_H2 <- mpfr(shape2D_H2, precBits = mpfr_precision)
     
-    wS <- mpfr(wS, precBits = mpfr_precision)
+    if (!inherits(shape1D_H2, "mpfr")) {
+      shape1D_H2 <- mpfr(shape1D_H2, precBits = mpfr_precision)
+    }
+    if (!inherits(shape2D_H2, "mpfr")) {
+      shape2D_H2 <- mpfr(shape2D_H2, precBits = mpfr_precision)
+    }
+    
+    
+    if (!inherits(wS, "mpfr")) {
+      wS <- mpfr(wS, precBits = mpfr_precision)
+    }
   }
   
   LRs <- lapply(seq_along(p), \(i) {
     xDi <- xD[i]
     xSi <- xS[i]
-    pi <- p[[i]]
+    p_i <- p[[i]]
     
     if (use_mpfr) {
-      pi <- mpfr(pi, precBits = mpfr_precision)
+      if (!inherits(p_i, "mpfr")) {
+        p_i <- mpfr(p_i, precBits = mpfr_precision)
+      }
     }
     
-    LR_num <- int_LR_num_Hp_single_no_checks_wDwS(xD = xDi, xS = xSi, wS = wS, p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L], shape1D = shape1D_H1, shape2D = shape2D_H1)
-    LR_den <- int_LR_den_Hd_single_no_checks_wDwS(xD = xDi, xS = xSi, wS = wS, p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L], shape1D = shape1D_H2, shape2D = shape2D_H2)
+    LR_num <- int_LR_num_Hp_single_no_checks_wDwS(xD = xDi, xS = xSi, wS = wS, p_0 = p_i[1L], p_1 = p_i[2L], p_2 = p_i[3L], shape1D = shape1D_H1, shape2D = shape2D_H1)
+    LR_den <- int_LR_den_Hd_single_no_checks_wDwS(xD = xDi, xS = xSi, wS = wS, p_0 = p_i[1L], p_1 = p_i[2L], p_2 = p_i[3L], shape1D = shape1D_H2, shape2D = shape2D_H2)
     
     LR <- LR_num/LR_den
     
