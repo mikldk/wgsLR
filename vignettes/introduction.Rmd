@@ -14,8 +14,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, message=FALSE, warning=FALSE}
 library(wgsLR)
+library(kableExtra)
 ```
 
 # Estimating the genotype error probability, $w$
@@ -24,7 +25,7 @@ A simple example:
 
 ```{r}
 cases <- sample_data_Hp_w(n = 1000, w = 0.1, p = c(0.25, 0.25, 0.5))
-tab <- table(cases$X_D, cases$X_S)
+tab <- table(cases$xT, cases$xR)
 tab
 ```
 
@@ -68,12 +69,11 @@ credible interval (Bayesian inference).
 
 # Calculating likelihood ratios ($LR$'s)
 
-
 No errors and matching genotypes:
 
 ```{r}
-LR_contribs <- wgsLR::calc_LRs_w(xs = c(0, 0), 
-                                 xd = c(0, 0), 
+LR_contribs <- wgsLR::calc_LRs_w(xT = c(0, 0), 
+                                 xR = c(0, 0), 
                                  w = 0, 
                                  p = c(0.25, 0.25, 0.5))
 prod(LR_contribs)
@@ -82,8 +82,8 @@ prod(LR_contribs)
 No errors and non-matching genotypes:
 
 ```{r}
-LR_contribs <- wgsLR::calc_LRs_w(xs = c(0, 0), 
-                                 xd = c(1, 0), 
+LR_contribs <- wgsLR::calc_LRs_w(xT = c(1, 0), 
+                                 xR = c(0, 0), 
                                  w = 0, 
                                  p = c(0.25, 0.25, 0.5))
 prod(LR_contribs)
@@ -93,8 +93,8 @@ prod(LR_contribs)
 Errors possible and matching genotypes:
 
 ```{r}
-LR_contribs <- wgsLR::calc_LRs_w(xs = c(0, 0), 
-                                 xd = c(0, 0), 
+LR_contribs <- wgsLR::calc_LRs_w(xT = c(0, 0), 
+                                 xR = c(0, 0), 
                                  w = 0.001, 
                                  p = c(0.25, 0.25, 0.5))
 prod(LR_contribs)
@@ -103,8 +103,8 @@ prod(LR_contribs)
 Errors possible and non-matching genotypes:
 
 ```{r}
-LR_contribs <- wgsLR::calc_LRs_w(xs = c(0, 0), 
-                                 xd = c(1, 0), 
+LR_contribs <- wgsLR::calc_LRs_w(xT = c(1, 0), 
+                                 xR = c(0, 0), 
                                  w = 0.001, 
                                  p = c(0.25, 0.25, 0.5))
 prod(LR_contribs)
@@ -112,15 +112,15 @@ prod(LR_contribs)
 
 ## Different error rates
 
-Assume that the trace donor profile has $w_D = 10^{-4}$ and 
-the suspect reference profile has $w_S = 10^{-8}$. Then 
+Assume that the trace donor profile has $w_t = 10^{-4}$ and 
+the suspect reference profile has $w_r = 10^{-8}$. Then 
 the $LR$ is:
 
 ```{r}
-LR_contribs <- wgsLR::calc_LRs_wDwS(xs = c(0, 0), 
-                                    xd = c(1, 0), 
-                                    wD = 1e-4, 
-                                    wS = 1e-8,
+LR_contribs <- wgsLR::calc_LRs_wTwR(xT = c(1, 0), 
+                                    xR = c(0, 0), 
+                                    wT = 1e-4, 
+                                    wR = 1e-8,
                                     p = c(0.25, 0.25, 0.5))
 prod(LR_contribs)
 ```
@@ -133,9 +133,9 @@ For example with both packages `wgsLR` and `caracas` loaded we can do the follow
 
 ```{r, eval = require("caracas", quietly = TRUE), warning=FALSE}
 library(caracas)
-LR <- d_prob_LR_w$expr
+LR <- d_LR_w$expr
 LRw0 <- sapply(LR, \(x) as_sym(x) |> subs("w", 0) |> as_character())
-with(d_prob_LR_w, cbind(XD_MA, XS_MA, LRw0))
+with(d_LR_w, cbind(xT, xR, LRw0))
 ```
 
 
@@ -143,9 +143,9 @@ And with sample specific error rates, $w_D$ and $w_S$:
 
 ```{r, eval = require("caracas", quietly = TRUE), warning=FALSE}
 library(caracas)
-LR <- d_prob_LR_wDwS$expr
+LR <- d_LR_wTwR$expr
 LRw0 <- sapply(LR, \(x) as_sym(x) |> 
-                 subs("wD", 0) |> 
-                 subs("wS", 0) |> as_character())
-with(d_prob_LR_wDwS, cbind(XD_MA, XS_MA, LRw0))
+                 subs("wT", 0) |> 
+                 subs("wR", 0) |> as_character())
+with(d_LR_wTwR, cbind(xT, xR, LRw0))
 ```

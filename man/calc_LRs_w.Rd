@@ -4,16 +4,16 @@
 \alias{calc_LRs_w}
 \title{Calculate LR for a profile for one error probability, $w$}
 \usage{
-calc_LRs_w(xD, xS, w, p)
+calc_LRs_w(xT, xR, w, p)
 }
 \arguments{
-\item{xD}{profile from case (of 0, 1, 2)}
+\item{xT}{profile from case (of 0, 1, 2)}
 
-\item{xS}{profile from suspect (of 0, 1, 2)}
+\item{xR}{profile from suspect (of 0, 1, 2)}
 
 \item{w}{error probability}
 
-\item{p}{list of genotype probabilities (same length as \code{xD}/\code{xS}, or vector of length 3 for reuse)}
+\item{p}{list of genotype probabilities (same length as \code{xT}/\code{xR}, or vector of length 3 for reuse)}
 }
 \description{
 Calculate LR for a profile for one error probability, $w$

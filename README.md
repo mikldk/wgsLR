@@ -33,22 +33,22 @@ You can also install the package without vignettes if needed as follows:
 
 ``` r
 cases <- wgsLR::sample_data_Hp_w(n = 1000, w = 0.1, p = c(0.25, 0.25, 0.5))
-tab <- table(cases$X_D, cases$X_S)
+tab <- table(cases$xT, cases$xR)
 tab
 ```
 
     ##    
     ##       0   1   2
-    ##   0 180  55   9
-    ##   1  59 188  88
-    ##   2   4  89 328
+    ##   0 171  62   4
+    ##   1  65 193 100
+    ##   2  12  72 321
 
 ``` r
 w_mle <- wgsLR::estimate_w(tab)
 w_mle
 ```
 
-    ## [1] 0.09596158
+    ## [1] 0.1012883
 
 #### Cautionary note: not just standard VCF files
 
@@ -65,6 +65,52 @@ the genomic areas of interest (using `-L areas.interval_list`).
 
 ### Calculating likelihood ratios ($LR$’s)
 
+Same genotyping error probability for both trace sample ($x_t =$ `xT`)
+and reference sample ($x_r =$ `xR`):
+
+``` r
+tab <- wgsLR::d_LR_w[, c("xT", "xR")]
+tab$LR <- paste0("$", wgsLR::d_LR_w$expr_tex, "$")
+tab |> 
+  kbl(format = "markdown")
+```
+
+| xT | xR | LR |
+|---:|---:|:---|
+| 0 | 0 | $\frac{p_{0} \left(1 - w\right)^{4} + p_{1} w^{2} \left(1 - w\right)^{2} + p_{2} w^{4}}{p_{0}^{2} \left(1 - w\right)^{4} + 2 p_{0} p_{1} w \left(1 - w\right)^{3} + 2 p_{0} p_{2} w^{2} \left(1 - w\right)^{2} + p_{1}^{2} w^{2} \left(1 - w\right)^{2} + 2 p_{1} p_{2} w^{3} \left(1 - w\right) + p_{2}^{2} w^{4}}$ |
+| 0 | 1 | $\frac{2 p_{0} w \left(1 - w\right)^{3} + p_{1} w^{3} \left(1 - w\right) + p_{1} w \left(1 - w\right)^{3} + 2 p_{2} w^{3} \left(1 - w\right)}{2 p_{0}^{2} w \left(1 - w\right)^{3} + 3 p_{0} p_{1} w^{2} \left(1 - w\right)^{2} + p_{0} p_{1} \left(1 - w\right)^{4} + 2 p_{0} p_{2} w^{3} \left(1 - w\right) + 2 p_{0} p_{2} w \left(1 - w\right)^{3} + p_{1}^{2} w^{3} \left(1 - w\right) + p_{1}^{2} w \left(1 - w\right)^{3} + p_{1} p_{2} w^{4} + 3 p_{1} p_{2} w^{2} \left(1 - w\right)^{2} + 2 p_{2}^{2} w^{3} \left(1 - w\right)}$ |
+| 0 | 2 | $\frac{p_{0} w^{2} \left(1 - w\right)^{2} + p_{1} w^{2} \left(1 - w\right)^{2} + p_{2} w^{2} \left(1 - w\right)^{2}}{p_{0}^{2} w^{2} \left(1 - w\right)^{2} + p_{0} p_{1} w^{3} \left(1 - w\right) + p_{0} p_{1} w \left(1 - w\right)^{3} + p_{0} p_{2} w^{4} + p_{0} p_{2} \left(1 - w\right)^{4} + p_{1}^{2} w^{2} \left(1 - w\right)^{2} + p_{1} p_{2} w^{3} \left(1 - w\right) + p_{1} p_{2} w \left(1 - w\right)^{3} + p_{2}^{2} w^{2} \left(1 - w\right)^{2}}$ |
+| 1 | 0 | $\frac{2 p_{0} w \left(1 - w\right)^{3} + p_{1} w^{3} \left(1 - w\right) + p_{1} w \left(1 - w\right)^{3} + 2 p_{2} w^{3} \left(1 - w\right)}{2 p_{0}^{2} w \left(1 - w\right)^{3} + 3 p_{0} p_{1} w^{2} \left(1 - w\right)^{2} + p_{0} p_{1} \left(1 - w\right)^{4} + 2 p_{0} p_{2} w^{3} \left(1 - w\right) + 2 p_{0} p_{2} w \left(1 - w\right)^{3} + p_{1}^{2} w^{3} \left(1 - w\right) + p_{1}^{2} w \left(1 - w\right)^{3} + p_{1} p_{2} w^{4} + 3 p_{1} p_{2} w^{2} \left(1 - w\right)^{2} + 2 p_{2}^{2} w^{3} \left(1 - w\right)}$ |
+| 1 | 1 | $\frac{4 p_{0} w^{2} \left(1 - w\right)^{2} + p_{1} w^{4} + 2 p_{1} w^{2} \left(1 - w\right)^{2} + p_{1} \left(1 - w\right)^{4} + 4 p_{2} w^{2} \left(1 - w\right)^{2}}{4 p_{0}^{2} w^{2} \left(1 - w\right)^{2} + 4 p_{0} p_{1} w^{3} \left(1 - w\right) + 4 p_{0} p_{1} w \left(1 - w\right)^{3} + 8 p_{0} p_{2} w^{2} \left(1 - w\right)^{2} + p_{1}^{2} w^{4} + 2 p_{1}^{2} w^{2} \left(1 - w\right)^{2} + p_{1}^{2} \left(1 - w\right)^{4} + 4 p_{1} p_{2} w^{3} \left(1 - w\right) + 4 p_{1} p_{2} w \left(1 - w\right)^{3} + 4 p_{2}^{2} w^{2} \left(1 - w\right)^{2}}$ |
+| 1 | 2 | $\frac{2 p_{0} w^{3} \left(1 - w\right) + p_{1} w^{3} \left(1 - w\right) + p_{1} w \left(1 - w\right)^{3} + 2 p_{2} w \left(1 - w\right)^{3}}{2 p_{0}^{2} w^{3} \left(1 - w\right) + p_{0} p_{1} w^{4} + 3 p_{0} p_{1} w^{2} \left(1 - w\right)^{2} + 2 p_{0} p_{2} w^{3} \left(1 - w\right) + 2 p_{0} p_{2} w \left(1 - w\right)^{3} + p_{1}^{2} w^{3} \left(1 - w\right) + p_{1}^{2} w \left(1 - w\right)^{3} + 3 p_{1} p_{2} w^{2} \left(1 - w\right)^{2} + p_{1} p_{2} \left(1 - w\right)^{4} + 2 p_{2}^{2} w \left(1 - w\right)^{3}}$ |
+| 2 | 0 | $\frac{p_{0} w^{2} \left(1 - w\right)^{2} + p_{1} w^{2} \left(1 - w\right)^{2} + p_{2} w^{2} \left(1 - w\right)^{2}}{p_{0}^{2} w^{2} \left(1 - w\right)^{2} + p_{0} p_{1} w^{3} \left(1 - w\right) + p_{0} p_{1} w \left(1 - w\right)^{3} + p_{0} p_{2} w^{4} + p_{0} p_{2} \left(1 - w\right)^{4} + p_{1}^{2} w^{2} \left(1 - w\right)^{2} + p_{1} p_{2} w^{3} \left(1 - w\right) + p_{1} p_{2} w \left(1 - w\right)^{3} + p_{2}^{2} w^{2} \left(1 - w\right)^{2}}$ |
+| 2 | 1 | $\frac{2 p_{0} w^{3} \left(1 - w\right) + p_{1} w^{3} \left(1 - w\right) + p_{1} w \left(1 - w\right)^{3} + 2 p_{2} w \left(1 - w\right)^{3}}{2 p_{0}^{2} w^{3} \left(1 - w\right) + p_{0} p_{1} w^{4} + 3 p_{0} p_{1} w^{2} \left(1 - w\right)^{2} + 2 p_{0} p_{2} w^{3} \left(1 - w\right) + 2 p_{0} p_{2} w \left(1 - w\right)^{3} + p_{1}^{2} w^{3} \left(1 - w\right) + p_{1}^{2} w \left(1 - w\right)^{3} + 3 p_{1} p_{2} w^{2} \left(1 - w\right)^{2} + p_{1} p_{2} \left(1 - w\right)^{4} + 2 p_{2}^{2} w \left(1 - w\right)^{3}}$ |
+| 2 | 2 | $\frac{p_{0} w^{4} + p_{1} w^{2} \left(1 - w\right)^{2} + p_{2} \left(1 - w\right)^{4}}{p_{0}^{2} w^{4} + 2 p_{0} p_{1} w^{3} \left(1 - w\right) + 2 p_{0} p_{2} w^{2} \left(1 - w\right)^{2} + p_{1}^{2} w^{2} \left(1 - w\right)^{2} + 2 p_{1} p_{2} w \left(1 - w\right)^{3} + p_{2}^{2} \left(1 - w\right)^{4}}$ |
+
+Sample-specific genotyping error probabilities $w_t$ and $w_r$ for trace
+sample ($x_t =$ `xT`) and reference sample ($x_r =$ `xR`), repectively:
+
+``` r
+tab <- wgsLR::d_LR_wTwR[, c("xT", "xR")]
+tab$LR <- paste0("$", wgsLR::d_LR_wTwR$expr_tex, "$")
+tab |> 
+  kbl(format = "markdown")
+```
+
+| xT | xR | LR |
+|---:|---:|:---|
+| 0 | 0 | $\frac{p_{0} \left(w_r - 1\right)^{2} \left(w_t - 1\right)^{2} + p_{1} w_r w_t \left(w_r - 1\right) \left(w_t - 1\right) + p_{2} w_r^{2} w_t^{2}}{p_{0}^{2} \left(w_r - 1\right)^{2} \left(w_t - 1\right)^{2} - p_{0} p_{1} w_r \left(w_r - 1\right) \left(w_t - 1\right)^{2} - p_{0} p_{1} w_t \left(w_r - 1\right)^{2} \left(w_t - 1\right) + p_{0} p_{2} w_r^{2} \left(w_t - 1\right)^{2} + p_{0} p_{2} w_t^{2} \left(w_r - 1\right)^{2} + p_{1}^{2} w_r w_t \left(w_r - 1\right) \left(w_t - 1\right) - p_{1} p_{2} w_r^{2} w_t \left(w_t - 1\right) - p_{1} p_{2} w_r w_t^{2} \left(w_r - 1\right) + p_{2}^{2} w_r^{2} w_t^{2}}$ |
+| 0 | 1 | $\frac{2 p_{0} w_r \left(w_r - 1\right) \left(w_t - 1\right)^{2} + p_{1} w_r^{2} w_t \left(w_t - 1\right) + p_{1} w_t \left(w_r - 1\right)^{2} \left(w_t - 1\right) + 2 p_{2} w_r w_t^{2} \left(w_r - 1\right)}{2 p_{0}^{2} w_r \left(w_r - 1\right) \left(w_t - 1\right)^{2} - p_{0} p_{1} w_r^{2} \left(w_t - 1\right)^{2} - 2 p_{0} p_{1} w_r w_t \left(w_r - 1\right) \left(w_t - 1\right) - p_{0} p_{1} \left(w_r - 1\right)^{2} \left(w_t - 1\right)^{2} + 2 p_{0} p_{2} w_r w_t^{2} \left(w_r - 1\right) + 2 p_{0} p_{2} w_r \left(w_r - 1\right) \left(w_t - 1\right)^{2} + p_{1}^{2} w_r^{2} w_t \left(w_t - 1\right) + p_{1}^{2} w_t \left(w_r - 1\right)^{2} \left(w_t - 1\right) - p_{1} p_{2} w_r^{2} w_t^{2} - 2 p_{1} p_{2} w_r w_t \left(w_r - 1\right) \left(w_t - 1\right) - p_{1} p_{2} w_t^{2} \left(w_r - 1\right)^{2} + 2 p_{2}^{2} w_r w_t^{2} \left(w_r - 1\right)}$ |
+| 0 | 2 | $\frac{p_{0} w_r^{2} \left(w_t - 1\right)^{2} + p_{1} w_r w_t \left(w_r - 1\right) \left(w_t - 1\right) + p_{2} w_t^{2} \left(w_r - 1\right)^{2}}{p_{0}^{2} w_r^{2} \left(w_t - 1\right)^{2} - p_{0} p_{1} w_r^{2} w_t \left(w_t - 1\right) - p_{0} p_{1} w_r \left(w_r - 1\right) \left(w_t - 1\right)^{2} + p_{0} p_{2} w_r^{2} w_t^{2} + p_{0} p_{2} \left(w_r - 1\right)^{2} \left(w_t - 1\right)^{2} + p_{1}^{2} w_r w_t \left(w_r - 1\right) \left(w_t - 1\right) - p_{1} p_{2} w_r w_t^{2} \left(w_r - 1\right) - p_{1} p_{2} w_t \left(w_r - 1\right)^{2} \left(w_t - 1\right) + p_{2}^{2} w_t^{2} \left(w_r - 1\right)^{2}}$ |
+| 1 | 0 | $\frac{2 p_{0} w_t \left(w_r - 1\right)^{2} \left(w_t - 1\right) + p_{1} w_r w_t^{2} \left(w_r - 1\right) + p_{1} w_r \left(w_r - 1\right) \left(w_t - 1\right)^{2} + 2 p_{2} w_r^{2} w_t \left(w_t - 1\right)}{2 p_{0}^{2} w_t \left(w_r - 1\right)^{2} \left(w_t - 1\right) - 2 p_{0} p_{1} w_r w_t \left(w_r - 1\right) \left(w_t - 1\right) - p_{0} p_{1} w_t^{2} \left(w_r - 1\right)^{2} - p_{0} p_{1} \left(w_r - 1\right)^{2} \left(w_t - 1\right)^{2} + 2 p_{0} p_{2} w_r^{2} w_t \left(w_t - 1\right) + 2 p_{0} p_{2} w_t \left(w_r - 1\right)^{2} \left(w_t - 1\right) + p_{1}^{2} w_r w_t^{2} \left(w_r - 1\right) + p_{1}^{2} w_r \left(w_r - 1\right) \left(w_t - 1\right)^{2} - p_{1} p_{2} w_r^{2} w_t^{2} - p_{1} p_{2} w_r^{2} \left(w_t - 1\right)^{2} - 2 p_{1} p_{2} w_r w_t \left(w_r - 1\right) \left(w_t - 1\right) + 2 p_{2}^{2} w_r^{2} w_t \left(w_t - 1\right)}$ |
+| 1 | 1 | $\frac{- 4 p_{0} w_r w_t \left(w_r - 1\right) \left(w_t - 1\right) - p_{1} w_r^{2} w_t^{2} - p_{1} w_r^{2} \left(w_t - 1\right)^{2} - p_{1} w_t^{2} \left(w_r - 1\right)^{2} - p_{1} \left(w_r - 1\right)^{2} \left(w_t - 1\right)^{2} - 4 p_{2} w_r w_t \left(w_r - 1\right) \left(w_t - 1\right)}{- 4 p_{0}^{2} w_r w_t \left(w_r - 1\right) \left(w_t - 1\right) + 2 p_{0} p_{1} w_r^{2} w_t \left(w_t - 1\right) + 2 p_{0} p_{1} w_r w_t^{2} \left(w_r - 1\right) + 2 p_{0} p_{1} w_r \left(w_r - 1\right) \left(w_t - 1\right)^{2} + 2 p_{0} p_{1} w_t \left(w_r - 1\right)^{2} \left(w_t - 1\right) - 8 p_{0} p_{2} w_r w_t \left(w_r - 1\right) \left(w_t - 1\right) - p_{1}^{2} w_r^{2} w_t^{2} - p_{1}^{2} w_r^{2} \left(w_t - 1\right)^{2} - p_{1}^{2} w_t^{2} \left(w_r - 1\right)^{2} - p_{1}^{2} \left(w_r - 1\right)^{2} \left(w_t - 1\right)^{2} + 2 p_{1} p_{2} w_r^{2} w_t \left(w_t - 1\right) + 2 p_{1} p_{2} w_r w_t^{2} \left(w_r - 1\right) + 2 p_{1} p_{2} w_r \left(w_r - 1\right) \left(w_t - 1\right)^{2} + 2 p_{1} p_{2} w_t \left(w_r - 1\right)^{2} \left(w_t - 1\right) - 4 p_{2}^{2} w_r w_t \left(w_r - 1\right) \left(w_t - 1\right)}$ |
+| 1 | 2 | $\frac{2 p_{0} w_r^{2} w_t \left(w_t - 1\right) + p_{1} w_r w_t^{2} \left(w_r - 1\right) + p_{1} w_r \left(w_r - 1\right) \left(w_t - 1\right)^{2} + 2 p_{2} w_t \left(w_r - 1\right)^{2} \left(w_t - 1\right)}{2 p_{0}^{2} w_r^{2} w_t \left(w_t - 1\right) - p_{0} p_{1} w_r^{2} w_t^{2} - p_{0} p_{1} w_r^{2} \left(w_t - 1\right)^{2} - 2 p_{0} p_{1} w_r w_t \left(w_r - 1\right) \left(w_t - 1\right) + 2 p_{0} p_{2} w_r^{2} w_t \left(w_t - 1\right) + 2 p_{0} p_{2} w_t \left(w_r - 1\right)^{2} \left(w_t - 1\right) + p_{1}^{2} w_r w_t^{2} \left(w_r - 1\right) + p_{1}^{2} w_r \left(w_r - 1\right) \left(w_t - 1\right)^{2} - 2 p_{1} p_{2} w_r w_t \left(w_r - 1\right) \left(w_t - 1\right) - p_{1} p_{2} w_t^{2} \left(w_r - 1\right)^{2} - p_{1} p_{2} \left(w_r - 1\right)^{2} \left(w_t - 1\right)^{2} + 2 p_{2}^{2} w_t \left(w_r - 1\right)^{2} \left(w_t - 1\right)}$ |
+| 2 | 0 | $\frac{p_{0} w_t^{2} \left(w_r - 1\right)^{2} + p_{1} w_r w_t \left(w_r - 1\right) \left(w_t - 1\right) + p_{2} w_r^{2} \left(w_t - 1\right)^{2}}{p_{0}^{2} w_t^{2} \left(w_r - 1\right)^{2} - p_{0} p_{1} w_r w_t^{2} \left(w_r - 1\right) - p_{0} p_{1} w_t \left(w_r - 1\right)^{2} \left(w_t - 1\right) + p_{0} p_{2} w_r^{2} w_t^{2} + p_{0} p_{2} \left(w_r - 1\right)^{2} \left(w_t - 1\right)^{2} + p_{1}^{2} w_r w_t \left(w_r - 1\right) \left(w_t - 1\right) - p_{1} p_{2} w_r^{2} w_t \left(w_t - 1\right) - p_{1} p_{2} w_r \left(w_r - 1\right) \left(w_t - 1\right)^{2} + p_{2}^{2} w_r^{2} \left(w_t - 1\right)^{2}}$ |
+| 2 | 1 | $\frac{2 p_{0} w_r w_t^{2} \left(w_r - 1\right) + p_{1} w_r^{2} w_t \left(w_t - 1\right) + p_{1} w_t \left(w_r - 1\right)^{2} \left(w_t - 1\right) + 2 p_{2} w_r \left(w_r - 1\right) \left(w_t - 1\right)^{2}}{2 p_{0}^{2} w_r w_t^{2} \left(w_r - 1\right) - p_{0} p_{1} w_r^{2} w_t^{2} - 2 p_{0} p_{1} w_r w_t \left(w_r - 1\right) \left(w_t - 1\right) - p_{0} p_{1} w_t^{2} \left(w_r - 1\right)^{2} + 2 p_{0} p_{2} w_r w_t^{2} \left(w_r - 1\right) + 2 p_{0} p_{2} w_r \left(w_r - 1\right) \left(w_t - 1\right)^{2} + p_{1}^{2} w_r^{2} w_t \left(w_t - 1\right) + p_{1}^{2} w_t \left(w_r - 1\right)^{2} \left(w_t - 1\right) - p_{1} p_{2} w_r^{2} \left(w_t - 1\right)^{2} - 2 p_{1} p_{2} w_r w_t \left(w_r - 1\right) \left(w_t - 1\right) - p_{1} p_{2} \left(w_r - 1\right)^{2} \left(w_t - 1\right)^{2} + 2 p_{2}^{2} w_r \left(w_r - 1\right) \left(w_t - 1\right)^{2}}$ |
+| 2 | 2 | $\frac{p_{0} w_r^{2} w_t^{2} + p_{1} w_r w_t \left(w_r - 1\right) \left(w_t - 1\right) + p_{2} \left(w_r - 1\right)^{2} \left(w_t - 1\right)^{2}}{p_{0}^{2} w_r^{2} w_t^{2} - p_{0} p_{1} w_r^{2} w_t \left(w_t - 1\right) - p_{0} p_{1} w_r w_t^{2} \left(w_r - 1\right) + p_{0} p_{2} w_r^{2} \left(w_t - 1\right)^{2} + p_{0} p_{2} w_t^{2} \left(w_r - 1\right)^{2} + p_{1}^{2} w_r w_t \left(w_r - 1\right) \left(w_t - 1\right) - p_{1} p_{2} w_r \left(w_r - 1\right) \left(w_t - 1\right)^{2} - p_{1} p_{2} w_t \left(w_r - 1\right)^{2} \left(w_t - 1\right) + p_{2}^{2} \left(w_r - 1\right)^{2} \left(w_t - 1\right)^{2}}$ |
+
+#### Example
+
 Assume that a trace sample had four loci with genotypes (0/1 = 1, 0/0 =
 0, 1/1 = 2, 1/1 = 2). A person of interest is then typed for the same
 four loci and has genotypes (0/0 = 0, 0/0 = 0, 1/1 = 2, 1/1 = 2), i.e. a
@@ -76,8 +122,8 @@ For simplicity, assume that the genotype probabilites are P(0/0 = 0) =
 If no errors are possible, then $w=0$ and
 
 ``` r
-wgsLR::calc_LRs_w(xs = c(0, 0, 2, 2), 
-                  xd = c(1, 0, 2, 2), 
+wgsLR::calc_LRs_w(xT = c(1, 0, 2, 2),
+                  xR = c(0, 0, 2, 2), 
                   w = 0, 
                   p = c(0.25, 0.25, 0.5))
 ```
@@ -90,8 +136,8 @@ If instead we acknowledge that errors are possible, then for $w = 0.001$
 we obtain that
 
 ``` r
-LR_contribs <- wgsLR::calc_LRs_w(xs = c(0, 0, 2, 2), 
-                                 xd = c(1, 0, 2, 2), 
+LR_contribs <- wgsLR::calc_LRs_w(xT = c(1, 0, 2, 2), 
+                                 xR = c(0, 0, 2, 2), 
                                  w = 0.001, 
                                  p = c(0.25, 0.25, 0.5))
 LR_contribs
@@ -109,8 +155,8 @@ We can also consider the $LR$s for a range for plausible values of $w$:
 
 ``` r
 ws <- c(1e-6, 1e-3, 1e-2, 1e-1)
-LRs <- sapply(ws, \(w) wgsLR::calc_LRs_w(xs = c(0, 0, 2, 2), 
-                                         xd = c(1, 0, 2, 2), 
+LRs <- sapply(ws, \(w) wgsLR::calc_LRs_w(xT = c(0, 0, 2, 2), 
+                                         xR = c(1, 0, 2, 2), 
                                          w = w, 
                                          p = c(0.25, 0.25, 0.5)) |> 
                 prod())
@@ -130,10 +176,10 @@ Assume that the trace donor profile has $w_D = 10^{-4}$ and the suspect
 reference profile has $w_S = 10^{-8}$. Then the $LR$ is:
 
 ``` r
-LR_contribs <- wgsLR::calc_LRs_wDwS(xs = c(0, 0, 2, 2), 
-                                    xd = c(1, 0, 2, 2), 
-                                    wD = 1e-4, 
-                                    wS = 1e-8,
+LR_contribs <- wgsLR::calc_LRs_wTwR(xT = c(1, 0, 2, 2), 
+                                    xR = c(0, 0, 2, 2), 
+                                    wT = 1e-4, 
+                                    wR = 1e-8,
                                     p = c(0.25, 0.25, 0.5))
 prod(LR_contribs)
 ```

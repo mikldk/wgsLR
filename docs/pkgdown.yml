@@ -1,8 +1,8 @@
-pandoc: '3.2'
-pkgdown: 2.0.7
+pandoc: '3.4'
+pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
+  error-rate-uncertainty: error-rate-uncertainty.html
   introduction: introduction.html
   using-stan: using-stan.html
-last_built: 2025-02-03T13:16Z
-
+last_built: 2025-10-16T08:34Z

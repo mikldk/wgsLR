@@ -15,9 +15,9 @@ add_errors_Hd_w(tab, w)
 Add Hd-errors to table for one error probability, $w$
 }
 \examples{
-Z_D <- sample_profiles_without_error(n = 1000, p = c(0.25, 0.25, 0.5))
-Z_S <- sample_profiles_without_error(n = 1000, p = c(0.25, 0.25, 0.5))
-tab <- table(to012(Z_D), to012(Z_S))
+zT <- sample_profiles_without_error(n = 1000, p = c(0.25, 0.25, 0.5))
+zR <- sample_profiles_without_error(n = 1000, p = c(0.25, 0.25, 0.5))
+tab <- table(to012(zT), to012(zR))
 tab
 new_tab <- add_errors_Hd_w(tab, w = 0.15)
 new_tab

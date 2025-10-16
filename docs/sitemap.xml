@@ -1,201 +1,90 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/articles/introduction.html</loc>
-  </url>
-  <url>
-    <loc>/articles/using-stan.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/add_errors_Hd.html</loc>
-  </url>
-  <url>
-    <loc>/reference/add_errors_Hd_w.html</loc>
-  </url>
-  <url>
-    <loc>/reference/add_errors_Hd_wDwS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/add_errors_Hp.html</loc>
-  </url>
-  <url>
-    <loc>/reference/add_errors_Hp_w.html</loc>
-  </url>
-  <url>
-    <loc>/reference/add_errors_Hp_wDwS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/add_errors_to_genotypes.html</loc>
-  </url>
-  <url>
-    <loc>/reference/allele_probs_to_geno_probs.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_LRs.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_LRs_w.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_LRs_wDwS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/d_formulas_Hd.html</loc>
-  </url>
-  <url>
-    <loc>/reference/d_formulas_Hd_w.html</loc>
-  </url>
-  <url>
-    <loc>/reference/d_formulas_Hd_wDwS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/d_formulas_Hp.html</loc>
-  </url>
-  <url>
-    <loc>/reference/d_formulas_Hp_w.html</loc>
-  </url>
-  <url>
-    <loc>/reference/d_formulas_Hp_wDwS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/d_formulas_single.html</loc>
-  </url>
-  <url>
-    <loc>/reference/d_prob_Hd.html</loc>
-  </url>
-  <url>
-    <loc>/reference/d_prob_Hd_w.html</loc>
-  </url>
-  <url>
-    <loc>/reference/d_prob_Hd_wDwS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/d_prob_Hp.html</loc>
-  </url>
-  <url>
-    <loc>/reference/d_prob_Hp_w.html</loc>
-  </url>
-  <url>
-    <loc>/reference/d_prob_Hp_wDwS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/d_prob_LR.html</loc>
-  </url>
-  <url>
-    <loc>/reference/d_prob_LR_w.html</loc>
-  </url>
-  <url>
-    <loc>/reference/d_prob_LR_wDwS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/d_probtable_Hd.html</loc>
-  </url>
-  <url>
-    <loc>/reference/d_probtable_Hd_w.html</loc>
-  </url>
-  <url>
-    <loc>/reference/d_probtable_Hd_wDwS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/d_probtable_Hp.html</loc>
-  </url>
-  <url>
-    <loc>/reference/d_probtable_Hp_w.html</loc>
-  </url>
-  <url>
-    <loc>/reference/d_probtable_Hp_wDwS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/estimate_w.html</loc>
-  </url>
-  <url>
-    <loc>/reference/estimate_w_bayesian.html</loc>
-  </url>
-  <url>
-    <loc>/reference/estimate_w_se.html</loc>
-  </url>
-  <url>
-    <loc>/reference/extract_profile.html</loc>
-  </url>
-  <url>
-    <loc>/reference/extract_profile_v1.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_beta_parameters.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_ns.html</loc>
-  </url>
-  <url>
-    <loc>/reference/graph_Hd.html</loc>
-  </url>
-  <url>
-    <loc>/reference/graph_Hd_w.html</loc>
-  </url>
-  <url>
-    <loc>/reference/graph_Hd_wDwS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/graph_Hp.html</loc>
-  </url>
-  <url>
-    <loc>/reference/graph_Hp_w.html</loc>
-  </url>
-  <url>
-    <loc>/reference/graph_Hp_wDwS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/graph_single.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/marker_candidates_v1.html</loc>
-  </url>
-  <url>
-    <loc>/reference/posterior_samples.html</loc>
-  </url>
-  <url>
-    <loc>/reference/reuse_genotype_probs.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sample_data_Hd.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sample_data_Hd_w.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sample_data_Hd_wDwS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sample_data_Hp.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sample_data_Hp_w.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sample_data_Hp_wDwS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sample_profiles_without_error.html</loc>
-  </url>
-  <url>
-    <loc>/reference/to012.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/articles/error-rate-uncertainty.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/articles/introduction.html</loc></url>
+<url><loc>/articles/using-stan.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/news/index.html</loc></url>
+<url><loc>/reference/add_errors_Hd.html</loc></url>
+<url><loc>/reference/add_errors_Hd_w.html</loc></url>
+<url><loc>/reference/add_errors_Hd_wDwS.html</loc></url>
+<url><loc>/reference/add_errors_Hd_wTwR.html</loc></url>
+<url><loc>/reference/add_errors_Hp.html</loc></url>
+<url><loc>/reference/add_errors_Hp_w.html</loc></url>
+<url><loc>/reference/add_errors_Hp_wDwS.html</loc></url>
+<url><loc>/reference/add_errors_Hp_wTwR.html</loc></url>
+<url><loc>/reference/add_errors_to_genotypes.html</loc></url>
+<url><loc>/reference/allele_probs_to_geno_probs.html</loc></url>
+<url><loc>/reference/beta05.html</loc></url>
+<url><loc>/reference/calc_LRs.html</loc></url>
+<url><loc>/reference/calc_LRs_w.html</loc></url>
+<url><loc>/reference/calc_LRs_wDwS.html</loc></url>
+<url><loc>/reference/calc_LRs_wTwR.html</loc></url>
+<url><loc>/reference/calc_LRs_wTwR_integrate_wT.html</loc></url>
+<url><loc>/reference/calc_LRs_wTwR_integrate_wT_mc.html</loc></url>
+<url><loc>/reference/calc_LRs_wTwR_integrate_wT_num.html</loc></url>
+<url><loc>/reference/d_LR_w.html</loc></url>
+<url><loc>/reference/d_LR_wTwR.html</loc></url>
+<url><loc>/reference/d_formulas_Hd.html</loc></url>
+<url><loc>/reference/d_formulas_Hd_w.html</loc></url>
+<url><loc>/reference/d_formulas_Hd_wDwS.html</loc></url>
+<url><loc>/reference/d_formulas_Hd_wTwR.html</loc></url>
+<url><loc>/reference/d_formulas_Hp.html</loc></url>
+<url><loc>/reference/d_formulas_Hp_w.html</loc></url>
+<url><loc>/reference/d_formulas_Hp_wDwS.html</loc></url>
+<url><loc>/reference/d_formulas_Hp_wTwR.html</loc></url>
+<url><loc>/reference/d_formulas_single.html</loc></url>
+<url><loc>/reference/d_prob_Hd.html</loc></url>
+<url><loc>/reference/d_prob_Hd_w.html</loc></url>
+<url><loc>/reference/d_prob_Hd_wDwS.html</loc></url>
+<url><loc>/reference/d_prob_Hd_wTwR.html</loc></url>
+<url><loc>/reference/d_prob_Hp.html</loc></url>
+<url><loc>/reference/d_prob_Hp_w.html</loc></url>
+<url><loc>/reference/d_prob_Hp_wDwS.html</loc></url>
+<url><loc>/reference/d_prob_Hp_wTwR.html</loc></url>
+<url><loc>/reference/d_prob_LR.html</loc></url>
+<url><loc>/reference/d_prob_LR_w.html</loc></url>
+<url><loc>/reference/d_prob_LR_wDwS.html</loc></url>
+<url><loc>/reference/d_probtable_Hd.html</loc></url>
+<url><loc>/reference/d_probtable_Hd_w.html</loc></url>
+<url><loc>/reference/d_probtable_Hd_wDwS.html</loc></url>
+<url><loc>/reference/d_probtable_Hd_wTwR.html</loc></url>
+<url><loc>/reference/d_probtable_Hp.html</loc></url>
+<url><loc>/reference/d_probtable_Hp_w.html</loc></url>
+<url><loc>/reference/d_probtable_Hp_wDwS.html</loc></url>
+<url><loc>/reference/d_probtable_Hp_wTwR.html</loc></url>
+<url><loc>/reference/estimate_w.html</loc></url>
+<url><loc>/reference/estimate_w_bayesian.html</loc></url>
+<url><loc>/reference/estimate_w_se.html</loc></url>
+<url><loc>/reference/extract_profile.html</loc></url>
+<url><loc>/reference/extract_profile_v1.html</loc></url>
+<url><loc>/reference/get_beta_mu_sigma.html</loc></url>
+<url><loc>/reference/get_beta_parameters.html</loc></url>
+<url><loc>/reference/get_ns.html</loc></url>
+<url><loc>/reference/graph_Hd.html</loc></url>
+<url><loc>/reference/graph_Hd_w.html</loc></url>
+<url><loc>/reference/graph_Hd_wDwS.html</loc></url>
+<url><loc>/reference/graph_Hd_wTwR.html</loc></url>
+<url><loc>/reference/graph_Hp.html</loc></url>
+<url><loc>/reference/graph_Hp_w.html</loc></url>
+<url><loc>/reference/graph_Hp_wDwS.html</loc></url>
+<url><loc>/reference/graph_Hp_wTwR.html</loc></url>
+<url><loc>/reference/graph_single.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/marker_candidates_v1.html</loc></url>
+<url><loc>/reference/posterior_samples.html</loc></url>
+<url><loc>/reference/reuse_genotype_probs.html</loc></url>
+<url><loc>/reference/sample_data_Hd.html</loc></url>
+<url><loc>/reference/sample_data_Hd_w.html</loc></url>
+<url><loc>/reference/sample_data_Hd_wDwS.html</loc></url>
+<url><loc>/reference/sample_data_Hd_wTwR.html</loc></url>
+<url><loc>/reference/sample_data_Hp.html</loc></url>
+<url><loc>/reference/sample_data_Hp_w.html</loc></url>
+<url><loc>/reference/sample_data_Hp_wDwS.html</loc></url>
+<url><loc>/reference/sample_data_Hp_wTwR.html</loc></url>
+<url><loc>/reference/sample_profiles_without_error.html</loc></url>
+<url><loc>/reference/to012.html</loc></url>
 </urlset>
+

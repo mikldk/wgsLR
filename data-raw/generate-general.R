@@ -9,9 +9,9 @@ haps <- c("0/0", "0/1", "1/1")
 add_group <- function(d) {
   d |> 
     mutate(group = case_when(
-      XD_MA == XS_MA ~ "diag",
-      abs(XD_MA - XS_MA) == 1L ~ "off-diag",
-      abs(XD_MA - XS_MA) == 2L ~ "corners",
+      XT_MA == XR_MA ~ "diag",
+      abs(XT_MA - XR_MA) == 1L ~ "off-diag",
+      abs(XT_MA - XR_MA) == 2L ~ "corners",
       TRUE ~ "unknown"
     ))
 }

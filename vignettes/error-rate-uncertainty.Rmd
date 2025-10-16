@@ -2,7 +2,7 @@
 title: "Error rate uncertainty"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{error-rate-uncertainty}
+  %\VignetteIndexEntry{Error rate uncertainty}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, message=FALSE, warning=FALSE}
 library(wgsLR)
 ```
 
@@ -25,18 +25,21 @@ sum(p1)
 q2 <- 0.3
 p2 <- c(q2^2, 2*q2*(1-q2), (1-q2)^2)
 sum(p2)
-# s: suspect
-# d: donor
-calc_LRs_wDwS(xD = c(0, 0), xS = c(0, 0), wD = 1e-2, wS = 1e-6, p = list(p1, p2))
+# t: trace sample
+# r: reference sample
+calc_LRs_wTwR(xT = c(0, 0), xR = c(0, 0), wT = 1e-2, wR = 1e-6, p = list(p1, p2))
 ```
 
 ```{r}
-# shppars <- get_beta_parameters(mu = 0.1, sigmasq = 0.01); shppars; curve(dbeta05(x, shppars[1], shppars[2]), from = 0, to = 0.5)
-calc_LRs_wDwS_integrate_wD(xD = c(0, 0), xS = c(0, 0), wS = 1e-6, 
-                           shape1D_H1 = shppars[1],
-                           shape2D_H1 = shppars[2],
-                           shape1D_H2 = shppars[1],
-                           shape2D_H2 = shppars[2], 
+shppars <- get_beta_parameters(mu = 0.1, sigmasq = 0.01)
+shppars
+curve(dbeta05(x, shppars[1], shppars[2]), from = 0, to = 0.5)
+calc_LRs_wTwR_integrate_wT(xT = c(0, 0), xR = c(0, 0), 
+                           wR = 1e-6, 
+                           shape1T_H1 = shppars[1],
+                           shape2T_H1 = shppars[2],
+                           shape1T_H2 = shppars[1],
+                           shape2T_H2 = shppars[2], 
                            p = list(p1, p2),
                            use_mpfr = FALSE)
 ```

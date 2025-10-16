@@ -29,12 +29,12 @@
 #' X
 #' genoprob <- allele_probs_to_geno_probs(prof_extra_info$AF_nfe)
 #' 
-#' LRs <- calc_LRs(xD = X, xS = X, w = 0.01, p = genoprob)
+#' LRs <- calc_LRs(xT = X, xR = X, w = 0.01, p = genoprob)
 #' WoE <- sum(log10(LRs))
 #' WoE
 #' 
 #' ws <- 10^(-(6:1))
-#' LRs_ws <- sapply(ws, \(w) sum(log10(calc_LRs(xD = X, xS = X, w = w, p = genoprob))))
+#' LRs_ws <- sapply(ws, \(w) sum(log10(calc_LRs(xT = X, xR = X, w = w, p = genoprob))))
 #' cbind(ws, LRs_ws)
 #' 
 #' # Assume two errors
@@ -42,14 +42,14 @@
 #' XD <- X
 #' XD[1] <- 1
 #' XD[2] <- 1
-#' LRs_ws_Xd <- sapply(ws, \(w) sum(log10(calc_LRs(xD = XD, xS = X, w = w, p = genoprob))))
+#' LRs_ws_Xd <- sapply(ws, \(w) sum(log10(calc_LRs(xT = XD, xR = X, w = w, p = genoprob))))
 #' cbind(ws, LRs_ws_Xd)
 #' 
 #' # Assume two more errors
 #' head(X)
 #' XD[3] <- 0
 #' XD[4] <- 0
-#' LRs_ws_Xd4 <- sapply(ws, \(w) sum(log10(calc_LRs(xD = XD, xS = X, w = w, p = genoprob))))
+#' LRs_ws_Xd4 <- sapply(ws, \(w) sum(log10(calc_LRs(xT = XD, xR = X, w = w, p = genoprob))))
 #' cbind(ws, LRs_ws_Xd4)
 #' 
 #' @importFrom dplyr select slice_min group_by rename inner_join

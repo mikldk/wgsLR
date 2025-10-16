@@ -30,12 +30,12 @@ sample_data_Hp_w(n = 10, w = 0.1, p = list(
   c(0.25, 0.25, 0.5), c(0.1, 0.8, 0.1)))
   
 cases <- sample_data_Hp_w(n = 1000, w = 0.3, p = c(0.25, 0.25, 0.5))
-tab <- table(xD = cases$xD, xS = cases$xS)
+tab <- table(xT = cases$xT, xR = cases$xR)
 tab
 estimate_w(tab)
 
 cases <- sample_data_Hp_w(n = 1000, w = 0, p = c(0.1, 0.7, 0.2))
-tab <- table(xD = cases$xD, xS = cases$xS)
+tab <- table(xT = cases$xT, xR = cases$xR)
 diag(tab/sum(tab))
 
 }
