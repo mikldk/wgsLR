@@ -27,21 +27,50 @@ p2 <- c(q2^2, 2*q2*(1-q2), (1-q2)^2)
 sum(p2)
 # t: trace sample
 # r: reference sample
-calc_LRs_wTwR(xT = c(0, 0), xR = c(0, 0), wT = 1e-2, wR = 1e-6, p = list(p1, p2))
+LRs <- calc_LRs_wTwR(xT = c(0, 0), xR = c(0, 0), wT = 1e-2, wR = 1e-6, p = list(p1, p2))
+WoE <- sum(log10(LRs))
+WoE
 ```
 
 ```{r}
-shppars <- get_beta_parameters(mu = 0.1, sigmasq = 0.01)
+shppars <- get_beta_parameters(mu = 1e-2, sigmasq = 1e-3)
 shppars
 curve(dbeta05(x, shppars[1], shppars[2]), from = 0, to = 0.5)
-calc_LRs_wTwR_integrate_wT(xT = c(0, 0), xR = c(0, 0), 
-                           wR = 1e-6, 
-                           shape1T_H1 = shppars[1],
-                           shape2T_H1 = shppars[2],
-                           shape1T_H2 = shppars[1],
-                           shape2T_H2 = shppars[2], 
-                           p = list(p1, p2),
-                           use_mpfr = FALSE)
+calc_WoE_wTwR_integrate_wT_mc(xT = c(0, 0), xR = c(0, 0), 
+                              wR = 1e-6, 
+                              shape1T = shppars[1],
+                              shape2T = shppars[2],
+                              p = list(p1, p2))
+calc_WoE_wTwR_integrate_wT_num(xT = c(0, 0), xR = c(0, 0), 
+                              wR = 1e-6, 
+                              shape1T = shppars[1],
+                              shape2T = shppars[2],
+                              p = list(p1, p2))
+```
+
+
+And markerwise (integrating at each marker), does not necessarily 
+give same results as the expected value of the WoE (as calculated above):
+
+```{r}
+WoEs_mc <- calc_WoE_wTwR_integrate_wT_mc_markerwise(
+  xT = c(0, 0), xR = c(0, 0), 
+  wR = 1e-6, 
+  shape1T_H1 = shppars[1], shape2T_H1 = shppars[2],
+  shape1T_H2 = shppars[1], shape2T_H2 = shppars[2],
+  p = list(p1, p2),
+  n_samples = 10000)
+WoEs_mc
+sum(WoEs_mc)
+
+WoEs_exact <- calc_WoE_wTwR_integrate_wT_exact_markerwise(
+  xT = c(0, 0), xR = c(0, 0), 
+  wR = 1e-6, 
+  shape1T_H1 = shppars[1], shape2T_H1 = shppars[2],
+  shape1T_H2 = shppars[1], shape2T_H2 = shppars[2],
+  p = list(p1, p2))
+WoEs_exact
+sum(WoEs_exact)
 ```
 
 
