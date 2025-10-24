@@ -180,7 +180,7 @@ int_LR_den_Hd_single_no_checks_wTwR <- function(xT, xR, wT, wR, p_0, p_1, p_2, s
 
 #' Calculate WoE for a profile for sample-specific error probabilities integrated over the donor prior distribution using Monte Carlo integration
 #' 
-#' Note that this is the expected value of $\log_{10}$ of $LR$ under a prior of $w_t$. 
+#' Note that this is the expected value of log10 of $LR$ under a prior of $w_t$. 
 #' An alternative is implemented in [calc_WoE_wTwR_integrate_wT_mc_markerwise()] 
 #' where a WoE for each marker is calculated by integrating over the prior of $w_t$ 
 #' separately under $H_1$ and $H_2$.
@@ -269,7 +269,7 @@ calc_WoE_wTwR_integrate_wT_mc <- function(xT, xR, shape1T, shape2T, wR, p, n_sam
   return(WoE)
 }
 
-#' Calculate LR for a profile for sample-specific error probabilities integrated over the donor prior distribution using numerical integration
+#' Calculate WoE for sample-specific error probabilities integrated over the donor prior distribution using numerical integration
 #' 
 #' @inherit calc_WoE_wTwR_integrate_wT_mc examples
 #'   
@@ -366,7 +366,7 @@ calc_WoE_wTwR_integrate_wT_num <- function(xT, xR, shape1T, shape2T, wR, p) {
 #' Note that the WoE for each marker is calculated by integrating over the prior of $w_t$ 
 #' separately under $H_1$ and $H_2$.
 #' An alternative is implemented in [calc_WoE_wTwR_integrate_wT_mc()] as 
-#' the expected value of $\log_{10}$ of $LR$ under a prior of $w_t$.
+#' the expected value of log10 of $LR$ under a prior of $w_t$.
 #' 
 #' Results from this can be compared to those from [calc_WoE_wTwR_integrate_wT_exact_markerwise()].
 #' 
@@ -452,12 +452,12 @@ calc_WoE_wTwR_integrate_wT_mc_markerwise <- function(xT, xR, shape1T_H1, shape2T
 
 
 
-#' Calculate LR for a profile for sample-specific error probabilities integrated over the donor prior distribution using exact integration
+#' Calculate WoE for sample-specific error probabilities integrated over the donor prior distribution using exact integration
 #' 
 #' Note that the WoE for each marker is calculated by integrating over the prior of $w_t$ 
 #' separately under $H_1$ and $H_2$.
 #' An alternative is implemented in [calc_WoE_wTwR_integrate_wT_mc()] as 
-#' the expected value of $\log_{10}$ of $LR$ under a prior of $w_t$.
+#' the expected value of log10 of $LR$ under a prior of $w_t$.
 #' 
 #' Results from this can be compared to those from [calc_WoE_wTwR_integrate_wT_mc_markerwise()].
 #' 
@@ -541,3 +541,117 @@ calc_WoE_wTwR_integrate_wT_exact_markerwise <- function(xT, xR, shape1T_H1, shap
   
   return(WoEs)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#' Calculate WoE for sample-specific error probabilities using profile likelihood using numerical optimisation
+#' 
+#' @examples
+#' calc_LRs_wTwR(xT = c(0, 0), xR = c(0, 1), wT = 1e-2, wR = 1e-5, p = c(0.25, 0.25, 0.5)) |> log10() |> sum()
+#' 
+#' calc_WoE_wTwR_profilemax_wT_num(
+#'   xT = c(0, 0), 
+#'   xR = c(0, 1), 
+#'   wR = 1e-5, 
+#'   p = c(0.25, 0.25, 0.5))
+#' 
+#' shpT <- get_beta_parameters(mu = 1e-2, sigmasq = 1e-7, a = 0, b = 0.5)
+#' # curve(dbeta05(x, shpT[1], shpT[2]), from = 0, to = 0.1, n = 1001)
+#' calc_WoE_wTwR_integrate_wT_mc(
+#'   xT = c(0, 0), 
+#'   xR = c(0, 1), 
+#'   shape1T = shpT[1], shape2T = shpT[2],
+#'   wR = 1e-5, 
+#'   p = c(0.25, 0.25, 0.5),
+#'   n_samples = 1000)
+#'   
+#' calc_WoE_wTwR_integrate_wT_num(
+#'   xT = c(0, 0), 
+#'   xR = c(0, 1), 
+#'   shape1T = shpT[1], shape2T = shpT[2], 
+#'   wR = 1e-5, 
+#'   p = c(0.25, 0.25, 0.5))
+#'   
+#' @param xT profile from case (of 0, 1, 2)
+#' @param xR profile from suspect (of 0, 1, 2)
+#' @param wR error probability for PoI sample
+#' @param p list of genotype probabilities (same length as `xT`/`xR`, or vector of length 3 for reuse)
+#'
+#' @export
+calc_WoE_wTwR_profilemax_wT_num <- function(xT, xR, wR, p) {
+  xT <- check_x(xT)
+  xR <- check_x(xR)
+  
+  stopifnot(length(xR) == length(xT))
+  
+  # reuse
+  p <- reuse_genotype_probs(p = p, n = length(xR))
+  check_p(p)
+  stopifnot(length(p) == length(xT))
+
+  # Hp
+  calc_num_Hp <- function(wT) {
+    lik <- unlist(lapply(seq_along(xT), \(i) {
+      pi <- p[[i]]
+      liki <- wgsLR:::calc_LR_num_Hp_single_no_checks_wTwR(xT = xT[i], xR = xR[i], wT = wT, wR = wR, p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L])
+      log10(liki)
+    }))
+    
+    sum(lik)
+  }
+  #calc_num_Hp(1e-3)
+  opt_res_Hp <- optimise(calc_num_Hp, maximum = TRUE, interval = c(wR, 0.5), tol = 1e-14)
+  #opt_res_Hp
+
+  
+  # Hd
+  calc_den_Hd <- function(wT) {
+    lik <- unlist(lapply(seq_along(xT), \(i) {
+      pi <- p[[i]]
+      liki <- wgsLR:::calc_LR_den_Hd_single_no_checks_wTwR(xT = xT[i], xR = xR[i], wT = wT, wR = wR, p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L])
+      log10(liki)
+    }))
+    
+    sum(lik)
+  }
+  #calc_den_Hd(1e-3)
+  opt_res_Hd <- optimise(calc_den_Hd, maximum = TRUE, interval = c(wR, 0.5), tol = 1e-14)
+  #opt_res_Hd
+  
+  if (FALSE) {
+    wT <- seq(wR, 0.5, length.out = 1001)
+    y_Hp <- lapply(wT, calc_num_Hp) |> unlist()
+    y_Hd <- lapply(wT, calc_den_Hd) |> unlist()
+    
+    plot(wT, y_Hp, ylim = range(c(y_Hp, y_Hd)), col = "blue", type = "l")
+    lines(wT, y_Hd, col = "red", type = "l")
+    
+    calc_num_Hp(opt_res_Hp$maximum)
+    calc_den_Hd(wR); calc_den_Hd(opt_res_Hp$maximum); calc_den_Hd(0.5)
+  }
+  
+  WoE <- opt_res_Hp$objective - opt_res_Hd$objective
+  
+  return(list(wT_H1 = opt_res_Hp$maximum,
+              wT_H2 = opt_res_Hd$maximum,
+              PrE_H1 = opt_res_Hp$objective,
+              PrE_H2 = opt_res_Hd$objective,
+              WoE = WoE))
+}
+

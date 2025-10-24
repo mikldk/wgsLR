@@ -2,7 +2,7 @@
 % Please edit documentation in R/LR-integrate.R
 \name{calc_WoE_wTwR_integrate_wT_num}
 \alias{calc_WoE_wTwR_integrate_wT_num}
-\title{Calculate LR for a profile for sample-specific error probabilities integrated over the donor prior distribution using numerical integration}
+\title{Calculate WoE for sample-specific error probabilities integrated over the donor prior distribution using numerical integration}
 \usage{
 calc_WoE_wTwR_integrate_wT_num(xT, xR, shape1T, shape2T, wR, p)
 }
@@ -20,7 +20,7 @@ calc_WoE_wTwR_integrate_wT_num(xT, xR, shape1T, shape2T, wR, p)
 \item{p}{list of genotype probabilities (same length as \code{xT}/\code{xR}, or vector of length 3 for reuse)}
 }
 \description{
-Calculate LR for a profile for sample-specific error probabilities integrated over the donor prior distribution using numerical integration
+Calculate WoE for sample-specific error probabilities integrated over the donor prior distribution using numerical integration
 }
 \examples{
 calc_LRs_wTwR(xT = c(0, 0), xR = c(0, 1), wT = 1e-2, wR = 1e-5, p = c(0.25, 0.25, 0.5)) |> log10() |> sum()

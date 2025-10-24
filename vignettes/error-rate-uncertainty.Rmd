@@ -74,3 +74,18 @@ sum(WoEs_exact)
 ```
 
 
+Profile likelihood (maximising under each hypothesis), assuming same genotyping error probability for all markers:
+```{r}
+x <- calc_WoE_wTwR_profilemax_wT_num(
+  xT = c(0, 0),
+  xR = c(0, 0),
+  wR = 1e-6,
+  p = list(p1, p2))
+x$WoE
+x$wT_H1
+x$wT_H2
+10^x$PrE_H1
+10^x$PrE_H2
+```
+
+

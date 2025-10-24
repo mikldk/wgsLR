@@ -9,7 +9,7 @@ mean value and variance."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">wgsLR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9020</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9021</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -89,14 +89,14 @@ mean value and variance.</p>
 <span class="r-in"><span><span class="va">s12</span> <span class="op">&lt;-</span> <span class="fu">get_beta_parameters</span><span class="op">(</span>mu <span class="op">=</span> <span class="fl">1e-2</span>, sigmasq <span class="op">=</span> <span class="fl">1e-3</span>, a <span class="op">=</span> <span class="fl">0</span>, b <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="beta05.html">rbeta05</a></span><span class="op">(</span><span class="fl">1000</span>, <span class="va">s12</span><span class="op">[</span><span class="fl">1L</span><span class="op">]</span>, <span class="va">s12</span><span class="op">[</span><span class="fl">2L</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">var</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01006474</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.001153769</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01051034</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.001229473</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">s12</span> <span class="op">&lt;-</span> <span class="fu">get_beta_parameters</span><span class="op">(</span>mu <span class="op">=</span> <span class="fl">1e-5</span>, sigmasq <span class="op">=</span> <span class="fl">1e-7</span>, a <span class="op">=</span> <span class="fl">0</span>, b <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="beta05.html">rbeta05</a></span><span class="op">(</span><span class="fl">10000</span>, <span class="va">s12</span><span class="op">[</span><span class="fl">1L</span><span class="op">]</span>, <span class="va">s12</span><span class="op">[</span><span class="fl">2L</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">var</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7.892549e-06</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.980625e-08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8.726637e-06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4.343895e-08</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

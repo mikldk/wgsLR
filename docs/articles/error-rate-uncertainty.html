@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">wgsLR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9020</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9021</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -129,6 +129,24 @@ above):</p>
 <span><span class="co">#&gt; [1] 0.7831524 1.0252129</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">WoEs_exact</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 1.808365</span></span></code></pre></div>
+<p>Profile likelihood (maximising under each hypothesis), assuming same
+genotyping error probability for all markers:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_WoE_wTwR_profilemax_wT_num.html">calc_WoE_wTwR_profilemax_wT_num</a></span><span class="op">(</span></span>
+<span>  xT <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>,</span>
+<span>  xR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>,</span>
+<span>  wR <span class="op">=</span> <span class="fl">1e-6</span>,</span>
+<span>  p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">x</span><span class="op">$</span><span class="va">WoE</span></span>
+<span><span class="co">#&gt; [1] 1.204115</span></span>
+<span><span class="va">x</span><span class="op">$</span><span class="va">wT_H1</span></span>
+<span><span class="co">#&gt; [1] 1e-06</span></span>
+<span><span class="va">x</span><span class="op">$</span><span class="va">wT_H2</span></span>
+<span><span class="co">#&gt; [1] 0.5</span></span>
+<span><span class="fl">10</span><span class="op">^</span><span class="va">x</span><span class="op">$</span><span class="va">PrE_H1</span></span>
+<span><span class="co">#&gt; [1] 0.01439988</span></span>
+<span><span class="fl">10</span><span class="op">^</span><span class="va">x</span><span class="op">$</span><span class="va">PrE_H2</span></span>
+<span><span class="co">#&gt; [1] 0.0009000033</span></span></code></pre></div>
   </main>
 </div>
 

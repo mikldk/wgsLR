@@ -2,7 +2,7 @@
 % Please edit documentation in R/LR-integrate.R
 \name{calc_WoE_wTwR_integrate_wT_exact_markerwise}
 \alias{calc_WoE_wTwR_integrate_wT_exact_markerwise}
-\title{Calculate LR for a profile for sample-specific error probabilities integrated over the donor prior distribution using exact integration}
+\title{Calculate WoE for sample-specific error probabilities integrated over the donor prior distribution using exact integration}
 \usage{
 calc_WoE_wTwR_integrate_wT_exact_markerwise(
   xT,
@@ -45,7 +45,7 @@ calc_WoE_wTwR_integrate_wT_exact_markerwise(
 Note that the WoE for each marker is calculated by integrating over the prior of $w_t$
 separately under $H_1$ and $H_2$.
 An alternative is implemented in \code{\link[=calc_WoE_wTwR_integrate_wT_mc]{calc_WoE_wTwR_integrate_wT_mc()}} as
-the expected value of $\log_{10}$ of $LR$ under a prior of $w_t$.
+the expected value of log10 of $LR$ under a prior of $w_t$.
 }
 \details{
 Results from this can be compared to those from \code{\link[=calc_WoE_wTwR_integrate_wT_mc_markerwise]{calc_WoE_wTwR_integrate_wT_mc_markerwise()}}.
