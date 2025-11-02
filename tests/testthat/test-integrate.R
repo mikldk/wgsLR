@@ -163,14 +163,18 @@ test_that("calc_WoE_wTwR_integrate_wT", {
     wR = 1e-5,
     p = c(0.25, 0.25, 0.5),
     n_samples = 10000)
+  expect_equal(z1$WoE, sum(z1$WoEs))
+  
   z2 <- calc_WoE_wTwR_integrate_wT_num(
     xT = c(0, 0),
     xR = c(0, 1),
     shape1T = shpT[1], shape2T = shpT[2],
     wR = 1e-5,
     p = c(0.25, 0.25, 0.5))
-  expect_equal(WoE, z1, tolerance = 1e-1)
-  expect_equal(WoE, z2, tolerance = 1e-2)
+  expect_equal(z2$WoE, sum(z2$WoEs))
+  
+  expect_equal(WoE, z1$WoE, tolerance = 1e-1)
+  expect_equal(WoE, z2$WoE, tolerance = 1e-2)
   ###
   
   z1 <- calc_WoE_wTwR_integrate_wT_mc(
@@ -180,15 +184,19 @@ test_that("calc_WoE_wTwR_integrate_wT", {
     wR = 1e-5,
     p = c(0.25, 0.25, 0.5),
     n_samples = 20000)
+  expect_equal(z1$WoE, sum(z1$WoEs))
+  
   z2 <- calc_WoE_wTwR_integrate_wT_num(
     xT = c(0, 0),
     xR = c(0, 1),
     shape1T = 1, shape2T = 1,
     wR = 1e-5,
     p = c(0.25, 0.25, 0.5))
-  expect_equal(z2, 0.1454484, tolerance = 1e-6)
-  expect_equal(z1, z2, tolerance = 1e-1)
+  expect_equal(z2$WoE, sum(z2$WoEs))
   
+  expect_equal(z2$WoE, 0.1454484, tolerance = 1e-6)
+  
+  expect_equal(z1$WoE, z2$WoE, tolerance = 1e-1)
 })
 
 
@@ -213,14 +221,18 @@ test_that("calc_WoE_wTwR_integrate_wT", {
     wR = 1e-5,
     p = c(0.25, 0.25, 0.5),
     n_samples = 10000)
+  expect_equal(z1$WoE, sum(z1$WoEs))
+  
   z2 <- calc_WoE_wTwR_integrate_wT_num(
     xT = c(0, 0),
     xR = c(0, 1),
     shape1T = shpT[1], shape2T = shpT[2],
     wR = 1e-5,
     p = c(0.25, 0.25, 0.5))
-  expect_equal(WoE, z1, tolerance = 1e-1)
-  expect_equal(WoE, z2, tolerance = 1e-2)
+  expect_equal(z2$WoE, sum(z2$WoEs))
+  
+  expect_equal(WoE, z1$WoE, tolerance = 1e-1)
+  expect_equal(WoE, z2$WoE, tolerance = 1e-2)
   ###
   
   z1 <- calc_WoE_wTwR_integrate_wT_mc(
@@ -230,14 +242,18 @@ test_that("calc_WoE_wTwR_integrate_wT", {
     wR = 1e-5,
     p = c(0.25, 0.25, 0.5),
     n_samples = 20000)
+  expect_equal(z1$WoE, sum(z1$WoEs))
+  
   z2 <- calc_WoE_wTwR_integrate_wT_num(
     xT = c(0, 0),
     xR = c(0, 1),
     shape1T = 1, shape2T = 1,
     wR = 1e-5,
     p = c(0.25, 0.25, 0.5))
-  expect_equal(z2, 0.1454484, tolerance = 1e-6)
-  expect_equal(z1, z2, tolerance = 1e-1)
+  expect_equal(z2$WoE, sum(z2$WoEs))
+  
+  expect_equal(z2$WoE, 0.1454484, tolerance = 1e-6)
+  expect_equal(z1$WoE, z2$WoE, tolerance = 1e-1)
   
 })
 

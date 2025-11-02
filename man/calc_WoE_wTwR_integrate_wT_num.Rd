@@ -27,19 +27,23 @@ calc_LRs_wTwR(xT = c(0, 0), xR = c(0, 1), wT = 1e-2, wR = 1e-5, p = c(0.25, 0.25
 
 shpT <- get_beta_parameters(mu = 1e-2, sigmasq = 1e-7, a = 0, b = 0.5)
 # curve(dbeta05(x, shpT[1], shpT[2]), from = 0, to = 0.1, n = 1001)
-calc_WoE_wTwR_integrate_wT_mc(
+z1 <- calc_WoE_wTwR_integrate_wT_mc(
   xT = c(0, 0), 
   xR = c(0, 1), 
   shape1T = shpT[1], shape2T = shpT[2],
   wR = 1e-5, 
   p = c(0.25, 0.25, 0.5),
   n_samples = 1000)
-  
-calc_WoE_wTwR_integrate_wT_num(
+z1$WoE
+z1$WoEs; sum(z1$WoEs)
+
+z2 <- calc_WoE_wTwR_integrate_wT_num(
   xT = c(0, 0), 
   xR = c(0, 1), 
   shape1T = shpT[1], shape2T = shpT[2], 
   wR = 1e-5, 
   p = c(0.25, 0.25, 0.5))
+z2$WoE
+z2$WoEs; sum(z2$WoEs)
   
 }

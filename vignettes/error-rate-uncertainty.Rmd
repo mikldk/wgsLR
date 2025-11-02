@@ -36,16 +36,18 @@ WoE
 shppars <- get_beta_parameters(mu = 1e-2, sigmasq = 1e-3)
 shppars
 curve(dbeta05(x, shppars[1], shppars[2]), from = 0, to = 0.5)
-calc_WoE_wTwR_integrate_wT_mc(xT = c(0, 0), xR = c(0, 0), 
-                              wR = 1e-6, 
-                              shape1T = shppars[1],
-                              shape2T = shppars[2],
-                              p = list(p1, p2))
-calc_WoE_wTwR_integrate_wT_num(xT = c(0, 0), xR = c(0, 0), 
-                              wR = 1e-6, 
-                              shape1T = shppars[1],
-                              shape2T = shppars[2],
-                              p = list(p1, p2))
+z1 <- calc_WoE_wTwR_integrate_wT_mc(xT = c(0, 0), xR = c(0, 0), 
+                                    wR = 1e-6, 
+                                    shape1T = shppars[1],
+                                    shape2T = shppars[2],
+                                    p = list(p1, p2))
+z1$WoE
+z2 <- calc_WoE_wTwR_integrate_wT_num(xT = c(0, 0), xR = c(0, 0), 
+                                     wR = 1e-6, 
+                                     shape1T = shppars[1],
+                                     shape2T = shppars[2],
+                                     p = list(p1, p2))
+z2$WoE
 ```
 
 
@@ -62,6 +64,7 @@ WoEs_mc <- calc_WoE_wTwR_integrate_wT_mc_markerwise(
   n_samples = 10000)
 WoEs_mc
 sum(WoEs_mc)
+z1$WoEs
 
 WoEs_exact <- calc_WoE_wTwR_integrate_wT_exact_markerwise(
   xT = c(0, 0), xR = c(0, 0), 
@@ -71,6 +74,7 @@ WoEs_exact <- calc_WoE_wTwR_integrate_wT_exact_markerwise(
   p = list(p1, p2))
 WoEs_exact
 sum(WoEs_exact)
+z1$WoEs
 ```
 
 
@@ -84,8 +88,8 @@ x <- calc_WoE_wTwR_profilemax_wT_num(
 x$WoE
 x$wT_H1
 x$wT_H2
-10^x$PrE_H1
-10^x$PrE_H2
+10^x$log10PrE_H1
+10^x$log10PrE_H2
 ```
 
 

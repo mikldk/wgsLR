@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">wgsLR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9021</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9022</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,21 +84,29 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">shpT</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_beta_parameters.html">get_beta_parameters</a></span><span class="op">(</span>mu <span class="op">=</span> <span class="fl">1e-2</span>, sigmasq <span class="op">=</span> <span class="fl">1e-7</span>, a <span class="op">=</span> <span class="fl">0</span>, b <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># curve(dbeta05(x, shpT[1], shpT[2]), from = 0, to = 0.1, n = 1001)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="calc_WoE_wTwR_integrate_wT_mc.html">calc_WoE_wTwR_integrate_wT_mc</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">z1</span> <span class="op">&lt;-</span> <span class="fu"><a href="calc_WoE_wTwR_integrate_wT_mc.html">calc_WoE_wTwR_integrate_wT_mc</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  xT <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, </span></span>
 <span class="r-in"><span>  xR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, </span></span>
 <span class="r-in"><span>  shape1T <span class="op">=</span> <span class="va">shpT</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, shape2T <span class="op">=</span> <span class="va">shpT</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,</span></span>
 <span class="r-in"><span>  wR <span class="op">=</span> <span class="fl">1e-5</span>, </span></span>
 <span class="r-in"><span>  p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  n_samples <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">z1</span><span class="op">$</span><span class="va">WoE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.7989807</span>
-<span class="r-in"><span>  </span></span>
-<span class="r-in"><span><span class="fu">calc_WoE_wTwR_integrate_wT_num</span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">z1</span><span class="op">$</span><span class="va">WoEs</span>; <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">z1</span><span class="op">$</span><span class="va">WoEs</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0.5975943 -1.3965750</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.7989807</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">z2</span> <span class="op">&lt;-</span> <span class="fu">calc_WoE_wTwR_integrate_wT_num</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  xT <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, </span></span>
 <span class="r-in"><span>  xR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, </span></span>
 <span class="r-in"><span>  shape1T <span class="op">=</span> <span class="va">shpT</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, shape2T <span class="op">=</span> <span class="va">shpT</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, </span></span>
 <span class="r-in"><span>  wR <span class="op">=</span> <span class="fl">1e-5</span>, </span></span>
 <span class="r-in"><span>  p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">z2</span><span class="op">$</span><span class="va">WoE</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.7998079</span>
+<span class="r-in"><span><span class="va">z2</span><span class="op">$</span><span class="va">WoEs</span>; <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">z2</span><span class="op">$</span><span class="va">WoEs</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0.597603 -1.397411</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.7998079</span>
 <span class="r-in"><span>  </span></span>
 </code></pre></div>

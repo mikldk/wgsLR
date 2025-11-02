@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">wgsLR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9021</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9022</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,17 +91,19 @@
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span><span class="fu"><a href="../reference/beta05.html">dbeta05</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">shppars</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">shppars</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span>, from <span class="op">=</span> <span class="fl">0</span>, to <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
 <p><img src="error-rate-uncertainty_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/calc_WoE_wTwR_integrate_wT_mc.html">calc_WoE_wTwR_integrate_wT_mc</a></span><span class="op">(</span>xT <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, xR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, </span>
-<span>                              wR <span class="op">=</span> <span class="fl">1e-6</span>, </span>
-<span>                              shape1T <span class="op">=</span> <span class="va">shppars</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
-<span>                              shape2T <span class="op">=</span> <span class="va">shppars</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,</span>
-<span>                              p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">z1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_WoE_wTwR_integrate_wT_mc.html">calc_WoE_wTwR_integrate_wT_mc</a></span><span class="op">(</span>xT <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, xR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, </span>
+<span>                                    wR <span class="op">=</span> <span class="fl">1e-6</span>, </span>
+<span>                                    shape1T <span class="op">=</span> <span class="va">shppars</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
+<span>                                    shape2T <span class="op">=</span> <span class="va">shppars</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,</span>
+<span>                                    p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">z1</span><span class="op">$</span><span class="va">WoE</span></span>
 <span><span class="co">#&gt; [1] 1.810701</span></span>
-<span><span class="fu"><a href="../reference/calc_WoE_wTwR_integrate_wT_num.html">calc_WoE_wTwR_integrate_wT_num</a></span><span class="op">(</span>xT <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, xR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, </span>
-<span>                              wR <span class="op">=</span> <span class="fl">1e-6</span>, </span>
-<span>                              shape1T <span class="op">=</span> <span class="va">shppars</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
-<span>                              shape2T <span class="op">=</span> <span class="va">shppars</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,</span>
-<span>                              p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">z2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_WoE_wTwR_integrate_wT_num.html">calc_WoE_wTwR_integrate_wT_num</a></span><span class="op">(</span>xT <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, xR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, </span>
+<span>                                     wR <span class="op">=</span> <span class="fl">1e-6</span>, </span>
+<span>                                     shape1T <span class="op">=</span> <span class="va">shppars</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
+<span>                                     shape2T <span class="op">=</span> <span class="va">shppars</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,</span>
+<span>                                     p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">z2</span><span class="op">$</span><span class="va">WoE</span></span>
 <span><span class="co">#&gt; [1] 1.808099</span></span></code></pre></div>
 <p>And markerwise (integrating at each marker), does not necessarily
 give same results as the expected value of the WoE (as calculated
@@ -118,6 +120,8 @@ above):</p>
 <span><span class="co">#&gt; [1] 0.7823008 1.0256404</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">WoEs_mc</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 1.807941</span></span>
+<span><span class="va">z1</span><span class="op">$</span><span class="va">WoEs</span></span>
+<span><span class="co">#&gt; [1] 0.7834855 1.0272160</span></span>
 <span></span>
 <span><span class="va">WoEs_exact</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_WoE_wTwR_integrate_wT_exact_markerwise.html">calc_WoE_wTwR_integrate_wT_exact_markerwise</a></span><span class="op">(</span></span>
 <span>  xT <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, xR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, </span>
@@ -128,7 +132,9 @@ above):</p>
 <span><span class="va">WoEs_exact</span></span>
 <span><span class="co">#&gt; [1] 0.7831524 1.0252129</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">WoEs_exact</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1.808365</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 1.808365</span></span>
+<span><span class="va">z1</span><span class="op">$</span><span class="va">WoEs</span></span>
+<span><span class="co">#&gt; [1] 0.7834855 1.0272160</span></span></code></pre></div>
 <p>Profile likelihood (maximising under each hypothesis), assuming same
 genotyping error probability for all markers:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -143,9 +149,9 @@ genotyping error probability for all markers:</p>
 <span><span class="co">#&gt; [1] 1e-06</span></span>
 <span><span class="va">x</span><span class="op">$</span><span class="va">wT_H2</span></span>
 <span><span class="co">#&gt; [1] 0.5</span></span>
-<span><span class="fl">10</span><span class="op">^</span><span class="va">x</span><span class="op">$</span><span class="va">PrE_H1</span></span>
+<span><span class="fl">10</span><span class="op">^</span><span class="va">x</span><span class="op">$</span><span class="va">log10PrE_H1</span></span>
 <span><span class="co">#&gt; [1] 0.01439988</span></span>
-<span><span class="fl">10</span><span class="op">^</span><span class="va">x</span><span class="op">$</span><span class="va">PrE_H2</span></span>
+<span><span class="fl">10</span><span class="op">^</span><span class="va">x</span><span class="op">$</span><span class="va">log10PrE_H2</span></span>
 <span><span class="co">#&gt; [1] 0.0009000033</span></span></code></pre></div>
   </main>
 </div>

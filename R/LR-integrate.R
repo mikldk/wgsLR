@@ -190,20 +190,24 @@ int_LR_den_Hd_single_no_checks_wTwR <- function(xT, xR, wT, wR, p_0, p_1, p_2, s
 #' 
 #' shpT <- get_beta_parameters(mu = 1e-2, sigmasq = 1e-7, a = 0, b = 0.5)
 #' # curve(dbeta05(x, shpT[1], shpT[2]), from = 0, to = 0.1, n = 1001)
-#' calc_WoE_wTwR_integrate_wT_mc(
+#' z1 <- calc_WoE_wTwR_integrate_wT_mc(
 #'   xT = c(0, 0), 
 #'   xR = c(0, 1), 
 #'   shape1T = shpT[1], shape2T = shpT[2],
 #'   wR = 1e-5, 
 #'   p = c(0.25, 0.25, 0.5),
 #'   n_samples = 1000)
-#'   
-#' calc_WoE_wTwR_integrate_wT_num(
+#' z1$WoE
+#' z1$WoEs; sum(z1$WoEs)
+#' 
+#' z2 <- calc_WoE_wTwR_integrate_wT_num(
 #'   xT = c(0, 0), 
 #'   xR = c(0, 1), 
 #'   shape1T = shpT[1], shape2T = shpT[2], 
 #'   wR = 1e-5, 
 #'   p = c(0.25, 0.25, 0.5))
+#' z2$WoE
+#' z2$WoEs; sum(z2$WoEs)
 #'   
 #' @param xT profile from case (of 0, 1, 2)
 #' @param xR profile from suspect (of 0, 1, 2)
@@ -264,9 +268,15 @@ calc_WoE_wTwR_integrate_wT_mc <- function(xT, xR, shape1T, shape2T, wR, p, n_sam
     mean(WoE_H2_i_mc)
   }))
   
-  WoE <- sum(WoE_H1_mc) - sum(WoE_H2_mc)
+  WoEs <- unlist(lapply(seq_along(xR), function(i) {
+    WoE_H1_mc[i] - WoE_H2_mc[i]
+  }))
   
-  return(WoE)
+  #WoE <- sum(WoE_H1_mc) - sum(WoE_H2_mc)
+  WoE <- sum(WoEs)
+  
+  #return(WoE)
+  return(list(WoE = WoE, WoEs = WoEs))
 }
 
 #' Calculate WoE for sample-specific error probabilities integrated over the donor prior distribution using numerical integration
@@ -336,9 +346,15 @@ calc_WoE_wTwR_integrate_wT_num <- function(xT, xR, shape1T, shape2T, wR, p) {
     WoE_num$value
   }))
   
-  WoE <- sum(WoE_H1_num) - sum(WoE_H2_num)
+  WoEs <- unlist(lapply(seq_along(xR), function(i) {
+    WoE_H1_num[i] - WoE_H2_num[i]
+  }))
+  
+  #WoE <- sum(WoE_H1_num) - sum(WoE_H2_num)
+  WoE <- sum(WoEs)
 
-  return(WoE)
+  #return(WoE)
+  return(list(WoE = WoE, WoEs = WoEs))
 }
 
 
@@ -650,8 +666,8 @@ calc_WoE_wTwR_profilemax_wT_num <- function(xT, xR, wR, p) {
   
   return(list(wT_H1 = opt_res_Hp$maximum,
               wT_H2 = opt_res_Hd$maximum,
-              PrE_H1 = opt_res_Hp$objective,
-              PrE_H2 = opt_res_Hd$objective,
+              log10PrE_H1 = opt_res_Hp$objective,
+              log10PrE_H2 = opt_res_Hd$objective,
               WoE = WoE))
 }
 
