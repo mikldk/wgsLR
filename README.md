@@ -39,16 +39,16 @@ tab
 
     ##    
     ##       0   1   2
-    ##   0 171  62   4
-    ##   1  65 193 100
-    ##   2  12  72 321
+    ##   0 145  51   8
+    ##   1  52 200  86
+    ##   2   9  89 360
 
 ``` r
 w_mle <- wgsLR::estimate_w(tab)
 w_mle
 ```
 
-    ## [1] 0.1012883
+    ## [1] 0.09417128
 
 #### Cautionary note: not just standard VCF files
 
