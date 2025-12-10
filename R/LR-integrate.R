@@ -491,10 +491,13 @@ calc_WoE_wTwR_integrate_wT_mc_markerwise <- function(xT, xR, shape1T_H1, shape2T
 #' @param stop_on_infinite stop if infinite numbers are encountered (if so, try `use_mpfr = TRUE`)
 #' @param mpfr_precision number of bits to use
 #' 
-#' @importFrom Rmpfr beta
-#' 
 #' @export
 calc_WoE_wTwR_integrate_wT_exact_markerwise <- function(xT, xR, shape1T_H1, shape2T_H1, shape1T_H2, shape2T_H2, wR, p, use_mpfr = TRUE, stop_on_infinite = TRUE, mpfr_precision = 256) {
+  
+  if (use_mpfr && !require("Rmpfr", quietly = TRUE)) {
+    stop("Please install Rmpfr")
+  }
+  
   xT <- check_x(xT)
   xR <- check_x(xR)
   
@@ -507,23 +510,23 @@ calc_WoE_wTwR_integrate_wT_exact_markerwise <- function(xT, xR, shape1T_H1, shap
   
   if (use_mpfr) {
     if (!inherits(shape1T_H1, "mpfr")) {
-      shape1T_H1 <- mpfr(shape1T_H1, precBits = mpfr_precision)
+      shape1T_H1 <- Rmpfr::mpfr(shape1T_H1, precBits = mpfr_precision)
     }
     if (!inherits(shape2T_H1, "mpfr")) {
-      shape2T_H1 <- mpfr(shape2T_H1, precBits = mpfr_precision)
+      shape2T_H1 <- Rmpfr::mpfr(shape2T_H1, precBits = mpfr_precision)
     }
     
     
     if (!inherits(shape1T_H2, "mpfr")) {
-      shape1T_H2 <- mpfr(shape1T_H2, precBits = mpfr_precision)
+      shape1T_H2 <- Rmpfr::mpfr(shape1T_H2, precBits = mpfr_precision)
     }
     if (!inherits(shape2T_H2, "mpfr")) {
-      shape2T_H2 <- mpfr(shape2T_H2, precBits = mpfr_precision)
+      shape2T_H2 <- Rmpfr::mpfr(shape2T_H2, precBits = mpfr_precision)
     }
     
     
     if (!inherits(wR, "mpfr")) {
-      wR <- mpfr(wR, precBits = mpfr_precision)
+      wR <- Rmpfr::mpfr(wR, precBits = mpfr_precision)
     }
   }
   
@@ -534,7 +537,7 @@ calc_WoE_wTwR_integrate_wT_exact_markerwise <- function(xT, xR, shape1T_H1, shap
     
     if (use_mpfr) {
       if (!inherits(p_i, "mpfr")) {
-        p_i <- mpfr(p_i, precBits = mpfr_precision)
+        p_i <- Rmpfr::mpfr(p_i, precBits = mpfr_precision)
       }
     }
     
