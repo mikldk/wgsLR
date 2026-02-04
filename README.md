@@ -29,6 +29,10 @@ You can also install the package without vignettes if needed as follows:
 
 ## A few small examples
 
+``` r
+library(wgsLR)
+```
+
 ### Estimating the genotype error probability, $w$
 
 ``` r
@@ -39,16 +43,16 @@ tab
 
     ##    
     ##       0   1   2
-    ##   0 145  51   8
-    ##   1  52 200  86
-    ##   2   9  89 360
+    ##   0 179  60  13
+    ##   1  58 179  89
+    ##   2   5 103 314
 
 ``` r
 w_mle <- wgsLR::estimate_w(tab)
 w_mle
 ```
 
-    ## [1] 0.09417128
+    ## [1] 0.1071176
 
 #### Cautionary note: not just standard VCF files
 
@@ -172,8 +176,8 @@ data.frame(log10w = log10(ws), w = ws,
 
 ## Different error rates
 
-Assume that the trace donor profile has $w_D = 10^{-4}$ and the suspect
-reference profile has $w_S = 10^{-8}$. Then the $LR$ is:
+Assume that the trace donor profile has $w_T = 10^{-4}$ and the suspect
+reference profile has $w_R = 10^{-8}$. Then the $LR$ is:
 
 ``` r
 LR_contribs <- wgsLR::calc_LRs_wTwR(xT = c(1, 0, 2, 2), 
@@ -185,3 +189,41 @@ prod(LR_contribs)
 ```
 
     ## [1] 0.01279168
+
+``` r
+sum(log10(LR_contribs))
+```
+
+    ## [1] -1.893072
+
+## Unknown trac sample error rate, $w_T$
+
+Assume that the trace donor profile has unknown $w_T$ but can be assumed
+to follow a beta prior on $(0, \frac 1 2)$ with mean value
+$\mu = 10^{-4}$ and variance $\sigma^2 = \mu^2 / 2$:
+
+``` r
+mu <- 1e-4
+sigmasq <- mu^2 / 2
+shpT <- wgsLR::get_beta_parameters(mu = mu, sigmasq = sigmasq, a = 0, b = 0.5)
+# 90% probability:
+q <- wgsLR::qbeta05(c(0.05, 0.95), shape1 = shpT[1], shape2 = shpT[2])
+q
+```
+
+    ## [1] 1.776372e-05 2.371951e-04
+
+Further, assume that the suspect reference profile has $w_R = 10^{-8}$.
+Then the $WoE = \log_{10}(LR)$ is:
+
+``` r
+wgsLR::calc_WoE_wTwR_integrate_wT_mc(
+  xT = c(1, 0, 2, 2), 
+  xR = c(0, 0, 2, 2), 
+  shape1T_Hp = shpT[1], shape2T_Hp = shpT[2],
+  shape1T_Ha = shpT[1], shape2T_Ha = shpT[2],
+  wR = 1e-8,
+  p = c(0.25, 0.25, 0.5))
+```
+
+    ## [1] -1.8931

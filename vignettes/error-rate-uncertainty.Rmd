@@ -38,43 +38,20 @@ shppars
 curve(dbeta05(x, shppars[1], shppars[2]), from = 0, to = 0.5)
 z1 <- calc_WoE_wTwR_integrate_wT_mc(xT = c(0, 0), xR = c(0, 0), 
                                     wR = 1e-6, 
-                                    shape1T = shppars[1],
-                                    shape2T = shppars[2],
+                                    shape1T_Hp = shppars[1],
+                                    shape2T_Hp = shppars[2],
+                                    shape1T_Ha = shppars[1],
+                                    shape2T_Ha = shppars[2],
                                     p = list(p1, p2))
-z1$WoE
+z1
 z2 <- calc_WoE_wTwR_integrate_wT_num(xT = c(0, 0), xR = c(0, 0), 
                                      wR = 1e-6, 
-                                     shape1T = shppars[1],
-                                     shape2T = shppars[2],
+                                     shape1T_Hp = shppars[1],
+                                     shape2T_Hp = shppars[2],
+                                     shape1T_Ha = shppars[1],
+                                     shape2T_Ha = shppars[2],
                                      p = list(p1, p2))
-z2$WoE
-```
-
-
-And markerwise (integrating at each marker), does not necessarily 
-give same results as the expected value of the WoE (as calculated above):
-
-```{r}
-WoEs_mc <- calc_WoE_wTwR_integrate_wT_mc_markerwise(
-  xT = c(0, 0), xR = c(0, 0), 
-  wR = 1e-6, 
-  shape1T_H1 = shppars[1], shape2T_H1 = shppars[2],
-  shape1T_H2 = shppars[1], shape2T_H2 = shppars[2],
-  p = list(p1, p2),
-  n_samples = 10000)
-WoEs_mc
-sum(WoEs_mc)
-z1$WoEs
-
-WoEs_exact <- calc_WoE_wTwR_integrate_wT_exact_markerwise(
-  xT = c(0, 0), xR = c(0, 0), 
-  wR = 1e-6, 
-  shape1T_H1 = shppars[1], shape2T_H1 = shppars[2],
-  shape1T_H2 = shppars[1], shape2T_H2 = shppars[2],
-  p = list(p1, p2))
-WoEs_exact
-sum(WoEs_exact)
-z1$WoEs
+z2
 ```
 
 
@@ -86,10 +63,10 @@ x <- calc_WoE_wTwR_profilemax_wT_num(
   wR = 1e-6,
   p = list(p1, p2))
 x$WoE
-x$wT_H1
-x$wT_H2
-10^x$log10PrE_H1
-10^x$log10PrE_H2
+x$wT_Hp
+x$wT_Ha
+10^x$log10PrE_Hp
+10^x$log10PrE_Ha
 ```
 
 

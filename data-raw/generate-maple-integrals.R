@@ -28,19 +28,19 @@ f(1/2);
  for (xT in 0L:2L) {
   for (xR in 0L:2L) {
     
-    e_Hp <- d_prob_Hp_wTwR |> filter(XD_MA == xT, XS_MA == xR) |> pull(expr_chr)
-    e_Hd <- d_prob_Hd_wTwR |> filter(XD_MA == xT, XS_MA == xR) |> pull(expr_chr)
+    e_Hp <- d_prob_Hp_wTwR |> filter(XT_MA == xT, XR_MA == xR) |> pull(expr_chr)
+    e_Ha <- d_prob_Ha_wTwR |> filter(XT_MA == xT, XR_MA == xR) |> pull(expr_chr)
     
     n_nm <- paste0("n_xT", xT, "_xR", xR)
     d_nm <- paste0("d_xT", xT, "_xR", xR)
     
     cat(n_nm, " := wT -> ", e_Hp, ";\n", sep = "")
-    cat(d_nm, " := wT -> ", e_Hd, ";\n", sep = "")
+    cat(d_nm, " := wT -> ", e_Ha, ";\n", sep = "")
     
     cat("\n")
     
     cat("int_Hp_xT", xT, "_xR", xR, " := int(", n_nm, "(wT) * f(wT), wT = 0..1/2);\n", sep = "")
-    cat("int_Hd_xT", xT, "_xR", xR, " := int(", d_nm, "(wT) * f(wT), wT = 0..1/2);\n", sep = "")
+    cat("int_Ha_xT", xT, "_xR", xR, " := int(", d_nm, "(wT) * f(wT), wT = 0..1/2);\n", sep = "")
     
     cat("\n\n")
   }
@@ -55,7 +55,7 @@ for (xT in 0L:2L) {
   for (xR in 0L:2L) {
     
     int_n_nm <- paste0("int_Hp_xT", xT, "_xR", xR)
-    int_d_nm <- paste0("int_Hd_xT", xT, "_xR", xR)
+    int_d_nm <- paste0("int_Ha_xT", xT, "_xR", xR)
     
     out <- paste0(out, "
     
@@ -80,7 +80,7 @@ for (xT in 0L:2L) {
 
     
     #cat("int_Hp_xT", xT, "_xR", xR, ";\n", sep = "")
-    #cat("int_Hd_xT", xT, "_xR", xR, ";\n", sep = "")
+    #cat("int_Ha_xT", xT, "_xR", xR, ";\n", sep = "")
     #cat("\n\n")
   }
 }

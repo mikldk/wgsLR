@@ -14,13 +14,13 @@
 "graph_Hp_w"
 
 #' Enumeration of possibilities under Hd for one error probability, $w$
-"d_formulas_Hd_w"
+"d_formulas_Ha_w"
 
 #' Formulas under Hd grouped by $X^D$ and $X^S$ for one error probability, $w$
-"d_prob_Hd_w"
+"d_prob_Ha_w"
 
 #' Graph for enumeration of possibilities under Hd for one error probability, $w$
-"graph_Hd_w"
+"graph_Ha_w"
 
 #' Formulas for LR grouped by $X^D$ and $X^S$ for one error probability, $w$
 "d_LR_w"
@@ -29,7 +29,7 @@
 "d_probtable_Hp_w"
 
 #' Probabilties for efficient sampling under Hd for one error probability, $w$
-"d_probtable_Hd_w"
+"d_probtable_Ha_w"
 
 
 
@@ -47,13 +47,13 @@
 "graph_Hp_wTwR"
 
 #' Enumeration of possibilities under Hd for sample-dependent error probabilities, $w_t$ and $w_r$
-"d_formulas_Hd_wTwR"
+"d_formulas_Ha_wTwR"
 
 #' Formulas under Hd grouped by $X^D$ and $X^S$ for sample-dependent error probabilities, $w_t$ and $w_r$
-"d_prob_Hd_wTwR"
+"d_prob_Ha_wTwR"
 
 #' Graph for enumeration of possibilities under Hd for sample-dependent error probabilities, $w_t$ and $w_r$
-"graph_Hd_wTwR"
+"graph_Ha_wTwR"
 
 #' Formulas for LR grouped by $X^D$ and $X^S$ for sample-dependent error probabilities, $w_t$ and $w_r$
 "d_LR_wTwR"
@@ -62,7 +62,7 @@
 "d_probtable_Hp_wTwR"
 
 #' Probabilties for efficient sampling under Hd for one error probability, $w$
-"d_probtable_Hd_wTwR"
+"d_probtable_Ha_wTwR"
 
 
 

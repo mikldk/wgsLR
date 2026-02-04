@@ -100,8 +100,8 @@ test_that("sample_data_Hp_wTwR", {
 
 
 
-test_that("sample_data_Hd_w", {
-  cases <- sample_data_Hd_w(n = 1000, w = 0.3, p = c(0.25, 0.25, 0.5))
+test_that("sample_data_Ha_w", {
+  cases <- sample_data_Ha_w(n = 1000, w = 0.3, p = c(0.25, 0.25, 0.5))
   expect_true(is.list(cases))
   expect_equal(names(cases), c("xT", "xR"))
   
@@ -118,13 +118,13 @@ test_that("sample_data_Hd_w", {
   
   ####
   
-  cases <- sample_data_Hd_w(n = 1000, w = 0, p = c(0.25, 0.25, 0.5))
+  cases <- sample_data_Ha_w(n = 1000, w = 0, p = c(0.25, 0.25, 0.5))
   expect_false(all(cases$xT == cases$xR))
 })
 
 
-test_that("sample_data_Hd_wTwR", {
-  cases <- sample_data_Hd_wTwR(n = 1000, wT = 0.3, wR = 1e-5, p = c(0.25, 0.25, 0.5))
+test_that("sample_data_Ha_wTwR", {
+  cases <- sample_data_Ha_wTwR(n = 1000, wT = 0.3, wR = 1e-5, p = c(0.25, 0.25, 0.5))
   expect_true(is.list(cases))
   expect_equal(names(cases), c("xT", "xR"))
   
@@ -141,6 +141,6 @@ test_that("sample_data_Hd_wTwR", {
   
   ####
   
-  cases <- sample_data_Hd_wTwR(n = 1000, wT = 0, wR = 0, p = c(0.25, 0.25, 0.5))
+  cases <- sample_data_Ha_wTwR(n = 1000, wT = 0, wR = 0, p = c(0.25, 0.25, 0.5))
   expect_false(all(cases$xT == cases$xR))
 })

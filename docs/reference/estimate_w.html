@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">wgsLR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9022</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9025</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,6 +94,23 @@ where <code>n1 = sum(diag(x))</code>, <code>n2 = x[1L, 3L] + x[3L, 1L]</code>,
 <span class="r-in"><span><span class="fu">estimate_w</span><span class="op">(</span><span class="va">tab2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0004414364</span>
 <span class="r-in"><span><span class="fu">estimate_w</span><span class="op">(</span><span class="va">tab2</span>, use_mpfr <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘gmp’</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:base’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     %*%, apply, crossprod, matrix, tcrossprod</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> C code of R package 'Rmpfr': GMP using 64 bits per limb</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘Rmpfr’</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following object is masked from ‘package:gmp’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     outer</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:stats’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     dbinom, dgamma, dnbinom, dnorm, dpois, dt, pnorm</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:base’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     cbind, pmax, pmin, rbind</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 'mpfr' number of precision  132   bits </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.00044143635878284077344503195817562240248647</span>
 <span class="r-in"><span></span></span>

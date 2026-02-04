@@ -24,7 +24,7 @@ test_that("LR_w", {
   
   ###
   
-  Hd_cases <- sample_data_Hd_w(n = 1000, w = w, p = p)
+  Hd_cases <- sample_data_Ha_w(n = 1000, w = w, p = p)
   LRs <- lapply(seq_len(nrow(Hd_cases$xR)), function(i) {
     calc_LRs_w(xT = Hd_cases$xT[i, ], xR = Hd_cases$xR[i, ], w = w, p = p)
   }) |> lapply(prod) |> unlist()
@@ -74,7 +74,7 @@ test_that("LR_wTwR", {
   
   ###
   
-  Hd_cases <- sample_data_Hd_wTwR(n = 1000, wT = wT, wR = wR, p = p)
+  Hd_cases <- sample_data_Ha_wTwR(n = 1000, wT = wT, wR = wR, p = p)
   
   LRs_wTwR <- lapply(seq_len(nrow(Hd_cases$xR)), function(i) {
     calc_LRs_wTwR(xT = Hd_cases$xT[i, ], xR = Hd_cases$xR[i, ], wT = wT, wR = wR, p = p)

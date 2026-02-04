@@ -11,7 +11,7 @@ int_Hp_xT0_xR0 <- function(wR, p_0, p_1, p_2, a, b) {
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        1)/gamma(a + b + 2)
 }
 
-int_Hd_xT0_xR0 <- function(wR, p_0, p_1, p_2, a, b) {
+int_Ha_xT0_xR0 <- function(wR, p_0, p_1, p_2, a, b) {
   1/4*gamma(b)*(-2*p_0*p_1*wR^2*gamma(a + 
                                         2)*gamma(a + b)*gamma(a + b + 1) + 2*p_0*p_2*wR^2*gamma(a + 2)*gamma(a + b)*gamma(a + b + 
                                                                                                                             1)-2*p_1*p_2*wR^2*gamma(a + 2)*gamma(a + b)*gamma(a + b + 1)-4*gamma(a + b + 2)*gamma(a)*gamma(a + b 
@@ -47,7 +47,7 @@ int_Hp_xT0_xR1 <- function(wR, p_0, p_1, p_2, a, b) {
                                                                                                                                                                                                                   + b + 2)
 }
 
-int_Hd_xT0_xR1 <- function(wR, p_0, p_1, p_2, a, b) {
+int_Ha_xT0_xR1 <- function(wR, p_0, p_1, p_2, a, b) {
   -1/4*gamma(b)*(p_1^2*gamma(a + 2)*gamma(a + 
                                             b)*gamma(a + b + 1)-2*p_1^2*gamma(a + 1)*gamma(a + b)*gamma(a + b + 2)-4*p_0*p_1*wR^2*gamma(a + 
                                                                                                                                           2)*gamma(a + b)*gamma(a + b + 1) + 4*p_0*p_2*wR^2*gamma(a + 2)*gamma(a + b)*gamma(a + b + 
@@ -82,7 +82,7 @@ int_Hp_xT0_xR2 <- function(wR, p_0, p_1, p_2, a, b) {
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       b)*gamma(a + b + 1))/beta(a,b)/gamma(a + b)/gamma(a + b + 1)/gamma(a + b + 2)
 }
 
-int_Hd_xT0_xR2 <- function(wR, p_0, p_1, p_2, a, b) {
+int_Ha_xT0_xR2 <- function(wR, p_0, p_1, p_2, a, b) {
   1/4*gamma(b)*(-2*p_0*p_1*wR^2*gamma(a + 
                                         2)*gamma(a + b)*gamma(a + b + 1) + 2*p_0*p_2*wR^2*gamma(a + 2)*gamma(a + b)*gamma(a + b + 
                                                                                                                             1)-2*p_1*p_2*wR^2*gamma(a + 2)*gamma(a + b)*gamma(a + b + 1)-4*gamma(a + b + 2)*gamma(a)*gamma(a + b 
@@ -118,7 +118,7 @@ int_Hp_xT1_xR0 <- function(wR, p_0, p_1, p_2, a, b) {
                                                                                                                                                                                                        1)/gamma(a + b + 2)
 }
 
-int_Hd_xT1_xR0 <- function(wR, p_0, p_1, p_2, a, b) {
+int_Ha_xT1_xR0 <- function(wR, p_0, p_1, p_2, a, b) {
   -1/2*gamma(b)*(-2*gamma(a + b + 2)*gamma(a + 
                                              b + 1)*gamma(a)*p_1*p_2*wR^2-2*p_0*p_1*wR^2*gamma(a + 2)*gamma(a + b)*gamma(a + b + 1) + 
                    2*p_0*p_2*wR^2*gamma(a + 2)*gamma(a + b)*gamma(a + b + 1)-2*p_1*p_2*wR^2*gamma(a + 2)*gamma(a + 
@@ -157,7 +157,7 @@ int_Hp_xT1_xR1 <- function(wR, p_0, p_1, p_2, a, b) {
                                                                                                                                                                                                                                                                                                    1)*gamma(a)*p_1)/beta(a,b)/gamma(a + b)/gamma(a + b + 1)/gamma(a + b + 2)
 }
 
-int_Hd_xT1_xR1 <- function(wR, p_0, p_1, p_2, a, b) {
+int_Ha_xT1_xR1 <- function(wR, p_0, p_1, p_2, a, b) {
   -1/2*gamma(b)*(-4*p_2^2*wR*gamma(a + 
                                      1)*gamma(a + b)*gamma(a + b + 2)-p_1^2*gamma(a + 2)*gamma(a + b)*gamma(a + b + 1) + 2*p_1^2*gamma(a 
                                                                                                                                        + 1)*gamma(a + b)*gamma(a + b + 2)-2*gamma(a)*gamma(a + b + 1)*gamma(a + b + 2)*p_1^2 + 4*gamma(a + 
@@ -196,7 +196,7 @@ int_Hp_xT1_xR2 <- function(wR, p_0, p_1, p_2, a, b) {
                                                                                                                                                                                                                                                                                                           1)/gamma(a + b + 2)
 }
 
-int_Hd_xT1_xR2 <- function(wR, p_0, p_1, p_2, a, b) {
+int_Ha_xT1_xR2 <- function(wR, p_0, p_1, p_2, a, b) {
   1/2*gamma(b)*(-4*p_2^2*wR*gamma(a + 
                                     1)*gamma(a + b)*gamma(a + b + 2) + 2*gamma(a + b + 2)*gamma(a + b + 1)*gamma(a)*p_1*p_2*wR^2 + 
                   2*gamma(a + b + 1)*gamma(a + b + 2)*gamma(a)*p_1*p_2 + 2*p_0*p_1*wR^2*gamma(a + 2)*gamma(a + 
@@ -231,7 +231,7 @@ int_Hp_xT2_xR0 <- function(wR, p_0, p_1, p_2, a, b) {
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  b + 1)*gamma(a + 2)*p_0)/beta(a,b)/gamma(a + b)/gamma(a + b + 1)/gamma(a + b + 2)
 }
 
-int_Hd_xT2_xR0 <- function(wR, p_0, p_1, p_2, a, b) {
+int_Ha_xT2_xR0 <- function(wR, p_0, p_1, p_2, a, b) {
   1/4*gamma(b)*(4*gamma(a)*gamma(a + b + 
                                    1)*gamma(a + b + 2)*p_2^2*wR^2-4*gamma(a + b + 2)*gamma(a + b + 
                                                                                              1)*gamma(a)*p_1*p_2*wR^2-2*p_0*p_1*wR^2*gamma(a + 2)*gamma(a + b)*gamma(a + b + 1) + 
@@ -267,7 +267,7 @@ int_Hp_xT2_xR1 <- function(wR, p_0, p_1, p_2, a, b) {
                                                                                                                                                                                                                                                                                                                                                                                                                  1)/gamma(a + b + 2)
 }
 
-int_Hd_xT2_xR1 <- function(wR, p_0, p_1, p_2, a, b) {
+int_Ha_xT2_xR1 <- function(wR, p_0, p_1, p_2, a, b) {
   -1/4*gamma(b)*(8*p_2^2*wR*gamma(a + 
                                     1)*gamma(a + b)*gamma(a + b + 2) + 8*gamma(a)*gamma(a + b + 1)*gamma(a + b + 2)*p_2^2*wR^2 + 
                    p_1^2*gamma(a + 2)*gamma(a + b)*gamma(a + b + 1)-2*p_1^2*gamma(a + 1)*gamma(a + b)*gamma(a + b + 
@@ -305,7 +305,7 @@ int_Hp_xT2_xR2 <- function(wR, p_0, p_1, p_2, a, b) {
                                                                                                                                                                                                               + b + 2)
 }
 
-int_Hd_xT2_xR2 <- function(wR, p_0, p_1, p_2, a, b) {
+int_Ha_xT2_xR2 <- function(wR, p_0, p_1, p_2, a, b) {
   1/4*gamma(b)*(8*p_2^2*wR*gamma(a + 1)*gamma(a 
                                               + b)*gamma(a + b + 2) + 4*gamma(a)*gamma(a + b + 1)*gamma(a + b + 2)*p_2^2*wR^2-4*gamma(a + b + 
                                                                                                                                         2)*gamma(a + b + 1)*gamma(a)*p_1*p_2*wR^2-2*p_0*p_1*wR^2*gamma(a + 2)*gamma(a + b)*gamma(a + b + 1) 

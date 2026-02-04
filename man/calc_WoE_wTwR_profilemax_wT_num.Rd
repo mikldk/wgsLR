@@ -32,7 +32,10 @@ shpT <- get_beta_parameters(mu = 1e-2, sigmasq = 1e-7, a = 0, b = 0.5)
 calc_WoE_wTwR_integrate_wT_mc(
   xT = c(0, 0), 
   xR = c(0, 1), 
-  shape1T = shpT[1], shape2T = shpT[2],
+  shape1T_Hp = shpT[1], 
+  shape2T_Hp = shpT[2],
+  shape1T_Ha = shpT[1], 
+  shape2T_Ha = shpT[2],
   wR = 1e-5, 
   p = c(0.25, 0.25, 0.5),
   n_samples = 1000)
@@ -40,7 +43,10 @@ calc_WoE_wTwR_integrate_wT_mc(
 calc_WoE_wTwR_integrate_wT_num(
   xT = c(0, 0), 
   xR = c(0, 1), 
-  shape1T = shpT[1], shape2T = shpT[2], 
+  shape1T_Hp = shpT[1], 
+  shape2T_Hp = shpT[2],
+  shape1T_Ha = shpT[1], 
+  shape2T_Ha = shpT[2],
   wR = 1e-5, 
   p = c(0.25, 0.25, 0.5))
   

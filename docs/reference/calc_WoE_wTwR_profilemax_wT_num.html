@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">wgsLR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9022</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9025</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,16 +79,16 @@
 <span class="r-in"><span>  xR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, </span></span>
 <span class="r-in"><span>  wR <span class="op">=</span> <span class="fl">1e-5</span>, </span></span>
 <span class="r-in"><span>  p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $wT_H1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $wT_Hp</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2499892</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $wT_H2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $wT_Ha</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $log10PrE_H1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $log10PrE_Hp</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -2.18098</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $log10PrE_H2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $log10PrE_Ha</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -2.408227</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $WoE</span>
@@ -100,29 +100,25 @@
 <span class="r-in"><span><span class="fu"><a href="calc_WoE_wTwR_integrate_wT_mc.html">calc_WoE_wTwR_integrate_wT_mc</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  xT <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, </span></span>
 <span class="r-in"><span>  xR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, </span></span>
-<span class="r-in"><span>  shape1T <span class="op">=</span> <span class="va">shpT</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, shape2T <span class="op">=</span> <span class="va">shpT</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>  shape1T_Hp <span class="op">=</span> <span class="va">shpT</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, </span></span>
+<span class="r-in"><span>  shape2T_Hp <span class="op">=</span> <span class="va">shpT</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>  shape1T_Ha <span class="op">=</span> <span class="va">shpT</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, </span></span>
+<span class="r-in"><span>  shape2T_Ha <span class="op">=</span> <span class="va">shpT</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,</span></span>
 <span class="r-in"><span>  wR <span class="op">=</span> <span class="fl">1e-5</span>, </span></span>
 <span class="r-in"><span>  p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  n_samples <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $WoE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.7995725</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $WoEs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0.5976007 -1.3971731</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.7990889</span>
 <span class="r-in"><span>  </span></span>
 <span class="r-in"><span><span class="fu"><a href="calc_WoE_wTwR_integrate_wT_num.html">calc_WoE_wTwR_integrate_wT_num</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  xT <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, </span></span>
 <span class="r-in"><span>  xR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, </span></span>
-<span class="r-in"><span>  shape1T <span class="op">=</span> <span class="va">shpT</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, shape2T <span class="op">=</span> <span class="va">shpT</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, </span></span>
+<span class="r-in"><span>  shape1T_Hp <span class="op">=</span> <span class="va">shpT</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, </span></span>
+<span class="r-in"><span>  shape2T_Hp <span class="op">=</span> <span class="va">shpT</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>  shape1T_Ha <span class="op">=</span> <span class="va">shpT</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, </span></span>
+<span class="r-in"><span>  shape2T_Ha <span class="op">=</span> <span class="va">shpT</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,</span></span>
 <span class="r-in"><span>  wR <span class="op">=</span> <span class="fl">1e-5</span>, </span></span>
 <span class="r-in"><span>  p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $WoE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.7998079</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $WoEs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0.597603 -1.397411</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.7996046</span>
 <span class="r-in"><span>  </span></span>
 </code></pre></div>
     </div>

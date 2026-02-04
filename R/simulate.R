@@ -312,11 +312,11 @@ sample_data_Hp_wTwR <- function(n, wT, wR, p, ...) {
 #' one latent genotype, ZS, for suspect (S).
 #'
 #' @examples
-#' sample_data_Hd_w(n = 10, w = 0.3, p = c(0.25, 0.25, 0.5))
-#' sample_data_Hd_w(n = 10, w = 0.1, p = list(
+#' sample_data_Ha_w(n = 10, w = 0.3, p = c(0.25, 0.25, 0.5))
+#' sample_data_Ha_w(n = 10, w = 0.1, p = list(
 #'   c(0.25, 0.25, 0.5), c(0.1, 0.8, 0.1)))
 #'   
-#' cases <- sample_data_Hd_w(n = 1000, w = 0, p = c(0.25, 0.25, 0.5))
+#' cases <- sample_data_Ha_w(n = 1000, w = 0, p = c(0.25, 0.25, 0.5))
 #' tab <- table(xT = cases$xT, xR = cases$xR)
 #' tab
 #'
@@ -329,7 +329,7 @@ sample_data_Hp_wTwR <- function(n, wT, wR, p, ...) {
 #' @return list of two matrices, each of size n x loci with 
 #'         genotype in 0/1/2 format resembling the situation in real life.
 #' @export
-sample_data_Hd_w <- function(n, w, p, ...) {
+sample_data_Ha_w <- function(n, w, p, ...) {
   zT <- sample_profiles_without_error(n = n, p = p)
   xT <- to012(add_errors_to_genotypes(zT, w = w, ...))
   rm(zT) # to avoid using it by mistake
@@ -348,15 +348,15 @@ sample_data_Hd_w <- function(n, w, p, ...) {
 #' one latent genotype, ZS, for suspect (S).
 #'
 #' @examples
-#' sample_data_Hd_wTwR(n = 10, wT = 0.3, wR = 1e-6, p = c(0.25, 0.25, 0.5))
-#' sample_data_Hd_wTwR(n = 10, wT = 0.3, wR = 1e-6, p = list(
+#' sample_data_Ha_wTwR(n = 10, wT = 0.3, wR = 1e-6, p = c(0.25, 0.25, 0.5))
+#' sample_data_Ha_wTwR(n = 10, wT = 0.3, wR = 1e-6, p = list(
 #'   c(0.25, 0.25, 0.5), c(0.1, 0.8, 0.1)))
 #'   
-#' cases <- sample_data_Hd_wTwR(n = 1000, wT = 1e-1, wR = 1e-8, p = c(0.25, 0.25, 0.5))
+#' cases <- sample_data_Ha_wTwR(n = 1000, wT = 1e-1, wR = 1e-8, p = c(0.25, 0.25, 0.5))
 #' tab <- table(xT = cases$xT, xR = cases$xR)
 #' tab
 #' 
-#' cases <- sample_data_Hd_wTwR(n = 1000, wT = 0, wR = 0, p = c(0.25, 0.25, 0.5))
+#' cases <- sample_data_Ha_wTwR(n = 1000, wT = 0, wR = 0, p = c(0.25, 0.25, 0.5))
 #' tab <- table(xT = cases$xT, xR = cases$xR)
 #' tab
 #' 
@@ -370,7 +370,7 @@ sample_data_Hd_w <- function(n, w, p, ...) {
 #' @return list of two matrices, each of size n x loci with 
 #'         genotype in 0/1/2 format resembling the situation in real life.
 #' @export
-sample_data_Hd_wTwR <- function(n, wT, wR, p, ...) {
+sample_data_Ha_wTwR <- function(n, wT, wR, p, ...) {
   zT <- sample_profiles_without_error(n = n, p = p)
   xT <- to012(add_errors_to_genotypes(zT, w = wT, ...))
   rm(zT) # to avoid using it by mistake
@@ -489,7 +489,7 @@ add_errors_Hp_wTwR <- function(tab, wT, wR) {
 #' zR <- sample_profiles_without_error(n = 1000, p = c(0.25, 0.25, 0.5))
 #' tab <- table(to012(zT), to012(zR))
 #' tab
-#' new_tab <- add_errors_Hd_w(tab, w = 0.15)
+#' new_tab <- add_errors_Ha_w(tab, w = 0.15)
 #' new_tab
 #' estimate_w(new_tab) # wrong!
 #' Z <- sample_profiles_without_error(n = 10000, p = c(0.25, 0.25, 0.5))
@@ -500,10 +500,10 @@ add_errors_Hp_wTwR <- function(tab, wT, wR) {
 #' estimate_w(new_tab) # ok
 #' 
 #' @export
-add_errors_Hd_w <- function(tab, w) {
+add_errors_Ha_w <- function(tab, w) {
   check_tab(tab)
   
-  d_probs <- wgsLR::d_probtable_Hd_w
+  d_probs <- wgsLR::d_probtable_Ha_w
   d_probs$prob <- unlist(lapply(d_probs$expr, function(z) eval(parse(text = z), list(w = w))))
   probs <- lapply(split(d_probs, d_probs$ZD012), 
                   function(l) split(l, l$ZS012))
@@ -545,14 +545,14 @@ add_errors_Hd_w <- function(tab, w) {
 #' zR <- sample_profiles_without_error(n = 1000, p = c(0.25, 0.25, 0.5))
 #' tab <- table(to012(Z_T), to012(zR))
 #' tab
-#' add_errors_Hd_wTwR(tab, wT = 0.1, wR = 1e-6)
-#' add_errors_Hd_w(tab, w = 0.05)
+#' add_errors_Ha_wTwR(tab, wT = 0.1, wR = 1e-6)
+#' add_errors_Ha_w(tab, w = 0.05)
 #' 
 #' @export
-add_errors_Hd_wTwR <- function(tab, wT, wR) {
+add_errors_Ha_wTwR <- function(tab, wT, wR) {
   check_tab(tab)
   
-  d_probs <- wgsLR::d_probtable_Hd_wTwR
+  d_probs <- wgsLR::d_probtable_Ha_wTwR
   d_probs$prob <- unlist(lapply(d_probs$expr, function(z) eval(parse(text = z), list(wT = wT, wR = wR))))
   probs <- lapply(split(d_probs, d_probs$ZD012), 
                   function(l) split(l, l$ZS012))

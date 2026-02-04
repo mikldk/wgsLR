@@ -7,8 +7,10 @@
 calc_WoE_wTwR_integrate_wT_mc(
   xT,
   xR,
-  shape1T,
-  shape2T,
+  shape1T_Hp,
+  shape2T_Hp,
+  shape1T_Ha,
+  shape2T_Ha,
   wR,
   p,
   n_samples = 1000
@@ -19,9 +21,13 @@ calc_WoE_wTwR_integrate_wT_mc(
 
 \item{xR}{profile from suspect (of 0, 1, 2)}
 
-\item{shape1T}{\code{wT} has beta prior on (0, 0.5) with parameters \code{shape1T} and \code{shape2T}}
+\item{shape1T_Hp}{under $H_p$ \code{wT} has beta prior on (0, 0.5) with parameters \code{shape1T_Hp} and \code{shape2T_Hp}}
 
-\item{shape2T}{see \code{shape1T_Hp}}
+\item{shape2T_Hp}{see \code{shape1T_Hp}}
+
+\item{shape1T_Ha}{under $H_a$ \code{wT} has beta prior on (0, 0.5) with parameters \code{shape1T_Ha} and \code{shape2T_Ha}}
+
+\item{shape2T_Ha}{see \code{shape1T_Ha}}
 
 \item{wR}{error probability for PoI sample}
 
@@ -30,10 +36,7 @@ calc_WoE_wTwR_integrate_wT_mc(
 \item{n_samples}{number of random samples from each prior distribution}
 }
 \description{
-Note that this is the expected value of log10 of $LR$ under a prior of $w_t$.
-An alternative is implemented in \code{\link[=calc_WoE_wTwR_integrate_wT_mc_markerwise]{calc_WoE_wTwR_integrate_wT_mc_markerwise()}}
-where a WoE for each marker is calculated by integrating over the prior of $w_t$
-separately under $H_1$ and $H_2$.
+Calculate WoE for a profile for sample-specific error probabilities integrated over the donor prior distribution using Monte Carlo integration
 }
 \examples{
 calc_LRs_wTwR(xT = c(0, 0), xR = c(0, 1), wT = 1e-2, wR = 1e-5, p = c(0.25, 0.25, 0.5)) |> log10() |> sum()
@@ -43,20 +46,24 @@ shpT <- get_beta_parameters(mu = 1e-2, sigmasq = 1e-7, a = 0, b = 0.5)
 z1 <- calc_WoE_wTwR_integrate_wT_mc(
   xT = c(0, 0), 
   xR = c(0, 1), 
-  shape1T = shpT[1], shape2T = shpT[2],
+  shape1T_Hp = shpT[1], 
+  shape2T_Hp = shpT[2],
+  shape1T_Ha = shpT[1], 
+  shape2T_Ha = shpT[2],
   wR = 1e-5, 
   p = c(0.25, 0.25, 0.5),
   n_samples = 1000)
-z1$WoE
-z1$WoEs; sum(z1$WoEs)
+z1
 
 z2 <- calc_WoE_wTwR_integrate_wT_num(
   xT = c(0, 0), 
   xR = c(0, 1), 
-  shape1T = shpT[1], shape2T = shpT[2], 
+  shape1T_Hp = shpT[1], 
+  shape2T_Hp = shpT[2],
+  shape1T_Ha = shpT[1], 
+  shape2T_Ha = shpT[2],
   wR = 1e-5, 
   p = c(0.25, 0.25, 0.5))
-z2$WoE
-z2$WoEs; sum(z2$WoEs)
+z2
   
 }

@@ -183,7 +183,7 @@ d_prob_Hp_wTwR <- d_formulas_Hp_wTwR |>
 
 H_d_cases <- expand.grid(ZT = haps, ZR = haps, XT = haps, XR = haps) 
 
-d_formulas_Hd_w <- H_d_cases |> 
+d_formulas_Ha_w <- H_d_cases |> 
   separate(ZT, into = c("ZT1", "ZT2"), sep = "/", remove = FALSE) |>
   separate(ZR, into = c("ZR1", "ZR2"), sep = "/", remove = FALSE) |> 
   separate(XT, into = c("XT1", "XT2"), sep = "/", remove = FALSE) |> 
@@ -203,7 +203,7 @@ d_formulas_Hd_w <- H_d_cases |>
          XR_MA = as.integer(XR1) + as.integer(XR2)) |> 
   add_group()
 
-d_prob_Hd_w <- d_formulas_Hd_w |> 
+d_prob_Ha_w <- d_formulas_Ha_w |> 
   select(ZT_MA, ZR_MA, XT_MA, XR_MA, expr) |> 
   
   # p_1 is for both 0/1 and 1/0, so only take half for those cases
@@ -225,7 +225,7 @@ d_prob_Hd_w <- d_formulas_Hd_w |>
 
 ##
 
-d_formulas_Hd_wTwR <- H_d_cases |> 
+d_formulas_Ha_wTwR <- H_d_cases |> 
   separate(ZT, into = c("ZT1", "ZT2"), sep = "/", remove = FALSE) |>
   separate(ZR, into = c("ZR1", "ZR2"), sep = "/", remove = FALSE) |> 
   separate(XT, into = c("XT1", "XT2"), sep = "/", remove = FALSE) |> 
@@ -245,7 +245,7 @@ d_formulas_Hd_wTwR <- H_d_cases |>
          XR_MA = as.integer(XR1) + as.integer(XR2)) |> 
   add_group()
 
-d_prob_Hd_wTwR <- d_formulas_Hd_wTwR |> 
+d_prob_Ha_wTwR <- d_formulas_Ha_wTwR |> 
   select(ZT_MA, ZR_MA, XT_MA, XR_MA, expr) |> 
   
   # p_1 is for both 0/1 and 1/0, so only take half for those cases
@@ -560,32 +560,32 @@ if (FALSE) {
 ################################################################################
 # Hd graph
 ################################################################################
-y_weights_Hd <- c(0.5, rep(1, length(haps)^2 - 1), 0.5)
-y_weights_qs_Hd <- (cumsum(y_weights_Hd) / sum(y_weights_Hd))[-length(y_weights_Hd)]
-ys_Hd <- round(quantile(seq_len(length(haps)^4), y_weights_qs_Hd, names = FALSE))
+y_weights_Ha <- c(0.5, rep(1, length(haps)^2 - 1), 0.5)
+y_weights_qs_Ha <- (cumsum(y_weights_Ha) / sum(y_weights_Ha))[-length(y_weights_Ha)]
+ys_Ha <- round(quantile(seq_len(length(haps)^4), y_weights_qs_Ha, names = FALSE))
 
-d_edges_root_Hd_w <- expand.grid(ZR = haps, ZT = haps, XT = NA, XR = NA) |>
+d_edges_root_Ha_w <- expand.grid(ZR = haps, ZT = haps, XT = NA, XR = NA) |>
   mutate(from = "Z") |>
   mutate(to = paste0("ZT=", ZT, ", ZR=", ZR)) |> 
   select(from, to) |> 
   mutate(x = 2,
-         y = ys_Hd)
-d_edges_root_Hd_w
+         y = ys_Ha)
+d_edges_root_Ha_w
 
-d_edges_Hd_w <- bind_rows(
-  d_formulas_Hd_w |> 
+d_edges_Ha_w <- bind_rows(
+  d_formulas_Ha_w |> 
     mutate(from = paste0("ZT=", ZT, ", ZR=", ZR)) |> 
     mutate(to = paste0("ZR=", ZR, ", ZT=", ZT, ", XT=", XT, ", XR=", XR)) |> 
     arrange(ZT, ZR, XT, XR) |> 
     mutate(x = 3, y = row_number()) |> 
     select(from, to, x, y, group, expr),
-  d_edges_root_Hd_w)
+  d_edges_root_Ha_w)
 
-graph_Hd_w <- as_tbl_graph(d_edges_Hd_w, directed = TRUE)
-graph_Hd_w <- graph_Hd_w |>
+graph_Ha_w <- as_tbl_graph(d_edges_Ha_w, directed = TRUE)
+graph_Ha_w <- graph_Ha_w |>
   activate(nodes) |>
-  left_join(d_edges_Hd_w |> select(name = to, x, y), by = "name") |>
-  left_join(d_edges_Hd_w |> select(name = to, group, expr), by = "name") |> 
+  left_join(d_edges_Ha_w |> select(name = to, x, y), by = "name") |>
+  left_join(d_edges_Ha_w |> select(name = to, group, expr), by = "name") |> 
   
   #mutate(label = ifelse(is.na(expr), name, paste0(name, ": ", expr))) |>
   mutate(shortname = gsub("^(Z[^X]*)(X.*)$", "\\2", name)) |> 
@@ -593,7 +593,7 @@ graph_Hd_w <- graph_Hd_w |>
   
   # Root:
   mutate(x = ifelse(is.na(x), 1, x), 
-         y = ifelse(is.na(y), round(nrow(d_edges_Hd_w)/2), y)) |> 
+         y = ifelse(is.na(y), round(nrow(d_edges_Ha_w)/2), y)) |> 
   mutate(leaf = grepl("XT|XR", name)) |> 
   
   # Expression label
@@ -614,7 +614,7 @@ graph_Hd_w <- graph_Hd_w |>
   # ))
 
 if (FALSE) {
-  ggraph(graph_Hd_w, x = x, y = y) + 
+  ggraph(graph_Ha_w, x = x, y = y) + 
     geom_edge_link() +
     #geom_node_label(aes(filter = !leaf, label = label), size = 2) +
     geom_node_label(aes(filter = !leaf, label = label_expr), size = 2, parse = TRUE) +
@@ -627,10 +627,10 @@ if (FALSE) {
     coord_cartesian(xlim = c(1, 3.5))  
   
   
-  subgraph_Hd_w <- graph_Hd_w |> 
+  subgraph_Ha_w <- graph_Ha_w |> 
     activate(nodes) |> 
     filter(grepl("ZT=0/0", name), grepl("ZR=0/0", name))
-  ggraph(subgraph_Hd_w, x = x, y = y) + 
+  ggraph(subgraph_Ha_w, x = x, y = y) + 
     geom_edge_link() +
     #geom_node_label(aes(filter = !leaf, label = label), size = 2) +
     geom_node_label(aes(filter = !leaf, label = label_expr), size = 2, parse = TRUE) +
@@ -645,20 +645,20 @@ if (FALSE) {
 ############
 
 
-d_edges_Hd_wTwR <- bind_rows(
-  d_formulas_Hd_wTwR |> 
+d_edges_Ha_wTwR <- bind_rows(
+  d_formulas_Ha_wTwR |> 
     mutate(from = paste0("ZT=", ZT, ", ZR=", ZR)) |> 
     mutate(to = paste0("ZR=", ZR, ", ZT=", ZT, ", XT=", XT, ", XR=", XR)) |> 
     arrange(ZT, ZR, XT, XR) |> 
     mutate(x = 3, y = row_number()) |> 
     select(from, to, x, y, group, expr),
-  d_edges_root_Hd_w)
+  d_edges_root_Ha_w)
 
-graph_Hd_wTwR <- as_tbl_graph(d_edges_Hd_wTwR, directed = TRUE)
-graph_Hd_wTwR <- graph_Hd_wTwR |>
+graph_Ha_wTwR <- as_tbl_graph(d_edges_Ha_wTwR, directed = TRUE)
+graph_Ha_wTwR <- graph_Ha_wTwR |>
   activate(nodes) |>
-  left_join(d_edges_Hd_wTwR |> select(name = to, x, y), by = "name") |>
-  left_join(d_edges_Hd_wTwR |> select(name = to, group, expr), by = "name") |> 
+  left_join(d_edges_Ha_wTwR |> select(name = to, x, y), by = "name") |>
+  left_join(d_edges_Ha_wTwR |> select(name = to, group, expr), by = "name") |> 
   
   #mutate(label = ifelse(is.na(expr), name, paste0(name, ": ", expr))) |>
   mutate(shortname = gsub("^(Z[^X]*)(X.*)$", "\\2", name)) |> 
@@ -666,7 +666,7 @@ graph_Hd_wTwR <- graph_Hd_wTwR |>
   
   # Root:
   mutate(x = ifelse(is.na(x), 1, x), 
-         y = ifelse(is.na(y), round(nrow(d_edges_Hd_w)/2), y)) |> 
+         y = ifelse(is.na(y), round(nrow(d_edges_Ha_w)/2), y)) |> 
   mutate(leaf = grepl("XT|XR", name)) |> 
   
   # Expression label
@@ -691,7 +691,7 @@ graph_Hd_wTwR <- graph_Hd_wTwR |>
 # ))
 
 if (FALSE) {
-  ggraph(graph_Hd_wTwR, x = x, y = y) + 
+  ggraph(graph_Ha_wTwR, x = x, y = y) + 
     geom_edge_link() +
     #geom_node_label(aes(filter = !leaf, label = label), size = 2) +
     geom_node_label(aes(filter = !leaf, label = label_expr), size = 2, parse = TRUE) +
@@ -704,10 +704,10 @@ if (FALSE) {
     coord_cartesian(xlim = c(1, 3.5))  
   
   
-  subgraph_Hd_wTwR <- graph_Hd_wTwR |> 
+  subgraph_Ha_wTwR <- graph_Ha_wTwR |> 
     activate(nodes) |> 
     filter(grepl("ZT=0/0", name), grepl("ZR=0/0", name))
-  ggraph(subgraph_Hd_wTwR, x = x, y = y) + 
+  ggraph(subgraph_Ha_wTwR, x = x, y = y) + 
     geom_edge_link() +
     #geom_node_label(aes(filter = !leaf, label = label), size = 2) +
     geom_node_label(aes(filter = !leaf, label = label_expr), size = 2, parse = TRUE) +
@@ -725,12 +725,12 @@ if (FALSE) {
 ################################################################################
 d_LR_w <- d_prob_Hp_w |> 
   select(XT_MA, XR_MA, caracas_sym_Hp = caracas_sym) |> 
-  inner_join(d_prob_Hd_w |> 
-               select(XT_MA, XR_MA, caracas_sym_Hd = caracas_sym),
+  inner_join(d_prob_Ha_w |> 
+               select(XT_MA, XR_MA, caracas_sym_Ha = caracas_sym),
              by = c("XT_MA", "XR_MA")) |> 
   rowwise() |> 
-  mutate(caracas_sym = list(caracas_sym_Hp / caracas_sym_Hd)) |> 
-  select(-caracas_sym_Hp, -caracas_sym_Hd) |> 
+  mutate(caracas_sym = list(caracas_sym_Hp / caracas_sym_Ha)) |> 
+  select(-caracas_sym_Hp, -caracas_sym_Ha) |> 
   mutate(expr = list(as_expr(caracas_sym)),
          expr_chr = as.character(caracas_sym),
          expr_tex = tex(caracas_sym))
@@ -740,12 +740,12 @@ d_LR_w <- d_prob_Hp_w |>
 
 d_LR_wTwR <- d_prob_Hp_wTwR |> 
   select(XT_MA, XR_MA, caracas_sym_Hp = caracas_sym) |> 
-  inner_join(d_prob_Hd_wTwR |> 
-               select(XT_MA, XR_MA, caracas_sym_Hd = caracas_sym),
+  inner_join(d_prob_Ha_wTwR |> 
+               select(XT_MA, XR_MA, caracas_sym_Ha = caracas_sym),
              by = c("XT_MA", "XR_MA")) |> 
   rowwise() |> 
-  mutate(caracas_sym = list(simplify(caracas_sym_Hp / caracas_sym_Hd))) |> 
-  select(-caracas_sym_Hp, -caracas_sym_Hd) |> 
+  mutate(caracas_sym = list(simplify(caracas_sym_Hp / caracas_sym_Ha))) |> 
+  select(-caracas_sym_Hp, -caracas_sym_Ha) |> 
   mutate(expr = list(as_expr(caracas_sym)),
          expr_chr = as.character(caracas_sym),
          expr_tex = tex(caracas_sym))
@@ -801,7 +801,7 @@ lapply(xxx, \(y1) y1 |> unlist() |> sum())
 
 
 # Hd:
-d_probtable_Hd_w <- d_formulas_Hd_w |> 
+d_probtable_Ha_w <- d_formulas_Ha_w |> 
   select(ZT, ZT1, ZT2, ZR, ZR1, ZR2, XT, XR, expr) |> 
   mutate(
   ZT012 = case_when(
@@ -847,14 +847,14 @@ d_probtable_Hd_w <- d_formulas_Hd_w |>
   as.data.frame()
 
 ## Test:
-# x <- lapply(d_probtable_Hd$sampleprob, \(y) parse(text = y))
+# x <- lapply(d_probtable_Ha$sampleprob, \(y) parse(text = y))
 # lapply(x, \(y) eval(y, list(w = 0.3, q0 = 0.1, q1 = 0.8, q2 = 0.1))) |> unlist() |> sum()
 # lapply(x, \(y) eval(y, list(w = 0.3, q0 = 0.9, q1 = 0.1, q2 = 0.0))) |> unlist() |> sum()
 # 
-# x <- lapply(subset(d_probtable_Hd, ZT == "0/0" & ZR == "0/0")$expr, \(y) parse(text = y))
+# x <- lapply(subset(d_probtable_Ha, ZT == "0/0" & ZR == "0/0")$expr, \(y) parse(text = y))
 # lapply(x, \(y) eval(y, list(w = 0.3))) |> unlist() |> sum()
 
-x <- split(d_probtable_Hd_w, interaction(d_probtable_Hd_w$ZT012, d_probtable_Hd_w$ZR012))
+x <- split(d_probtable_Ha_w, interaction(d_probtable_Ha_w$ZT012, d_probtable_Ha_w$ZR012))
 length(x)
 names(x)
 x[[1]]; nrow(x[[1]])
@@ -916,7 +916,7 @@ lapply(xxx, \(y1) y1 |> unlist() |> sum())
 
 
 # Hd:
-d_probtable_Hd_wTwR <- d_formulas_Hd_wTwR |> 
+d_probtable_Ha_wTwR <- d_formulas_Ha_wTwR |> 
   select(ZT, ZT1, ZT2, ZR, ZR1, ZR2, XT, XR, expr) |> 
   mutate(
     ZT012 = case_when(
@@ -962,14 +962,14 @@ group_by(ZT012, ZR012) |>
   as.data.frame()
 
 ## Test:
-# x <- lapply(d_probtable_Hd$sampleprob, \(y) parse(text = y))
+# x <- lapply(d_probtable_Ha$sampleprob, \(y) parse(text = y))
 # lapply(x, \(y) eval(y, list(w = 0.3, q0 = 0.1, q1 = 0.8, q2 = 0.1))) |> unlist() |> sum()
 # lapply(x, \(y) eval(y, list(w = 0.3, q0 = 0.9, q1 = 0.1, q2 = 0.0))) |> unlist() |> sum()
 # 
-# x <- lapply(subset(d_probtable_Hd, ZT == "0/0" & ZR == "0/0")$expr, \(y) parse(text = y))
+# x <- lapply(subset(d_probtable_Ha, ZT == "0/0" & ZR == "0/0")$expr, \(y) parse(text = y))
 # lapply(x, \(y) eval(y, list(w = 0.3))) |> unlist() |> sum()
 
-x <- split(d_probtable_Hd_wTwR, interaction(d_probtable_Hd_wTwR$ZT012, d_probtable_Hd_wTwR$ZR012))
+x <- split(d_probtable_Ha_wTwR, interaction(d_probtable_Ha_wTwR$ZT012, d_probtable_Ha_wTwR$ZR012))
 length(x)
 names(x)
 x[[1]]; nrow(x[[1]])
@@ -991,11 +991,11 @@ lapply(xxx, \(y1) y1 |> unlist() |> sum()) |> unlist()
 
 # caracas_symbol cannot be shared accross R sessions
 d_prob_Hp_w <- d_prob_Hp_w |> select(-caracas_sym)
-d_prob_Hd_w <- d_prob_Hd_w |> select(-caracas_sym)
+d_prob_Ha_w <- d_prob_Ha_w |> select(-caracas_sym)
 d_LR_w <- d_LR_w |> select(-caracas_sym)
 
 d_prob_Hp_wTwR <- d_prob_Hp_wTwR |> select(-caracas_sym)
-d_prob_Hd_wTwR <- d_prob_Hd_wTwR |> select(-caracas_sym)
+d_prob_Ha_wTwR <- d_prob_Ha_wTwR |> select(-caracas_sym)
 d_LR_wTwR <- d_LR_wTwR |> select(-caracas_sym)
 
 ###
@@ -1026,14 +1026,14 @@ usethis::use_data(d_prob_Hp_w, overwrite = TRUE, version = 3, compress = "bzip2"
 usethis::use_data(d_formulas_Hp_w, overwrite = TRUE, version = 3, compress = "bzip2")
 usethis::use_data(graph_Hp_w, overwrite = TRUE, version = 3, compress = "bzip2")
 
-usethis::use_data(d_prob_Hd_w, overwrite = TRUE, version = 3, compress = "bzip2")
-usethis::use_data(d_formulas_Hd_w, overwrite = TRUE, version = 3, compress = "bzip2")
-usethis::use_data(graph_Hd_w, overwrite = TRUE, version = 3, compress = "bzip2")
+usethis::use_data(d_prob_Ha_w, overwrite = TRUE, version = 3, compress = "bzip2")
+usethis::use_data(d_formulas_Ha_w, overwrite = TRUE, version = 3, compress = "bzip2")
+usethis::use_data(graph_Ha_w, overwrite = TRUE, version = 3, compress = "bzip2")
 
 usethis::use_data(d_LR_w, overwrite = TRUE, version = 3, compress = "bzip2")
 
 usethis::use_data(d_probtable_Hp_w, overwrite = TRUE, version = 3, compress = "bzip2")
-usethis::use_data(d_probtable_Hd_w, overwrite = TRUE, version = 3, compress = "bzip2")
+usethis::use_data(d_probtable_Ha_w, overwrite = TRUE, version = 3, compress = "bzip2")
 
 #rm(list = ls())
 ##########################################
@@ -1042,12 +1042,12 @@ usethis::use_data(d_prob_Hp_wTwR, overwrite = TRUE, version = 3, compress = "bzi
 usethis::use_data(d_formulas_Hp_wTwR, overwrite = TRUE, version = 3, compress = "bzip2")
 usethis::use_data(graph_Hp_wTwR, overwrite = TRUE, version = 3, compress = "bzip2")
 
-usethis::use_data(d_prob_Hd_wTwR, overwrite = TRUE, version = 3, compress = "bzip2")
-usethis::use_data(d_formulas_Hd_wTwR, overwrite = TRUE, version = 3, compress = "bzip2")
-usethis::use_data(graph_Hd_wTwR, overwrite = TRUE, version = 3, compress = "bzip2")
+usethis::use_data(d_prob_Ha_wTwR, overwrite = TRUE, version = 3, compress = "bzip2")
+usethis::use_data(d_formulas_Ha_wTwR, overwrite = TRUE, version = 3, compress = "bzip2")
+usethis::use_data(graph_Ha_wTwR, overwrite = TRUE, version = 3, compress = "bzip2")
 
 usethis::use_data(d_LR_wTwR, overwrite = TRUE, version = 3, compress = "bzip2")
 
 usethis::use_data(d_probtable_Hp_wTwR, overwrite = TRUE, version = 3, compress = "bzip2")
-usethis::use_data(d_probtable_Hd_wTwR, overwrite = TRUE, version = 3, compress = "bzip2")
+usethis::use_data(d_probtable_Ha_wTwR, overwrite = TRUE, version = 3, compress = "bzip2")
 
