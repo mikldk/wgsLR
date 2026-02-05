@@ -278,3 +278,59 @@ test_that("calc_WoE_wTwR_integrate_wT", {
 
 
 
+
+test_that("alt_calc_WoE_wTwR_integrate_wT", {
+  LRwTwR <- calc_LRs_wTwR(c(0, 0), c(0, 0), wT = 0, wR = 0, p = c(0.25, 0.25, 0.5))
+  expect_equal(LRwTwR, c(4, 4))
+  
+  LRwTwR <- calc_LRs_wTwR(c(0, 0), c(0, 1), wT = 1e-2, wR = 1e-5, p = c(0.25, 0.25, 0.5))
+  expect_equal(LRwTwR, c(3.95916096870935, 0.040068717630562))
+  WoE <- sum(log10(LRwTwR))
+  expect_equal(WoE, -0.7995914)
+  
+  shpT <- get_beta_parameters(mu = 1e-2, sigmasq = 1e-6, a = 0, b = 0.5)
+  #curve(dbeta05(x, shpT[1], shpT[2]), from = 0, to = 0.5)
+  
+  z1 <- calc_WoE_wTwR_integrate_wT_mc(
+    xT = c(0, 0),
+    xR = c(0, 1),
+    shape1T_Hp = shpT[1], shape2T_Hp = shpT[2],
+    shape1T_Ha = shpT[1], shape2T_Ha = shpT[2],
+    wR = 1e-5,
+    p = c(0.25, 0.25, 0.5),
+    n_samples = 10000)
+  expect_equal(z1, WoE, tolerance = 1e-2)
+  
+  
+  z2 <- alt_calc_WoE_wTwR_integrate_wT_mc(
+    xT = c(0, 0),
+    xR = c(0, 1),
+    shape1T = shpT[1], shape2T = shpT[2],
+    wR = 1e-5,
+    p = c(0.25, 0.25, 0.5),
+    n_samples = 10000)
+  expect_equal(z2, WoE, tolerance = 1e-2)
+  
+  expect_equal(z1, z2, tolerance = 1e-2)
+  
+  if (FALSE) {
+    microbenchmark::microbenchmark(
+      calc_WoE = calc_WoE_wTwR_integrate_wT_mc(
+        xT = c(0, 0),
+        xR = c(0, 1),
+        shape1T_Hp = shpT[1], shape2T_Hp = shpT[2],
+        shape1T_Ha = shpT[1], shape2T_Ha = shpT[2],
+        wR = 1e-5,
+        p = c(0.25, 0.25, 0.5),
+        n_samples = 1000),
+      alt_calc_WoE = alt_calc_WoE_wTwR_integrate_wT_mc(
+        xT = c(0, 0),
+        xR = c(0, 1),
+        shape1T = shpT[1], shape2T = shpT[2],
+        wR = 1e-5,
+        p = c(0.25, 0.25, 0.5),
+        n_samples = 1000),
+      times = 10
+    )
+  }
+})

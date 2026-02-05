@@ -511,3 +511,112 @@ calc_WoE_wTwR_profilemax_wT_num <- function(xT, xR, wR, p) {
               WoE = WoE))
 }
 
+
+
+
+
+
+
+
+
+
+#' Alternative calculation of WoE for a profile for sample-specific error probabilities integrated over the donor prior distribution using Monte Carlo integration
+#' 
+#' This does not calculate the LR as expectation of the product over markers as [], but instead calculate the 
+#' expectation of the log of the product over markers.
+#' 
+#' Note that the same prior distribution is assumed under $H_p$ and $H_a$.
+#' 
+#' @examples
+#' calc_LRs_wTwR(xT = c(0, 0), xR = c(0, 1), wT = 1e-2, wR = 1e-5, p = c(0.25, 0.25, 0.5)) |> log10() |> sum()
+#' 
+#' shpT <- get_beta_parameters(mu = 1e-2, sigmasq = 1e-7, a = 0, b = 0.5)
+#' # curve(dbeta05(x, shpT[1], shpT[2]), from = 0, to = 0.1, n = 1001)
+#' z1 <- calc_WoE_wTwR_integrate_wT_mc(
+#'   xT = c(0, 0), 
+#'   xR = c(0, 1), 
+#'   shape1T_Hp = shpT[1], 
+#'   shape2T_Hp = shpT[2],
+#'   shape1T_Ha = shpT[1], 
+#'   shape2T_Ha = shpT[2],
+#'   wR = 1e-5, 
+#'   p = c(0.25, 0.25, 0.5),
+#'   n_samples = 1000)
+#' z1
+#' 
+#' z2 <- alt_calc_WoE_wTwR_integrate_wT_mc(
+#'   xT = c(0, 0), 
+#'   xR = c(0, 1), 
+#'   shape1T = shpT[1], shape2T = shpT[2], 
+#'   wR = 1e-5, 
+#'   p = c(0.25, 0.25, 0.5))
+#' z2
+#'   
+#' @param xT profile from case (of 0, 1, 2)
+#' @param xR profile from suspect (of 0, 1, 2)
+#' @param shape1T under $H_1$ `wT` has beta prior on (0, 0.5) with parameters `shape1T_H1` and `shape2T_H1`
+#' @param shape2T see `shape1T_H1`
+#' @param wR error probability for PoI sample
+#' @param p list of genotype probabilities (same length as `xT`/`xR`, or vector of length 3 for reuse)
+#' @param n_samples number of random samples from each prior distribution
+#'
+#' @export
+alt_calc_WoE_wTwR_integrate_wT_mc <- function(xT, xR, shape1T, shape2T, wR, p, n_samples = 1000) {
+  xT <- check_x(xT)
+  xR <- check_x(xR)
+  
+  stopifnot(length(xR) == length(xT))
+  
+  # reuse
+  p <- reuse_genotype_probs(p = p, n = length(xR))
+  check_p(p)
+  stopifnot(length(p) == length(xT))
+  
+  wTs <- rbeta05(n_samples, shape1 = shape1T, shape2 = shape2T)
+  
+  
+  WoE_H1_mc <- unlist(lapply(seq_along(xR), function(i) {
+    pi <- p[[i]]
+    xTi <- xT[i]
+    xRi <- xR[i]
+    
+    WoE_H1_i_mc <- unlist(lapply(wTs, \(wT) {
+      LR_num <- calc_LR_num_Hp_single_no_checks_wTwR(
+        xT = xTi, xR = xRi, 
+        wT = wT, 
+        wR = wR,
+        p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L])
+      
+      log10(LR_num)
+    }))
+    
+    mean(WoE_H1_i_mc)
+  }))
+  
+  WoE_H2_mc <- unlist(lapply(seq_along(xR), function(i) {
+    pi <- p[[i]]
+    xTi <- xT[i]
+    xRi <- xR[i]
+    
+    WoE_H2_i_mc <- unlist(lapply(wTs, \(wT) {
+      LR_den <- calc_LR_den_Ha_single_no_checks_wTwR(
+        xT = xTi, xR = xRi, 
+        wT = wT, 
+        wR = wR,
+        p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L])
+      
+      log10(LR_den)
+    }))
+    
+    mean(WoE_H2_i_mc)
+  }))
+  
+  WoEs <- unlist(lapply(seq_along(xR), function(i) {
+    WoE_H1_mc[i] - WoE_H2_mc[i]
+  }))
+  
+  #WoE <- sum(WoE_H1_mc) - sum(WoE_H2_mc)
+  WoE <- sum(WoEs)
+  
+  return(WoE)
+}
