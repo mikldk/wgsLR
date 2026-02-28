@@ -1,21 +1,38 @@
-citHeader("To cite wgsLR in publications use:")
+citHeader("To cite wgsLR in publications, use both of the following:")
 
-bibentry(
-  key = "wgsLR",
-  bibtype  = "article",
-  doi = "10.1016/j.fsigen.2024.103146",
-  url = "https://doi.org/10.1016/j.fsigen.2024.103146",
-  author = c(person("Mikkel Meyer", "Andersen"), 
-             person("Marie-Louise", "Kampmann"),
-             person("Alberte Honoré", "Jepsen"),
-             person("Niels", "Morling"),
-             person("Poul Svante", "Eriksen"),
-             person("Claus", "Børsting"),
-             person("Jeppe Dyrberg", "Andersen")),
-  title = "{Shotgun DNA sequencing for human identification: Dynamic SNP selection and likelihood ratio calculations accounting for errors}",
-  journal = "Forensic Science International: Genetics",
-  volume = "74",
-  ISSN = "1872-4973",
-  publisher = "Elsevier BV", 
-  year = "2025"
+c(
+  bibentry(
+    key = "andersen-etal-wgsLR-2025",
+    bibtype  = "article",
+    doi = "10.1016/j.fsigen.2024.103146",
+    url = "https://doi.org/10.1016/j.fsigen.2024.103146",
+    author = c(person("Mikkel Meyer", "Andersen"), 
+               person("Marie-Louise", "Kampmann"),
+               person("Alberte Honoré", "Jepsen"),
+               person("Niels", "Morling"),
+               person("Poul Svante", "Eriksen"),
+               person("Claus", "Børsting"),
+               person("Jeppe Dyrberg", "Andersen")),
+    title = "{Shotgun DNA sequencing for human identification: Dynamic SNP selection and likelihood ratio calculations accounting for errors}",
+    journal = "Forensic Science International: Genetics",
+    volume = "74",
+    ISSN = "1872-4973",
+    publisher = "Elsevier BV", 
+    year = "2025"
+  ),
+  bibentry(
+    key = "andersen-wgsLRext-2026",
+    bibtype  = "article",
+    doi = "10.1016/j.fsigen.??",
+    url = "https://doi.org/10.1016/j.fsigen.??",
+    author = person("Mikkel Meyer", "Andersen"),
+    title = "{Shotgun DNA sequencing evidence: sample-specific and unknown genotyping error probabilities}",
+    journal = "Forensic Science International: Genetics",
+    volume = "??",
+    ISSN = "1872-4973",
+    publisher = "Elsevier BV", 
+    year = "2026"
+  )
 )
+
+citFooter("If you use wgsLR, please cite the articles.")

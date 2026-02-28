@@ -16,7 +16,6 @@ knitr::opts_chunk$set(
 
 ```{r setup, message=FALSE, warning=FALSE}
 library(wgsLR)
-library(kableExtra)
 ```
 
 # Estimating the genotype error probability, $w$
