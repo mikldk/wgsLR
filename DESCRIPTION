@@ -1,5 +1,5 @@
 Package: wgsLR
-Version: 0.0.1.9026
+Version: 0.0.2
 Title: Whole-genome sequencing genotype error estimation and forensic likelihood ratios accounting for errors
 Authors@R: c(
     person(given = "Mikkel Meyer", family = "Andersen",
@@ -13,7 +13,8 @@ Description: Forensic likelihood ratios for whole-genome sequencing accounting f
 Depends: 
     R (>= 3.5),
     methods,
-    dplyr
+    dplyr,
+    pracma
 License: GPL
 URL: https://github.com/mikldk/wgsLR
 BugReports: https://github.com/mikldk/wgsLR/issues
