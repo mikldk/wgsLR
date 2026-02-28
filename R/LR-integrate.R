@@ -451,6 +451,8 @@ calc_WoE_wTwR_integrate_wT_num <- function(xT, xR, shape1T_Hp, shape2T_Hp, shape
 #' @param wR error probability for PoI sample
 #' @param p list of genotype probabilities (same length as `xT`/`xR`, or vector of length 3 for reuse)
 #'
+#' @importFrom stats optimise
+#' 
 #' @export
 calc_WoE_wTwR_profilemax_wT_num <- function(xT, xR, wR, p) {
   xT <- check_x(xT)
@@ -467,14 +469,14 @@ calc_WoE_wTwR_profilemax_wT_num <- function(xT, xR, wR, p) {
   calc_num_Hp <- function(wT) {
     lik <- unlist(lapply(seq_along(xT), \(i) {
       pi <- p[[i]]
-      liki <- wgsLR:::calc_LR_num_Hp_single_no_checks_wTwR(xT = xT[i], xR = xR[i], wT = wT, wR = wR, p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L])
+      liki <- calc_LR_num_Hp_single_no_checks_wTwR(xT = xT[i], xR = xR[i], wT = wT, wR = wR, p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L])
       log10(liki)
     }))
     
     sum(lik)
   }
   #calc_num_Hp(1e-3)
-  opt_res_Hp <- optimise(calc_num_Hp, maximum = TRUE, interval = c(wR, 0.5), tol = 1e-14)
+  opt_res_Hp <- stats::optimise(calc_num_Hp, maximum = TRUE, interval = c(wR, 0.5), tol = 1e-14)
   #opt_res_Hp
 
   
@@ -482,14 +484,14 @@ calc_WoE_wTwR_profilemax_wT_num <- function(xT, xR, wR, p) {
   calc_den_Ha <- function(wT) {
     lik <- unlist(lapply(seq_along(xT), \(i) {
       pi <- p[[i]]
-      liki <- wgsLR:::calc_LR_den_Ha_single_no_checks_wTwR(xT = xT[i], xR = xR[i], wT = wT, wR = wR, p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L])
+      liki <- calc_LR_den_Ha_single_no_checks_wTwR(xT = xT[i], xR = xR[i], wT = wT, wR = wR, p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L])
       log10(liki)
     }))
     
     sum(lik)
   }
   #calc_den_Ha(1e-3)
-  opt_res_Ha <- optimise(calc_den_Ha, maximum = TRUE, interval = c(wR, 0.5), tol = 1e-14)
+  opt_res_Ha <- stats::optimise(calc_den_Ha, maximum = TRUE, interval = c(wR, 0.5), tol = 1e-14)
   #opt_res_Ha
   
   if (FALSE) {

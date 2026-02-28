@@ -49,6 +49,7 @@ po/*~
 rsconnect/
 
 README.html
+/README_files/
 #docs
 inst/doc
 /doc/

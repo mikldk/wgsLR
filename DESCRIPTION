@@ -11,8 +11,9 @@ Maintainer: Mikkel Meyer Andersen <mikl@math.aau.dk>
 Encoding: UTF-8
 Description: Forensic likelihood ratios for whole-genome sequencing accounting for errors.
 Depends: 
-    R (>= 3.5),
+    R (>= 4.1.0),
     methods,
+    stats,
     dplyr,
     pracma
 License: GPL

@@ -166,6 +166,8 @@ generate_mll <- function(x) {
 #' estimate_w(tab2)
 #' estimate_w(tab2, use_mpfr = TRUE)
 #' 
+#' @importFrom stats optimise
+#' 
 #' @export
 estimate_w <- function(x, use_mpfr = FALSE, ...) {
   mll <- generate_mll(x)
@@ -173,13 +175,13 @@ estimate_w <- function(x, use_mpfr = FALSE, ...) {
   w_hat <- if (length(use_mpfr) == 1L && 
                is.logical(use_mpfr) && 
                use_mpfr == TRUE && 
-               require("Rmpfr", quietly = TRUE)) {
-    optimizeR(mll, lower = 1e-32, upper = .5, ...)$minimum
+               requireNamespace("Rmpfr", quietly = TRUE)) {
+    Rmpfr::optimizeR(mll, lower = 1e-32, upper = .5, ...)$minimum
   } else {
     if ("tol" %in% names(list(...))) {
-      optimise(mll, interval = c(1e-32, .5), ...)$minimum
+      stats::optimise(mll, interval = c(1e-32, .5), ...)$minimum
     } else {
-      optimise(mll, interval = c(1e-32, .5), tol = .Machine$double.eps, ...)$minimum
+      stats::optimise(mll, interval = c(1e-32, .5), tol = .Machine$double.eps, ...)$minimum
     }
   }
    
@@ -337,6 +339,8 @@ if (FALSE) {
 #' mean(q); #plot(q, type = "l"); hist(q)
 #' sapply(y, \(x) x$acceptance_ratio)
 #' 
+#' @importFrom stats runif
+#' 
 #' @export
 estimate_w_bayesian <- function(x, 
                                 prior_a = 1, prior_b = 1, 
@@ -349,7 +353,7 @@ estimate_w_bayesian <- function(x,
   proposal <- function(old_w) {
     lwr <- max(0, old_w - 0.01)
     upr <- min(0.5, old_w + 0.01)
-    runif(1, lwr, upr)
+    stats::runif(1, lwr, upr)
   }
   
   log_posterior <- function(w) {
@@ -365,7 +369,7 @@ estimate_w_bayesian <- function(x,
     acceptances <- 0L
     
     # Warmup
-    Us <- runif(n)
+    Us <- stats::runif(n)
     for (iter in seq_len(n)) {
       w_hat_new <- proposal(w_hat_current)
       log_posterior_new <- log_posterior(w_hat_new)
@@ -388,7 +392,7 @@ estimate_w_bayesian <- function(x,
   chain_samples <- chains_function(seq_len(chains), function(chain) {
     
     # Warmup
-    w_hat_current <- runif(1, 0, 0.5)
+    w_hat_current <- stats::runif(1, 0, 0.5)
     if (warmup > 0L) {
       samples <- generate_samples(w_hat_current = w_hat_current, n = warmup)
       w_hat_current <- samples$samples[warmup]
@@ -415,8 +419,10 @@ estimate_w_bayesian <- function(x,
 #' q <- posterior_samples(y)
 #' mean(q); #plot(q, type = "l"); hist(q)
 #' 
+#' @importFrom methods is
+#' 
 #' @export
 posterior_samples <- function(x) {
-  stopifnot(is(x, "wgsLR_bayesian_sample"))
+  stopifnot(methods::is(x, "wgsLR_bayesian_sample"))
   lapply(x, \(y) y$samples) |> unlist()
 }

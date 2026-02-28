@@ -7,3 +7,6 @@
 ^Meta$
 ^\.github$
 ^CITATION\.cff$
+^data-raw$
+^README\.Rmd$
+

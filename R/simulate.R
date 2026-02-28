@@ -13,6 +13,8 @@
 #' 
 #' @return list, element for each locus is a matrix with n rows and two columns
 #' 
+#' @importFrom stats runif
+#' 
 #' @export
 sample_profiles_without_error <- function(n, p) {
   p <- reuse_genotype_probs(p = p, n = 1L)
@@ -26,7 +28,7 @@ sample_profiles_without_error <- function(n, p) {
     z_alleles[z_geno == 2L] <- 1L
     
     idx_het <- which(z_geno == 1L)
-    idx_het01_idx <- runif(length(idx_het)) < 0.5
+    idx_het01_idx <- stats::runif(length(idx_het)) < 0.5
     idx_het01 <- idx_het[idx_het01_idx]
     idx_het10 <- idx_het[!idx_het01_idx]
     
@@ -401,6 +403,8 @@ sample_data_Ha_wTwR <- function(n, wT, wR, p, ...) {
 #' new_tab
 #' estimate_w(new_tab)
 #' 
+#' @importFrom stats rmultinom
+#' 
 #' @export
 add_errors_Hp_w <- function(tab, w) {
   if (is.integer(tab) && length(tab) == 3L) {
@@ -417,7 +421,7 @@ add_errors_Hp_w <- function(tab, w) {
   new_tab <- matrix(0L, nrow = 3L, ncol = 3L)
   for (i in seq_len(nrow(tab))) {
     #i <- 1
-    num_of_each <- rmultinom(n = 1L, size = tab[i, i], prob = probs[[i]]$prob)
+    num_of_each <- stats::rmultinom(n = 1L, size = tab[i, i], prob = probs[[i]]$prob)
     
     for (j in seq_along(num_of_each)) {
       #j <- 1
@@ -463,7 +467,7 @@ add_errors_Hp_wTwR <- function(tab, wT, wR) {
   new_tab <- matrix(0L, nrow = 3L, ncol = 3L)
   for (i in seq_len(nrow(tab))) {
     #i <- 1
-    num_of_each <- rmultinom(n = 1L, size = tab[i, i], prob = probs[[i]]$prob)
+    num_of_each <- stats::rmultinom(n = 1L, size = tab[i, i], prob = probs[[i]]$prob)
     
     for (j in seq_along(num_of_each)) {
       #j <- 1
@@ -515,8 +519,8 @@ add_errors_Ha_w <- function(tab, w) {
     for (i_col in seq_len(ncol(tab))) {
       #i_col <- 1
       d_tmp <- probs[[i_row]][[i_col]]
-      num_of_each <- rmultinom(n = 1L, size = tab[i_row, i_col], 
-                               prob = probs[[i_row]][[i_col]]$prob)
+      num_of_each <- stats::rmultinom(n = 1L, size = tab[i_row, i_col], 
+                                      prob = probs[[i_row]][[i_col]]$prob)
       
       for (j in seq_along(num_of_each)) {
         #j <- 1
@@ -564,8 +568,8 @@ add_errors_Ha_wTwR <- function(tab, wT, wR) {
     for (i_col in seq_len(ncol(tab))) {
       #i_col <- 1
       d_tmp <- probs[[i_row]][[i_col]]
-      num_of_each <- rmultinom(n = 1L, size = tab[i_row, i_col], 
-                               prob = probs[[i_row]][[i_col]]$prob)
+      num_of_each <- stats::rmultinom(n = 1L, size = tab[i_row, i_col], 
+                                      prob = probs[[i_row]][[i_col]]$prob)
       
       for (j in seq_along(num_of_each)) {
         #j <- 1
