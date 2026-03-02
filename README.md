@@ -1,5 +1,5 @@
 
-# `wgsLR`: Shotgun sequencing for human identification: Dynamic SNP marker sets and likelihood ratio calculations accounting for errors
+# `wgsLR`: Shotgun sequencing for human identification
 
 Please refer to the online documentation at
 <https://mikldk.github.io/wgsLR>, including the vignettes.
@@ -14,6 +14,11 @@ The research associated with this software is described in
 > calculations accounting for errors.* Forensic Science International:
 > Genetics, 74, 103146.
 > [doi:10.1016/j.fsigen.2024.103146](https://doi.org/10.1016/j.fsigen.2024.103146).
+
+> Andersen, M. M. *Shotgun DNA sequencing evidence: sample-specific and
+> unknown genotyping error probabilities.* Forensic Science
+> International: Genetics, ??, ????.
+> [doi:10.1016/j.fsigen.??](https://doi.org/10.1016/j.fsigen.??).
 
 ## Installation
 
@@ -43,16 +48,16 @@ tab
 
     ##    
     ##       0   1   2
-    ##   0 153  67  11
-    ##   1  57 177 106
-    ##   2  11  98 320
+    ##   0 156  59   6
+    ##   1  43 189 101
+    ##   2   8  94 344
 
 ``` r
 w_mle <- wgsLR::estimate_w(tab)
 w_mle
 ```
 
-    ## [1] 0.1176102
+    ## [1] 0.09897642
 
 #### Cautionary note: not just standard VCF files
 
@@ -226,4 +231,4 @@ wgsLR::calc_WoE_wTwR_integrate_wT_mc(
   p = c(0.25, 0.25, 0.5))
 ```
 
-    ## [1] -1.871859
+    ## [1] -1.884919

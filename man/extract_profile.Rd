@@ -4,12 +4,12 @@
 \alias{extract_profile}
 \title{Extract profile from ranked markers}
 \usage{
-extract_profile(x, markers = marker_candidates_v1)
+extract_profile(x, markers = NULL)
 }
 \arguments{
 \item{x}{Data (potentially already filtered), including columns \code{chr} and \code{pos}}
 
-\item{markers}{Marker ranking}
+\item{markers}{Marker ranking, if \code{NULL} use \code{marker_candidates_v1}}
 }
 \value{
 Original data with extra columns \code{segment}, \code{segment_no} and \code{rank}

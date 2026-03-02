@@ -7,7 +7,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(kableExtra)
 ```
 
-# `wgsLR`: Shotgun sequencing for human identification: Dynamic SNP marker sets and likelihood ratio calculations accounting for errors
+# `wgsLR`: Shotgun sequencing for human identification
 
 Please refer to the online documentation at <https://mikldk.github.io/wgsLR>, including the vignettes.
 

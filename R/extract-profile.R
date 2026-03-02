@@ -6,7 +6,7 @@
 #'       See examples below for one way to inspect this.
 #' 
 #' @param x Data (potentially already filtered), including columns `chr` and `pos`
-#' @param markers Marker ranking
+#' @param markers Marker ranking, if `NULL` use `marker_candidates_v1`
 #' 
 #' @return Original data with extra columns `segment`, `segment_no` and `rank`
 #' @examples
@@ -53,15 +53,27 @@
 #' cbind(ws, LRs_ws_Xd4)
 #' 
 #' @importFrom dplyr select slice_min group_by rename inner_join
+#' @importFrom rlang .data
+#' 
 #' @export
-extract_profile <- function(x, markers = marker_candidates_v1) {
-  marker_cand <- markers |> select(chr, pos, segment, segment_no, rank)
+extract_profile <- function(x, markers = NULL) {
+  if (is.null(markers)) {
+    markers <- marker_candidates_v1
+  }
+  
+  marker_cand <- markers |> 
+    dplyr::select(.data$chr, 
+                  .data$pos,
+                  .data$segment, 
+                  .data$segment_no, 
+                  .data$rank)
+  
   cand <- x |> dplyr::inner_join(marker_cand, by = c("chr", "pos")) 
   cand_rank <- cand |>
-    ungroup() |> 
-    group_by(chr, segment_no) |>
-    slice_min(n = 1L, order_by = rank) |> 
-    ungroup()
+    dplyr::ungroup() |> 
+    dplyr::group_by(.data$chr, .data$segment_no) |>
+    dplyr::slice_min(n = 1L, order_by = .data$rank) |> 
+    dplyr::ungroup()
 
   cand_rank
 }
