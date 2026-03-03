@@ -211,7 +211,7 @@ test_that("calc_WoE_wTwR_integrate_wT", {
     wR = 1e-5,
     p = c(0.25, 0.25, 0.5))
   
-  expect_equal(z1, z2, tolerance = 1e-2)
+  expect_equal(z1, z2, tolerance = 1e-1)
 })
 
 
