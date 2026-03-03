@@ -14,8 +14,6 @@ Depends:
     R (>= 4.1.0),
     methods,
     stats,
-    rlang,
-    dplyr,
     pracma
 License: GPL
 URL: https://github.com/mikldk/wgsLR

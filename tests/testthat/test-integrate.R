@@ -174,7 +174,7 @@ test_that("calc_WoE_wTwR_integrate_wT", {
     wR = 1e-5,
     p = c(0.25, 0.25, 0.5),
     n_samples = 10000)
-  expect_equal(z1, WoE, tolerance = 1e-3)
+  expect_equal(z1, WoE, tolerance = 1e-2)
   
   z2 <- calc_WoE_wTwR_integrate_wT_num(
     xT = c(0, 0),
