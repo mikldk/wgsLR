@@ -76,8 +76,20 @@ where <code>n1 = sum(diag(x))</code>, <code>n2 = x[1L, 3L] + x[3L, 1L]</code>,
 <dd><p>Second shape parameter for prior beta distribution</p></dd>
 
 
+<dt id="arg-chains">chains<a class="anchor" aria-label="anchor" href="#arg-chains"></a></dt>
+<dd><p>Number of chains to run</p></dd>
+
+
+<dt id="arg-chains-function">chains_function<a class="anchor" aria-label="anchor" href="#arg-chains-function"></a></dt>
+<dd><p>Function to run the chains (fx <code>lapply</code> or <code><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">parallel::mclapply</a></code>)</p></dd>
+
+
+<dt id="arg-warmup">warmup<a class="anchor" aria-label="anchor" href="#arg-warmup"></a></dt>
+<dd><p>Number of warm-up iterations</p></dd>
+
+
 <dt id="arg-iterations">iterations<a class="anchor" aria-label="anchor" href="#arg-iterations"></a></dt>
-<dd><p>Number of iterations</p></dd>
+<dd><p>Number of iterations (after warm-up)</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -104,9 +116,9 @@ Bayesian approach.</p>
 <span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu">estimate_w_bayesian</span><span class="op">(</span><span class="va">tab1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">q</span> <span class="op">&lt;-</span> <span class="fu"><a href="posterior_samples.html">posterior_samples</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span>; <span class="co">#plot(q, type = "l"); hist(q)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.008403543</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.00840131</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">y</span>, \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">$</span><span class="va">acceptance_ratio</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2203 0.2207 0.2160 0.2259</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2198 0.2197 0.2137 0.2242</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">estimate_w_bayesian</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">750</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, chains <span class="op">=</span> <span class="fl">1</span>, warmup <span class="op">=</span> <span class="fl">0</span>, iterations <span class="op">=</span> <span class="fl">500</span><span class="op">)</span> <span class="op">|&gt;</span> </span></span>
 <span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">$</span><span class="va">samples</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span></span></span>
@@ -116,9 +128,9 @@ Bayesian approach.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9.733533e-17</span>
 <span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu">estimate_w_bayesian</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">750</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span>; <span class="va">q</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">y</span>, \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">$</span><span class="va">samples</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span>; <span class="co">#plot(q, type = "l"); hist(q)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.000343584</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.000343109</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">y</span>, \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">$</span><span class="va">acceptance_ratio</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0613 0.0647 0.0657 0.0627</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0601 0.0651 0.0673 0.0620</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -127,7 +139,7 @@ Bayesian approach.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Mikkel Meyer Andersen, Poul Svante Eriksen.</p>
+  <p>Developed by Mikkel Meyer Andersen.</p>
 </div>
 
 <div class="pkgdown-footer-right">

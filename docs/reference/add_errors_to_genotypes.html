@@ -76,28 +76,28 @@ follows a Beta distribution with mean value $w$ and variance <code>overdisp_var<
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.8</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="to012.html">to012</a></span><span class="op">(</span><span class="va">Z</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    2    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    0    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    2    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]    0    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    1    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    2    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    0    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]    1    1</span>
 <span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu">add_errors_to_genotypes</span><span class="op">(</span><span class="va">Z</span>, <span class="fl">0.5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">X</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    1    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    0    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    1    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]    0    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    1    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    1    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]    0    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    0    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]    1    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    1    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    1    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    0    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]    1    1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="to012.html">to012</a></span><span class="op">(</span><span class="va">Z</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="to012.html">to012</a></span><span class="op">(</span><span class="fu">add_errors_to_genotypes</span><span class="op">(</span><span class="va">Z</span>, <span class="fl">0.0</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2]</span>
@@ -115,11 +115,11 @@ follows a Beta distribution with mean value $w$ and variance <code>overdisp_var<
 <span class="r-in"><span><span class="va">tab</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       0   1   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0 325  95   4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   1 133 266  46</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   2   5  47  79</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0 352 106   8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   1 119 264  48</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   2   2  39  62</span>
 <span class="r-in"><span><span class="fu"><a href="estimate_w.html">estimate_w</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1042099</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1015527</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">X1</span> <span class="op">&lt;-</span> <span class="fu">add_errors_to_genotypes</span><span class="op">(</span><span class="va">Z</span>, <span class="fl">0.1</span>, overdisp_var <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">X2</span> <span class="op">&lt;-</span> <span class="fu">add_errors_to_genotypes</span><span class="op">(</span><span class="va">Z</span>, <span class="fl">0.1</span>, overdisp_var <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span></span></span>
@@ -127,11 +127,11 @@ follows a Beta distribution with mean value $w$ and variance <code>overdisp_var<
 <span class="r-in"><span><span class="va">tab</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       0   1   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0 331 100  14</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   1  99 288  47</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   2  10  37  74</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0 372  91  10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   1  90 286  40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   2  14  34  63</span>
 <span class="r-in"><span><span class="fu"><a href="estimate_w.html">estimate_w</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1014438</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.09096603</span>
 <span class="r-in"><span><span class="co"># p &lt;- get_beta_parameters(0.1, 0.01); curve(dbeta(x, p[1], p[2]), from = 0, to = 1)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
@@ -142,11 +142,11 @@ follows a Beta distribution with mean value $w$ and variance <code>overdisp_var<
 <span class="r-in"><span><span class="va">tab</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       0   1   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0 355  89  19</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   1  93 294  34</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   2   9  39  68</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0 364  91  17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   1 108 271  33</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   2   9  44  63</span>
 <span class="r-in"><span><span class="fu"><a href="estimate_w.html">estimate_w</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.09397646</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1003366</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -155,7 +155,7 @@ follows a Beta distribution with mean value $w$ and variance <code>overdisp_var<
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Mikkel Meyer Andersen, Poul Svante Eriksen.</p>
+  <p>Developed by Mikkel Meyer Andersen.</p>
 </div>
 
 <div class="pkgdown-footer-right">

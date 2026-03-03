@@ -73,25 +73,29 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>   1  63  71 122</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   2 109 116 258</span>
 <span class="r-in"><span><span class="va">new_tab</span> <span class="op">&lt;-</span> <span class="fu">add_errors_Ha_w</span><span class="op">(</span><span class="va">tab</span>, w <span class="op">=</span> <span class="fl">0.15</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in split.default(x = seq_len(nrow(x)), f = f, drop = drop, ...):</span> group length is 0 but data length &gt; 0</span>
 <span class="r-in"><span><span class="va">new_tab</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'new_tab' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]   45   93  101</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]   72  144  159</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]   84  144  158</span>
 <span class="r-in"><span><span class="fu"><a href="estimate_w.html">estimate_w</a></span><span class="op">(</span><span class="va">new_tab</span><span class="op">)</span> <span class="co"># wrong!</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'new_tab' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5</span>
 <span class="r-in"><span><span class="va">Z</span> <span class="op">&lt;-</span> <span class="fu"><a href="sample_profiles_without_error.html">sample_profiles_without_error</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10000</span>, p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu"><a href="to012.html">to012</a></span><span class="op">(</span><span class="va">Z</span><span class="op">)</span>, <span class="fu"><a href="to012.html">to012</a></span><span class="op">(</span><span class="va">Z</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">tab</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        0    1    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0 2523    0    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   1    0 2513    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   2    0    0 4964</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0 2535    0    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   1    0 2498    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   2    0    0 4967</span>
 <span class="r-in"><span><span class="va">new_tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="add_errors_Hp_w.html">add_errors_Hp_w</a></span><span class="op">(</span><span class="va">tab</span>, w <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in add_errors_Hp_w(tab, w = 0.25):</span> isTRUE(all.equal(sum(tab), sum(new_tab))) is not TRUE</span>
 <span class="r-in"><span><span class="va">new_tab</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'new_tab' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  897  958  363</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]  910 1995 1427</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]  356 1395 1699</span>
 <span class="r-in"><span><span class="fu"><a href="estimate_w.html">estimate_w</a></span><span class="op">(</span><span class="va">new_tab</span><span class="op">)</span> <span class="co"># ok</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'new_tab' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2529405</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -100,7 +104,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Mikkel Meyer Andersen, Poul Svante Eriksen.</p>
+  <p>Developed by Mikkel Meyer Andersen.</p>
 </div>
 
 <div class="pkgdown-footer-right">
