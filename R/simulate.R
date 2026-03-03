@@ -425,8 +425,8 @@ add_errors_Hp_w <- function(tab, w) {
     
     for (j in seq_along(num_of_each)) {
       #j <- 1
-      row <- probs[[i]]$XD012[j] + 1L # 012 -> 123
-      col <- probs[[i]]$XS012[j] + 1L # 012 -> 123
+      row <- probs[[i]]$XT012[j] + 1L # 012 -> 123
+      col <- probs[[i]]$XR012[j] + 1L # 012 -> 123
       new_tab[row, col] <- new_tab[row, col] + num_of_each[j]
     }
   }
@@ -471,8 +471,8 @@ add_errors_Hp_wTwR <- function(tab, wT, wR) {
     
     for (j in seq_along(num_of_each)) {
       #j <- 1
-      row <- probs[[i]]$XD012[j] + 1L # 012 -> 123
-      col <- probs[[i]]$XS012[j] + 1L # 012 -> 123
+      row <- probs[[i]]$XT012[j] + 1L # 012 -> 123
+      col <- probs[[i]]$XR012[j] + 1L # 012 -> 123
       new_tab[row, col] <- new_tab[row, col] + num_of_each[j]
     }
   }
@@ -509,8 +509,8 @@ add_errors_Ha_w <- function(tab, w) {
   
   d_probs <- wgsLR::d_probtable_Ha_w
   d_probs$prob <- unlist(lapply(d_probs$expr, function(z) eval(parse(text = z), list(w = w))))
-  probs <- lapply(split(d_probs, d_probs$ZD012), 
-                  function(l) split(l, l$ZS012))
+  probs <- lapply(split(d_probs, d_probs$ZT012), 
+                  function(l) split(l, l$ZR012))
   #lapply(probs, \(l1) lapply(l1, \(l) sum(l$prob))) |> unlist()
   
   new_tab <- matrix(0L, nrow = 3L, ncol = 3L)
@@ -524,8 +524,8 @@ add_errors_Ha_w <- function(tab, w) {
       
       for (j in seq_along(num_of_each)) {
         #j <- 1
-        row <- d_tmp$XD012[j] + 1L # 012 -> 123
-        col <- d_tmp$XS012[j] + 1L # 012 -> 123
+        row <- d_tmp$XT012[j] + 1L # 012 -> 123
+        col <- d_tmp$XR012[j] + 1L # 012 -> 123
         new_tab[row, col] <- new_tab[row, col] + num_of_each[j]
       }
     }
@@ -558,8 +558,8 @@ add_errors_Ha_wTwR <- function(tab, wT, wR) {
   
   d_probs <- wgsLR::d_probtable_Ha_wTwR
   d_probs$prob <- unlist(lapply(d_probs$expr, function(z) eval(parse(text = z), list(wT = wT, wR = wR))))
-  probs <- lapply(split(d_probs, d_probs$ZD012), 
-                  function(l) split(l, l$ZS012))
+  probs <- lapply(split(d_probs, d_probs$ZT012), 
+                  function(l) split(l, l$ZR012))
   #lapply(probs, \(l1) lapply(l1, \(l) sum(l$prob))) |> unlist()
   
   new_tab <- matrix(0L, nrow = 3L, ncol = 3L)
@@ -573,8 +573,8 @@ add_errors_Ha_wTwR <- function(tab, wT, wR) {
       
       for (j in seq_along(num_of_each)) {
         #j <- 1
-        row <- d_tmp$XD012[j] + 1L # 012 -> 123
-        col <- d_tmp$XS012[j] + 1L # 012 -> 123
+        row <- d_tmp$XT012[j] + 1L # 012 -> 123
+        col <- d_tmp$XR012[j] + 1L # 012 -> 123
         new_tab[row, col] <- new_tab[row, col] + num_of_each[j]
       }
     }

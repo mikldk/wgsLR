@@ -19,7 +19,12 @@ calc_WoE_wTwR_profilemax_wT_num(xT, xR, wR, p)
 Calculate WoE for sample-specific error probabilities using profile likelihood using numerical optimisation
 }
 \examples{
-calc_LRs_wTwR(xT = c(0, 0), xR = c(0, 1), wT = 1e-2, wR = 1e-5, p = c(0.25, 0.25, 0.5)) |> log10() |> sum()
+calc_LRs_wTwR(
+  xT = c(0, 0), 
+  xR = c(0, 1), 
+  wT = 1e-2, 
+  wR = 1e-5, 
+  p = c(0.25, 0.25, 0.5)) |> log10() |> sum()
 
 calc_WoE_wTwR_profilemax_wT_num(
   xT = c(0, 0), 

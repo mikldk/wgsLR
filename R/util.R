@@ -1,5 +1,9 @@
 #' Re-use genotype probabilities
 #' 
+#' @param p Genotype probabilities
+#' @param n Number of times to re-use
+#' 
+#' @examples
 #' p <- c(0.2, 0.7, 0.1)
 #' to012(sample_profiles_without_error(n = 2, p = p))
 #' 
@@ -16,6 +20,8 @@ reuse_genotype_probs <- function(p, n) {
 }
 
 #' Allele probabilities to genotype probabilities assuming Hardy-Weinberg equilibrium
+#' 
+#' @param x Allele probs
 #' 
 #' @examples
 #' allele_probs_to_geno_probs(c(0.1, 0.2))

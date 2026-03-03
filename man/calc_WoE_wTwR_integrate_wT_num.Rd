@@ -37,7 +37,12 @@ Note that the numerical integration can have problems for prior distributions wi
 Remember to verify results, e.g. by comparing to Monte Carlo integration by \code{\link[=calc_WoE_wTwR_integrate_wT_mc]{calc_WoE_wTwR_integrate_wT_mc()}}.
 }
 \examples{
-calc_LRs_wTwR(xT = c(0, 0), xR = c(0, 1), wT = 1e-2, wR = 1e-5, p = c(0.25, 0.25, 0.5)) |> log10() |> sum()
+calc_LRs_wTwR(
+  xT = c(0, 0), 
+  xR = c(0, 1), 
+  wT = 1e-2, 
+  wR = 1e-5, 
+  p = c(0.25, 0.25, 0.5)) |> log10() |> sum()
 
 shpT <- get_beta_parameters(mu = 1e-2, sigmasq = 1e-7, a = 0, b = 0.5)
 # curve(dbeta05(x, shpT[1], shpT[2]), from = 0, to = 0.1, n = 1001)

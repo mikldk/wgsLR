@@ -181,7 +181,12 @@ int_LR_den_Ha_single_no_checks_wTwR <- function(xT, xR, wT, wR, p_0, p_1, p_2, s
 #' Calculate WoE for a profile for sample-specific error probabilities integrated over the donor prior distribution using Monte Carlo integration
 #' 
 #' @examples
-#' calc_LRs_wTwR(xT = c(0, 0), xR = c(0, 1), wT = 1e-2, wR = 1e-5, p = c(0.25, 0.25, 0.5)) |> log10() |> sum()
+#' calc_LRs_wTwR(
+#'   xT = c(0, 0), 
+#'   xR = c(0, 1), 
+#'   wT = 1e-2, 
+#'   wR = 1e-5, 
+#'   p = c(0.25, 0.25, 0.5)) |> log10() |> sum()
 #' 
 #' shpT <- get_beta_parameters(mu = 1e-2, sigmasq = 1e-7, a = 0, b = 0.5)
 #' # curve(dbeta05(x, shpT[1], shpT[2]), from = 0, to = 0.1, n = 1001)
@@ -415,7 +420,12 @@ calc_WoE_wTwR_integrate_wT_num <- function(xT, xR, shape1T_Hp, shape2T_Hp, shape
 #' Calculate WoE for sample-specific error probabilities using profile likelihood using numerical optimisation
 #' 
 #' @examples
-#' calc_LRs_wTwR(xT = c(0, 0), xR = c(0, 1), wT = 1e-2, wR = 1e-5, p = c(0.25, 0.25, 0.5)) |> log10() |> sum()
+#' calc_LRs_wTwR(
+#'   xT = c(0, 0), 
+#'   xR = c(0, 1), 
+#'   wT = 1e-2, 
+#'   wR = 1e-5, 
+#'   p = c(0.25, 0.25, 0.5)) |> log10() |> sum()
 #' 
 #' calc_WoE_wTwR_profilemax_wT_num(
 #'   xT = c(0, 0), 
@@ -532,7 +542,12 @@ calc_WoE_wTwR_profilemax_wT_num <- function(xT, xR, wR, p) {
 #' #' Note that the same prior distribution is assumed under $H_p$ and $H_a$.
 #' #' 
 #' #' @examples
-#' #' calc_LRs_wTwR(xT = c(0, 0), xR = c(0, 1), wT = 1e-2, wR = 1e-5, p = c(0.25, 0.25, 0.5)) |> log10() |> sum()
+#' #' calc_LRs_wTwR(
+#' #'   xT = c(0, 0), 
+#' #'    xR = c(0, 1), 
+#' #'    wT = 1e-2, 
+#' #'    wR = 1e-5, 
+#' #'    p = c(0.25, 0.25, 0.5)) |> log10() |> sum()
 #' #' 
 #' #' shpT <- get_beta_parameters(mu = 1e-2, sigmasq = 1e-7, a = 0, b = 0.5)
 #' #' # curve(dbeta05(x, shpT[1], shpT[2]), from = 0, to = 0.1, n = 1001)

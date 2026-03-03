@@ -6,6 +6,9 @@
 \usage{
 get_ns(x)
 }
+\arguments{
+\item{x}{Table}
+}
 \description{
 Get counts from table
 }

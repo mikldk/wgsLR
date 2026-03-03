@@ -25,7 +25,13 @@ where \code{n1 = sum(diag(x))}, \code{n2 = x[1L, 3L] + x[3L, 1L]},
 
 \item{prior_b}{Second shape parameter for prior beta distribution}
 
-\item{iterations}{Number of iterations}
+\item{chains}{Number of chains to run}
+
+\item{chains_function}{Function to run the chains (fx \code{lapply} or \code{parallel::mclapply})}
+
+\item{warmup}{Number of warm-up iterations}
+
+\item{iterations}{Number of iterations (after warm-up)}
 
 \item{\dots}{Not used}
 }

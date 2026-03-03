@@ -6,11 +6,19 @@
 \usage{
 reuse_genotype_probs(p, n)
 }
+\arguments{
+\item{p}{Genotype probabilities}
+
+\item{n}{Number of times to re-use}
+}
 \description{
+Re-use genotype probabilities
+}
+\examples{
 p <- c(0.2, 0.7, 0.1)
 to012(sample_profiles_without_error(n = 2, p = p))
-}
-\details{
+
 p_10loci <- reuse_genotype_probs(p, 10)
 to012(sample_profiles_without_error(n = 2, p = p_10loci))
+
 }

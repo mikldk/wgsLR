@@ -6,6 +6,9 @@
 \usage{
 allele_probs_to_geno_probs(x)
 }
+\arguments{
+\item{x}{Allele probs}
+}
 \description{
 Allele probabilities to genotype probabilities assuming Hardy-Weinberg equilibrium
 }
