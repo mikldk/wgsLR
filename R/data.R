@@ -64,27 +64,3 @@
 #' Probabilties for efficient sampling under Hd for one error probability, $w$
 "d_probtable_Ha_wTwR"
 
-
-
-
-
-
-
-
-#' Marker candidates (v1)
-#' 
-#' Data from The Genome Aggregation Database (gnomAD) for 
-#' binary SNP loci with `rs` names, i.e., 
-#' where the `rs` column starts with `rs`, 
-#' there is one character in the `ref` column and one character in the `alt` column.
-#' 
-#' The loci are filtered by MAF values for AFR, EAS, and NFE populations. 
-#' The MAF values must be within 0.1, 0.15, 0.2 from 0.5.
-#' 
-#' @source <https://gnomad.broadinstitute.org/>
-"marker_candidates_v1"
-
-# VCF example data
-# 
-# Based on marker_candidates_v1 and markers not in that, too
-#"vcf_example_data_v1"

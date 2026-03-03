@@ -7,6 +7,8 @@
 estimate_w_se(x, w, method.args = list())
 }
 \arguments{
+\item{x}{Table, see \code{\link[=estimate_w]{estimate_w()}}}
+
 \item{w}{estimated error probability w}
 
 \item{method.args}{see \code{\link[numDeriv:grad]{numDeriv::grad()}}}

@@ -48,16 +48,16 @@ tab
 
     ##    
     ##       0   1   2
-    ##   0 156  59   6
-    ##   1  43 189 101
-    ##   2   8  94 344
+    ##   0 155  62   8
+    ##   1  52 213  75
+    ##   2   6  94 335
 
 ``` r
 w_mle <- wgsLR::estimate_w(tab)
 w_mle
 ```
 
-    ## [1] 0.09897642
+    ## [1] 0.09375406
 
 #### Cautionary note: not just standard VCF files
 
@@ -231,4 +231,4 @@ wgsLR::calc_WoE_wTwR_integrate_wT_mc(
   p = c(0.25, 0.25, 0.5))
 ```
 
-    ## [1] -1.884919
+    ## [1] -1.888197

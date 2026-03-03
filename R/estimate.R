@@ -195,6 +195,7 @@ estimate_w <- function(x, use_mpfr = FALSE, ...) {
 #' Note that this relies on the Hessian approximation returned by
 #' [numDeriv::hessian()].
 #' 
+#' @param x Table, see [estimate_w()]
 #' @param w estimated error probability w
 #' @param method.args see [numDeriv::grad()]
 #' 

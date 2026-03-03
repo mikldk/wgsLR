@@ -547,7 +547,7 @@ add_errors_Ha_w <- function(tab, w) {
 #' @examples
 #' zT <- sample_profiles_without_error(n = 1000, p = c(0.25, 0.25, 0.5))
 #' zR <- sample_profiles_without_error(n = 1000, p = c(0.25, 0.25, 0.5))
-#' tab <- table(to012(Z_T), to012(zR))
+#' tab <- table(to012(zT), to012(zR))
 #' tab
 #' add_errors_Ha_wTwR(tab, wT = 0.1, wR = 1e-6)
 #' add_errors_Ha_w(tab, w = 0.05)
