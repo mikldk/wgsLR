@@ -19,9 +19,9 @@ The research associated with this software is described in
 > *Shotgun DNA sequencing for human identification: Dynamic SNP selection and likelihood ratio calculations accounting for errors.* 
 > Forensic Science International: Genetics, 74, 103146. [doi:10.1016/j.fsigen.2024.103146](https://doi.org/10.1016/j.fsigen.2024.103146).
 
-> Andersen, M. M. 
+> Andersen, M. M. (2026). 
 > *Shotgun DNA sequencing evidence: sample-specific and unknown genotyping error probabilities.* 
-> Forensic Science International: Genetics, ??, ????. [doi:10.1016/j.fsigen.??](https://doi.org/10.1016/j.fsigen.??).
+> Forensic Science International: Genetics, 84, 103474. [doi:10.1016/j.fsigen.2026.103474](https://doi.org/10.1016/j.fsigen.2026.103474).
 
 
 ## Installation

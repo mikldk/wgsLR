@@ -23,12 +23,12 @@ c(
   bibentry(
     key = "andersen-wgsLRext-2026",
     bibtype  = "article",
-    doi = "10.1016/j.fsigen.??",
-    url = "https://doi.org/10.1016/j.fsigen.??",
+    doi = "10.1016/j.fsigen.2026.103474",
+    url = "https://doi.org/10.1016/j.fsigen.2026.103474",
     author = person("Mikkel Meyer", "Andersen"),
     title = "{Shotgun DNA sequencing evidence: sample-specific and unknown genotyping error probabilities}",
     journal = "Forensic Science International: Genetics",
-    volume = "??",
+    volume = "84",
     ISSN = "1872-4973",
     publisher = "Elsevier BV", 
     year = "2026"

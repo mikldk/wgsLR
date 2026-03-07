@@ -15,10 +15,10 @@ The research associated with this software is described in
 > Genetics, 74, 103146.
 > [doi:10.1016/j.fsigen.2024.103146](https://doi.org/10.1016/j.fsigen.2024.103146).
 
-> Andersen, M. M. *Shotgun DNA sequencing evidence: sample-specific and
-> unknown genotyping error probabilities.* Forensic Science
-> International: Genetics, ??, ????.
-> [doi:10.1016/j.fsigen.??](https://doi.org/10.1016/j.fsigen.??).
+> Andersen, M. M. (2026). *Shotgun DNA sequencing evidence:
+> sample-specific and unknown genotyping error probabilities.* Forensic
+> Science International: Genetics, 84, 103474.
+> [doi:10.1016/j.fsigen.2026.103474](https://doi.org/10.1016/j.fsigen.2026.103474).
 
 ## Installation
 
@@ -48,16 +48,16 @@ tab
 
     ##    
     ##       0   1   2
-    ##   0 173  50   9
-    ##   1  58 183  92
-    ##   2   9  89 337
+    ##   0 165  62   7
+    ##   1  77 199  82
+    ##   2   5  91 312
 
 ``` r
 w_mle <- wgsLR::estimate_w(tab)
 w_mle
 ```
 
-    ## [1] 0.09904935
+    ## [1] 0.1031199
 
 #### Cautionary note: not just standard VCF files
 
@@ -231,4 +231,4 @@ wgsLR::calc_WoE_wTwR_integrate_wT_mc(
   p = c(0.25, 0.25, 0.5))
 ```
 
-    ## [1] -1.890365
+    ## [1] -1.895962
