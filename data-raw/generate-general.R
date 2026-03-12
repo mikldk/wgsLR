@@ -180,7 +180,8 @@ graph_single <- graph_single |>
   mutate(shortname2 = gsub(",", ", ',', ", shortname2, fixed = TRUE)) |> 
   mutate(label_expr = case_when(
     !leaf ~ paste0("paste(", shortname2, ")"),
-    leaf ~ paste0("paste(", shortname2, ", ':', ", expr, ")"))) |> 
+    #leaf ~ paste0("paste(", shortname2, ", ':', ", expr, ")"))) |> 
+    leaf ~ paste0("paste('P(', ", shortname2, ", ')', = ", expr, ")"))) |> 
   mutate(label_expr = gsub("=", ", '=', ", label_expr, fixed = TRUE)) |> 
   select(-shortname2) 
 

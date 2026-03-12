@@ -305,11 +305,12 @@ graph_single <- graph_single |>
   mutate(leaf = grepl("X", name)) |> 
   
   # Expression label
-  mutate(shortname2 = gsub("([DS]{1})=", "\\[\\1\\]=", shortname)) |> 
+  mutate(shortname2 = gsub("([TR]{1})=", "\\[\\1\\]=", shortname)) |> 
   mutate(shortname2 = gsub(",", ", ',', ", shortname2, fixed = TRUE)) |> 
   mutate(label_expr = case_when(
     !leaf ~ paste0("paste(", shortname2, ")"),
-    leaf ~ paste0("paste(", shortname2, ", ':', ", expr, ")"))) |> 
+    #leaf ~ paste0("paste(", shortname2, ", ':', ", expr, ")"))) |> 
+    leaf ~ paste0("paste('P(', ", shortname2, ", ')', = ", expr, ")"))) |> 
   mutate(label_expr = gsub("=", ", '=', ", label_expr, fixed = TRUE)) |> 
   select(-shortname2) 
   
@@ -373,11 +374,12 @@ graph_Hp_w <- graph_Hp_w |>
   mutate(leaf = grepl("XT|XR", name)) |> 
   
   # Expression label
-  mutate(shortname2 = gsub("([DS]{1})=", "\\[\\1\\]=", shortname)) |> 
+  mutate(shortname2 = gsub("([TR]{1})=", "\\[\\1\\]=", shortname)) |> 
   mutate(shortname2 = gsub(",", ", ',', ", shortname2, fixed = TRUE)) |> 
   mutate(label_expr = case_when(
     !leaf ~ paste0("paste(", shortname2, ")"),
-    leaf ~ paste0("paste(", shortname2, ", ':', ", expr, ")"))) |> 
+    #leaf ~ paste0("paste(", shortname2, ", ':', ", expr, ")"))) |> 
+    leaf ~ paste0("paste('P(', ", shortname2, ", ')', = ", expr, ")"))) |> 
   mutate(label_expr = gsub("=", ", '=', ", label_expr, fixed = TRUE)) |> 
   select(-shortname2)# |> 
   
@@ -446,12 +448,13 @@ graph_Hp_wTwR <- graph_Hp_wTwR |>
   mutate(leaf = grepl("XT|XR", name)) |> 
   
   # Expression label
-  mutate(shortname2 = gsub("([DS]{1})=", "\\[\\1\\]=", shortname)) |>
+  mutate(shortname2 = gsub("([TR]{1})=", "\\[\\1\\]=", shortname)) |>
   
   mutate(shortname2 = gsub(",", ", ',', ", shortname2, fixed = TRUE)) |> 
   mutate(label_expr = case_when(
     !leaf ~ paste0("paste(", shortname2, ")"),
-    leaf ~ paste0("paste(", shortname2, ", ':', ", expr, ")"))) |> 
+    #leaf ~ paste0("paste(", shortname2, ", ':', ", expr, ")"))) |> 
+    leaf ~ paste0("paste('P(', ", shortname2, ", ')', = ", expr, ")"))) |> 
   mutate(label_expr = gsub("=", ", '=', ", label_expr, fixed = TRUE)) |> 
   
   # w_T and w_R
@@ -598,11 +601,12 @@ graph_Ha_w <- graph_Ha_w |>
   
   # Expression label
   # FIXME: ZT / ZR parse?
-  mutate(shortname2 = gsub("([DS]{1})=", "\\[\\1\\]=", shortname)) |> 
+  mutate(shortname2 = gsub("([TR]{1})=", "\\[\\1\\]=", shortname)) |> 
   mutate(shortname2 = gsub(",", ", ',', ", shortname2, fixed = TRUE)) |> 
   mutate(label_expr = case_when(
     !leaf ~ paste0("paste(", shortname2, ")"),
-    leaf ~ paste0("paste(", shortname2, ", ':', ", expr, ")"))) |> 
+    #leaf ~ paste0("paste(", shortname2, ", ':', ", expr, ")"))) |> 
+    leaf ~ paste0("paste('P(', ", shortname2, ", ')', = ", expr, ")"))) |> 
   mutate(label_expr = gsub("=", ", '=', ", label_expr, fixed = TRUE)) |> 
   select(-shortname2)# |> 
   
@@ -670,11 +674,12 @@ graph_Ha_wTwR <- graph_Ha_wTwR |>
   mutate(leaf = grepl("XT|XR", name)) |> 
   
   # Expression label
-  mutate(shortname2 = gsub("([DS]{1})=", "\\[\\1\\]=", shortname)) |> 
+  mutate(shortname2 = gsub("([TR]{1})=", "\\[\\1\\]=", shortname)) |> 
   mutate(shortname2 = gsub(",", ", ',', ", shortname2, fixed = TRUE)) |> 
   mutate(label_expr = case_when(
     !leaf ~ paste0("paste(", shortname2, ")"),
-    leaf ~ paste0("paste(", shortname2, ", ':', ", expr, ")"))) |> 
+    #leaf ~ paste0("paste(", shortname2, ", ':', ", expr, ")"))) |> 
+    leaf ~ paste0("paste('P(', ", shortname2, ", ')', = ", expr, ")"))) |> 
   mutate(label_expr = gsub("=", ", '=', ", label_expr, fixed = TRUE)) |> 
   
   # w_t and w_r
