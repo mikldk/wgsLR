@@ -70,6 +70,20 @@ to012 <- function(x) {
     stop("This must be called on list of genotypes, e.g. from sample_profiles_without_error()")
   }
   #z <- lapply(x, function(y) apply(y, 1, sum))
-  z <- lapply(x, function(y) rowSums(y))
+  
+  # Changed implementation to allow for mixtures:
+  #z <- lapply(x, function(y) rowSums(y))
+  z <- lapply(x, function(y) {
+    apply(y, 1, \(zz) {
+      if (all(zz == 1L)) {
+        return(2L)
+      } else if (all(zz == 0L)) {
+        return(0L)
+      }
+      
+      return(1L)
+    })
+  })
+  
   do.call(cbind, z)
 }

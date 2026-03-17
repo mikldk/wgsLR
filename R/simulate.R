@@ -225,8 +225,8 @@ add_errors_to_genotypes <- function(Z, w, overdisp_var = NULL) {
 
 #' Sample cases under Hp for one error probability, $w$
 #' 
-#' Same latent genotype, Z, with independent errors for true donor (D) and 
-#' suspect (S).
+#' Same latent genotype, Z, with independent errors for true trace donor (xT) and 
+#' reference donor (xR).
 #'
 #' @examples
 #' sample_data_Hp_w(n = 10, w = 0.3, p = c(0.25, 0.25, 0.5))
@@ -308,7 +308,7 @@ sample_data_Hp_wTwR <- function(n, wT, wR, p, ...) {
 
 
 
-#' Sample cases under Hd for one error probability, $w$
+#' Sample cases under Ha for one error probability, $w$
 #' 
 #' One latent genotype, ZD, for true donor (D) and 
 #' one latent genotype, ZS, for suspect (S).
@@ -344,7 +344,7 @@ sample_data_Ha_w <- function(n, w, p, ...) {
 
 
 
-#' Sample cases under Hd for sample-dependent error probabilities, $w_t$ and $w_r$
+#' Sample cases under Ha for sample-dependent error probabilities, $w_t$ and $w_r$
 #' 
 #' One latent genotype, ZD, for true donor (D) and 
 #' one latent genotype, ZS, for suspect (S).
@@ -483,7 +483,7 @@ add_errors_Hp_wTwR <- function(tab, wT, wR) {
 }
  
 
-#' Add Hd-errors to table for one error probability, $w$
+#' Add Ha-errors to table for one error probability, $w$
 #' 
 #' @param tab table to add errors to
 #' @param w error probability
@@ -538,7 +538,7 @@ add_errors_Ha_w <- function(tab, w) {
 
 
 
-#' Add Hd-errors to table for sample-dependent error probabilities, $w_t$ and $w_r$
+#' Add Ha-errors to table for sample-dependent error probabilities, $w_t$ and $w_r$
 #' 
 #' @param tab table to add errors to
 #' @param wT error probability for donor sample

@@ -23,6 +23,23 @@ test_that("to012", {
   Z012 <- to012(Z)
   expect_equal(ncol(Z012), 3L) # 3 loci
   expect_equal(nrow(Z012), 10L) # 10 individuals
+  
+  z012_manual1 <- do.call(cbind, lapply(Z, function(y) rowSums(y)))
+  z012_manual2 <- do.call(cbind, lapply(Z, function(y) {
+    apply(y, 1, \(zz) {
+      if (all(zz == 1L)) {
+        return(2L)
+      } else if (all(zz == 0L)) {
+        return(0L)
+      }
+      
+      return(1L)
+    })
+  }))
+  
+  expect_equal(Z012, z012_manual1)
+  expect_equal(z012_manual1, z012_manual2)
+  expect_equal(Z012, z012_manual2)
 })
 
 
