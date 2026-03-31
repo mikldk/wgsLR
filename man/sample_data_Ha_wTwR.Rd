@@ -2,7 +2,7 @@
 % Please edit documentation in R/simulate.R
 \name{sample_data_Ha_wTwR}
 \alias{sample_data_Ha_wTwR}
-\title{Sample cases under Hd for sample-dependent error probabilities, $w_t$ and $w_r$}
+\title{Sample cases under Ha for sample-dependent error probabilities, $w_t$ and $w_r$}
 \usage{
 sample_data_Ha_wTwR(n, wT, wR, p, ...)
 }

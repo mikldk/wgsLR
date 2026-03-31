@@ -527,6 +527,82 @@ calc_WoE_wTwR_profilemax_wT_num <- function(xT, xR, wR, p) {
 
 
 
+#' Calculate WoE for sample-specific error probabilities using maximum likelihood of `wT` under $H_2$ using numerical optimisation
+#' 
+#' @examples
+#' calc_LRs_wTwR(
+#'   xT = c(0, 0), 
+#'   xR = c(0, 1), 
+#'   wT = 1e-2, 
+#'   wR = 1e-5, 
+#'   p = c(0.25, 0.25, 0.5)) |> log10() |> sum()
+#'   
+#' calc_WoE_wTwR_mleH2_wT_num(
+#'   xT = c(0, 0), 
+#'   xR = c(0, 1), 
+#'   wR = 1e-5, 
+#'   p = c(0.25, 0.25, 0.5))
+#'   
+#' calc_WoE_wTwR_profilemax_wT_num(
+#'   xT = c(0, 0), 
+#'   xR = c(0, 1), 
+#'   wR = 1e-5, 
+#'   p = c(0.25, 0.25, 0.5))
+#'   
+#' @param xT profile from case (of 0, 1, 2)
+#' @param xR profile from suspect (of 0, 1, 2)
+#' @param wR error probability for PoI sample
+#' @param p list of genotype probabilities (same length as `xT`/`xR`, or vector of length 3 for reuse)
+#'
+#' @importFrom stats optimise
+#' 
+#' @export
+calc_WoE_wTwR_mleH2_wT_num <- function(xT, xR, wR, p) {
+  xT <- check_x(xT)
+  xR <- check_x(xR)
+  
+  stopifnot(length(xR) == length(xT))
+  
+  # reuse
+  p <- reuse_genotype_probs(p = p, n = length(xR))
+  check_p(p)
+  stopifnot(length(p) == length(xT))
+  
+  # Hd
+  calc_den_Ha <- function(wT) {
+    lik <- unlist(lapply(seq_along(xT), \(i) {
+      pi <- p[[i]]
+      liki <- calc_LR_den_Ha_single_no_checks_wTwR(xT = xT[i], xR = xR[i], wT = wT, wR = wR, p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L])
+      log10(liki)
+    }))
+    
+    sum(lik)
+  }
+  #calc_den_Ha(1e-3)
+  opt_res_Ha <- stats::optimise(calc_den_Ha, maximum = TRUE, interval = c(wR, 0.5), tol = 1e-14)
+  #opt_res_Ha
+  
+  wT_mleH2 <- opt_res_Ha$maximum
+  
+  
+  # Hp
+  calc_num_Hp <- function(wT) {
+    lik <- unlist(lapply(seq_along(xT), \(i) {
+      pi <- p[[i]]
+      liki <- calc_LR_num_Hp_single_no_checks_wTwR(xT = xT[i], xR = xR[i], wT = wT, wR = wR, p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L])
+      log10(liki)
+    }))
+    
+    sum(lik)
+  }
+  
+  WoE <- calc_num_Hp(wT_mleH2) - opt_res_Ha$objective
+  
+  return(list(wT_Ha = wT_mleH2,
+              WoE = WoE))
+}
+
+
 
 
 #' 

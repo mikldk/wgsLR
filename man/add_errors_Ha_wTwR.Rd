@@ -2,7 +2,7 @@
 % Please edit documentation in R/simulate.R
 \name{add_errors_Ha_wTwR}
 \alias{add_errors_Ha_wTwR}
-\title{Add Hd-errors to table for sample-dependent error probabilities, $w_t$ and $w_r$}
+\title{Add Ha-errors to table for sample-dependent error probabilities, $w_t$ and $w_r$}
 \usage{
 add_errors_Ha_wTwR(tab, wT, wR)
 }
@@ -14,7 +14,7 @@ add_errors_Ha_wTwR(tab, wT, wR)
 \item{wR}{error probability for PoI sample}
 }
 \description{
-Add Hd-errors to table for sample-dependent error probabilities, $w_t$ and $w_r$
+Add Ha-errors to table for sample-dependent error probabilities, $w_t$ and $w_r$
 }
 \examples{
 zT <- sample_profiles_without_error(n = 1000, p = c(0.25, 0.25, 0.5))

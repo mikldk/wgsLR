@@ -21,8 +21,8 @@ list of two matrices, each of size n x loci with
 genotype in 0/1/2 format resembling the situation in real life.
 }
 \description{
-Same latent genotype, Z, with independent errors for true donor (D) and
-suspect (S).
+Same latent genotype, Z, with independent errors for true trace donor (xT) and
+reference donor (xR).
 }
 \examples{
 sample_data_Hp_w(n = 10, w = 0.3, p = c(0.25, 0.25, 0.5))

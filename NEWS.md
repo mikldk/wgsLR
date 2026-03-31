@@ -1,5 +1,8 @@
-# wgsLR 0.0.2
+# wgsLR 0.0.3
 
+* Adding `calc_WoE_wTwR_mleH2_wT_num()
+
+# wgsLR 0.0.2
 * Added a `NEWS.md` file to track changes to the package.
 * Renaming: 
     + `xT` for trace sample (instead of `xD`)
@@ -15,6 +18,9 @@
         - `d_formulas_Hd_wTwR`, `d_formulas_Hp_wTwR`, 
         - `d_prob_Hp_wTwR`, `d_prob_Hd_wTwR`, 
         - `d_LR_wTwR`
+        - `calc_WoE_wTwR_integrate_wT_mc()`
+        - `calc_WoE_wTwR_integrate_wT_num()`
+        - `calc_WoE_wTwR_profilemax_wT_num()`
     + Renamed functions and objects to allow for sample-specific $w$ (cf. below), i.e.:
         - `calc_LRs()` renamed to `calc_LRs_w()`
         - `sample_data_Hp()` renamed to `sample_data_Hp_w()`

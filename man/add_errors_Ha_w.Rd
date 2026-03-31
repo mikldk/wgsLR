@@ -2,7 +2,7 @@
 % Please edit documentation in R/simulate.R
 \name{add_errors_Ha_w}
 \alias{add_errors_Ha_w}
-\title{Add Hd-errors to table for one error probability, $w$}
+\title{Add Ha-errors to table for one error probability, $w$}
 \usage{
 add_errors_Ha_w(tab, w)
 }
@@ -12,7 +12,7 @@ add_errors_Ha_w(tab, w)
 \item{w}{error probability}
 }
 \description{
-Add Hd-errors to table for one error probability, $w$
+Add Ha-errors to table for one error probability, $w$
 }
 \examples{
 zT <- sample_profiles_without_error(n = 1000, p = c(0.25, 0.25, 0.5))

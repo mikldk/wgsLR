@@ -2,7 +2,7 @@
 % Please edit documentation in R/simulate.R
 \name{sample_data_Ha_w}
 \alias{sample_data_Ha_w}
-\title{Sample cases under Hd for one error probability, $w$}
+\title{Sample cases under Ha for one error probability, $w$}
 \usage{
 sample_data_Ha_w(n, w, p, ...)
 }
