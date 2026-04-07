@@ -402,15 +402,89 @@ calc_WoE_wTwR_integrate_wT_num <- function(xT, xR, shape1T_Hp, shape2T_Hp, shape
 
 
 
+# f is -logL, thus minimisation
+#' @importFrom stats optimise
+maximise_unimodal_nocheck <- function(f, lower, upper) {
+  res <- stats::optimise(f, maximum = FALSE, interval = c(lower, upper), tol = 1e-14)
+  
+  ans <- list(
+    MLE = res$minimum,
+    f_MLE = res$objective
+  )
+  return(ans)
+}
+
+verify_unimodal <- function(f, lower, upper) {
+  # check: not proof, only emperical heuristic
+  xs <- seq(lower, upper, length.out = 1000)
+  ys <- sapply(xs, f)
+  
+  dy <- diff(ys)
+  sign_changes <- diff(sign(dy))
+  n_minima <- sum(sign_changes > 0)
+  stopifnot(n_minima <= 1L)
+  n_minima
+}
+
+maximise_unimodal_strict <- function(f, lower, upper) {
+  verify_unimodal(f = f, lower = lower, upper = upper)
+  
+  ans <- maximise_unimodal_nocheck(f, lower, upper)
+  return(ans)
+}
+
+#' @importFrom DEoptim DEoptim
+maximise_DEoptim <- function(f, lower, upper) {
+  res <- DEoptim::DEoptim(
+    fn = f,
+    lower = lower,
+    upper = upper,
+    control = DEoptim.control(
+      NP      = 50,        # population size
+      itermax = 200,       # iterations
+      reltol  = 1e-14,     # relative tolerance (best analogue to tol)
+      trace   = FALSE
+    )
+  )
+  
+  ans <- list(
+    MLE = unname(res$optim$bestmem),
+    f_MLE = res$optim$bestval
+  )
+  
+  return(ans)
+}
 
 
 
+generate_calc_num_Hp <- function(xT, xR, wR, p) {
+  calc_num_Hp <- function(wT) {
+    lik <- unlist(lapply(seq_along(xT), \(i) {
+      pi <- p[[i]]
+      liki <- calc_LR_num_Hp_single_no_checks_wTwR(xT = xT[i], xR = xR[i], wT = wT, wR = wR, p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L])
+      log10(liki)
+    }))
+    
+    -sum(lik) # - (minus) in front as optimim is the minimum, and we want the maximum
+  }
+  
+  calc_num_Hp
+}
 
-
-
-
-
-
+generate_calc_den_Ha <- function(xT, xR, wR, p) {
+  calc_den_Ha <- function(wT) {
+    lik <- unlist(lapply(seq_along(xT), \(i) {
+      pi <- p[[i]]
+      liki <- calc_LR_den_Ha_single_no_checks_wTwR(xT = xT[i], xR = xR[i], wT = wT, wR = wR, p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L])
+      log10(liki)
+    }))
+    
+    -sum(lik) # - (minus) in front as optimim is the minimum, and we want the maximum
+  }
+  
+  calc_den_Ha
+}
+#
 
 
 
@@ -460,15 +534,29 @@ calc_WoE_wTwR_integrate_wT_num <- function(xT, xR, shape1T_Hp, shape2T_Hp, shape
 #' @param xR profile from suspect (of 0, 1, 2)
 #' @param wR error probability for PoI sample
 #' @param p list of genotype probabilities (same length as `xT`/`xR`, or vector of length 3 for reuse)
+#' @param opttype Optimiser type `"optimise_strict"`, `"optimise_nocheck"`, or `"DEoptim"`
 #'
-#' @importFrom stats optimise
 #' 
 #' @export
-calc_WoE_wTwR_profilemax_wT_num <- function(xT, xR, wR, p) {
+calc_WoE_wTwR_profilemax_wT_num <- function(xT, xR, wR, p, 
+                                            opttype = c("optimise_strict", "optimise_nocheck", "DEoptim")) {
   xT <- check_x(xT)
   xR <- check_x(xR)
   
   stopifnot(length(xR) == length(xT))
+  
+  
+  opttype <- match.arg(opttype)
+  optminimiser <- if (opttype == "optimise_strict") {
+    maximise_unimodal_strict
+  } else if (opttype == "optimise_nocheck") {
+    maximise_unimodal_nocheck
+  } else if (opttype == "DEoptim") {
+    maximise_DEoptim
+  } else {
+    stop("Unknown opttype")
+  }
+  
   
   # reuse
   p <- reuse_genotype_probs(p = p, n = length(xR))
@@ -476,32 +564,22 @@ calc_WoE_wTwR_profilemax_wT_num <- function(xT, xR, wR, p) {
   stopifnot(length(p) == length(xT))
 
   # Hp
-  calc_num_Hp <- function(wT) {
-    lik <- unlist(lapply(seq_along(xT), \(i) {
-      pi <- p[[i]]
-      liki <- calc_LR_num_Hp_single_no_checks_wTwR(xT = xT[i], xR = xR[i], wT = wT, wR = wR, p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L])
-      log10(liki)
-    }))
-    
-    sum(lik)
-  }
+  calc_num_Hp <- generate_calc_num_Hp(xT = xT, xR = xR, wR = wR, p = p)
   #calc_num_Hp(1e-3)
-  opt_res_Hp <- stats::optimise(calc_num_Hp, maximum = TRUE, interval = c(wR, 0.5), tol = 1e-14)
+  opt_res_Hp <- optminimiser(f = calc_num_Hp, lower = wR, upper = 0.5)
+  opt_res_Hp_max <- -opt_res_Hp$f_MLE # again to get lik not -lik
+  #opt_res_Hp <- stats::optimise(calc_num_Hp, maximum = FALSE, interval = c(wR, 0.5), tol = 1e-14)
+  #opt_res_Hp_old <- stats::optimise(calc_num_Hp, maximum = FALSE, interval = c(wR, 0.5), tol = 1e-14)
+  #opt_res_Hp <- DEoptim::DEoptim(calc_num_Hp, lower = wR, upper = 0.5, control = DEoptim.control(reltol = 1e-14, trace = FALSE))
   #opt_res_Hp
 
   
   # Hd
-  calc_den_Ha <- function(wT) {
-    lik <- unlist(lapply(seq_along(xT), \(i) {
-      pi <- p[[i]]
-      liki <- calc_LR_den_Ha_single_no_checks_wTwR(xT = xT[i], xR = xR[i], wT = wT, wR = wR, p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L])
-      log10(liki)
-    }))
-    
-    sum(lik)
-  }
+  calc_den_Ha <- generate_calc_den_Ha(xT = xT, xR = xR, wR = wR, p = p)
   #calc_den_Ha(1e-3)
-  opt_res_Ha <- stats::optimise(calc_den_Ha, maximum = TRUE, interval = c(wR, 0.5), tol = 1e-14)
+  #opt_res_Ha <- stats::optimise(calc_den_Ha, maximum = TRUE, interval = c(wR, 0.5), tol = 1e-14)
+  opt_res_Ha <- optminimiser(f = calc_den_Ha, lower = wR, upper = 0.5)
+  opt_res_Ha_max <- -opt_res_Ha$f_MLE # again to get lik not -lik
   #opt_res_Ha
   
   if (FALSE) {
@@ -512,16 +590,16 @@ calc_WoE_wTwR_profilemax_wT_num <- function(xT, xR, wR, p) {
     plot(wT, y_Hp, ylim = range(c(y_Hp, y_Ha)), col = "blue", type = "l")
     lines(wT, y_Ha, col = "red", type = "l")
     
-    calc_num_Hp(opt_res_Hp$maximum)
-    calc_den_Ha(wR); calc_den_Ha(opt_res_Hp$maximum); calc_den_Ha(0.5)
+    calc_num_Hp(opt_res_Hp$MLE)
+    calc_den_Ha(wR); calc_den_Ha(opt_res_Hp$MLE); calc_den_Ha(0.5)
   }
   
-  WoE <- opt_res_Hp$objective - opt_res_Ha$objective
+  WoE <- opt_res_Hp_max - opt_res_Ha_max
   
-  return(list(wT_Hp = opt_res_Hp$maximum,
-              wT_Ha = opt_res_Ha$maximum,
-              log10PrE_Hp = opt_res_Hp$objective,
-              log10PrE_Ha = opt_res_Ha$objective,
+  return(list(wT_Hp = opt_res_Hp$MLE,
+              wT_Ha = opt_res_Ha$MLE,
+              log10PrE_Hp = opt_res_Hp_max,
+              log10PrE_Ha = opt_res_Ha_max,
               WoE = WoE))
 }
 
@@ -553,15 +631,27 @@ calc_WoE_wTwR_profilemax_wT_num <- function(xT, xR, wR, p) {
 #' @param xR profile from suspect (of 0, 1, 2)
 #' @param wR error probability for PoI sample
 #' @param p list of genotype probabilities (same length as `xT`/`xR`, or vector of length 3 for reuse)
-#'
-#' @importFrom stats optimise
+#' @param opttype Optimiser type `"optimise_strict"`, `"optimise_nocheck"`, or `"DEoptim"`
 #' 
 #' @export
-calc_WoE_wTwR_mleH2_wT_num <- function(xT, xR, wR, p) {
+calc_WoE_wTwR_mleH2_wT_num <- function(xT, xR, wR, p,
+                                       opttype = c("optimise_strict", "optimise_nocheck", "DEoptim")) {
   xT <- check_x(xT)
   xR <- check_x(xR)
   
   stopifnot(length(xR) == length(xT))
+  
+  opttype <- match.arg(opttype)
+  optminimiser <- if (opttype == "optimise_strict") {
+    maximise_unimodal_strict
+  } else if (opttype == "optimise_nocheck") {
+    maximise_unimodal_nocheck
+  } else if (opttype == "DEoptim") {
+    maximise_DEoptim
+  } else {
+    stop("Unknown opttype")
+  }
+  
   
   # reuse
   p <- reuse_genotype_probs(p = p, n = length(xR))
@@ -569,34 +659,21 @@ calc_WoE_wTwR_mleH2_wT_num <- function(xT, xR, wR, p) {
   stopifnot(length(p) == length(xT))
   
   # Hd
-  calc_den_Ha <- function(wT) {
-    lik <- unlist(lapply(seq_along(xT), \(i) {
-      pi <- p[[i]]
-      liki <- calc_LR_den_Ha_single_no_checks_wTwR(xT = xT[i], xR = xR[i], wT = wT, wR = wR, p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L])
-      log10(liki)
-    }))
-    
-    sum(lik)
-  }
+  calc_den_Ha <- generate_calc_den_Ha(xT = xT, xR = xR, wR = wR, p = p)
   #calc_den_Ha(1e-3)
-  opt_res_Ha <- stats::optimise(calc_den_Ha, maximum = TRUE, interval = c(wR, 0.5), tol = 1e-14)
+  #opt_res_Ha <- stats::optimise(calc_den_Ha, maximum = TRUE, interval = c(wR, 0.5), tol = 1e-14)
+  opt_res_Ha <- optminimiser(f = calc_den_Ha, lower = wR, upper = 0.5)
+  opt_res_Ha_max <- -opt_res_Ha$f_MLE # again to get lik not -lik
   #opt_res_Ha
   
-  wT_mleH2 <- opt_res_Ha$maximum
+  wT_mleH2 <- opt_res_Ha$MLE
   
   
   # Hp
-  calc_num_Hp <- function(wT) {
-    lik <- unlist(lapply(seq_along(xT), \(i) {
-      pi <- p[[i]]
-      liki <- calc_LR_num_Hp_single_no_checks_wTwR(xT = xT[i], xR = xR[i], wT = wT, wR = wR, p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L])
-      log10(liki)
-    }))
-    
-    sum(lik)
-  }
+  calc_num_Hp <- generate_calc_num_Hp(xT = xT, xR = xR, wR = wR, p = p)
+  likHp <- -calc_num_Hp(wT_mleH2) # minus to get lik instead of -lik
   
-  WoE <- calc_num_Hp(wT_mleH2) - opt_res_Ha$objective
+  WoE <- likHp - opt_res_Ha_max
   
   return(list(wT_Ha = wT_mleH2,
               WoE = WoE))

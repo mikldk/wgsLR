@@ -1,6 +1,8 @@
 # wgsLR 0.0.3
 
-* Adding `calc_WoE_wTwR_mleH2_wT_num()
+* Adding `calc_WoE_wTwR_mleH2_wT_num()`
+* For `calc_WoE_wTwR_profilemax_wT_num()` and `calc_WoE_wTwR_mleH2_wT_num()`:
+    + Added options to use different optimisers on top of `stats::optimise()` (a version with an emperical check of unimodality and `DEoptim::DEoptim()`).
 
 # wgsLR 0.0.2
 * Added a `NEWS.md` file to track changes to the package.

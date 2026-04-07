@@ -4,7 +4,13 @@
 \alias{calc_WoE_wTwR_profilemax_wT_num}
 \title{Calculate WoE for sample-specific error probabilities using profile likelihood using numerical optimisation}
 \usage{
-calc_WoE_wTwR_profilemax_wT_num(xT, xR, wR, p)
+calc_WoE_wTwR_profilemax_wT_num(
+  xT,
+  xR,
+  wR,
+  p,
+  opttype = c("optimise_strict", "optimise_nocheck", "DEoptim")
+)
 }
 \arguments{
 \item{xT}{profile from case (of 0, 1, 2)}
@@ -14,6 +20,8 @@ calc_WoE_wTwR_profilemax_wT_num(xT, xR, wR, p)
 \item{wR}{error probability for PoI sample}
 
 \item{p}{list of genotype probabilities (same length as \code{xT}/\code{xR}, or vector of length 3 for reuse)}
+
+\item{opttype}{Optimiser type \code{"optimise_strict"}, \code{"optimise_nocheck"}, or \code{"DEoptim"}}
 }
 \description{
 Calculate WoE for sample-specific error probabilities using profile likelihood using numerical optimisation
