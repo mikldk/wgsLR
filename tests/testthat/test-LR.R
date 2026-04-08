@@ -84,4 +84,3 @@ test_that("LR_wTwR", {
 })
 
 
-

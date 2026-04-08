@@ -1,4 +1,4 @@
-test_that("verify_unimodal", {
+test_that("likelihoods in numerator and denominator", {
   set.seed(20260407)
   
   # Hp cases
@@ -22,6 +22,11 @@ test_that("verify_unimodal", {
     
     expect_lte(verify_unimodal(f = calc_num_Hp, lower = 0, upper = 0.5), 1L)
     expect_lte(verify_unimodal(f = calc_den_Ha, lower = 0, upper = 0.5), 1L)
+    
+    num <- calc_likelihood_numerator_Hp_wTwR(xT = xT, xR = xR, wT = wT, wR = wR, p = p) |> log10() |> sum()
+    expect_equal(-calc_num_Hp(wT), num)
+    den <- calc_likelihood_denominator_Ha_wTwR(xT = xT, xR = xR, wT = wT, wR = wR, p = p) |> log10() |> sum()
+    expect_equal(-calc_den_Ha(wT), den)
   }
   rm(Hp_cases)
 
@@ -46,6 +51,11 @@ test_that("verify_unimodal", {
     
     expect_lte(verify_unimodal(f = calc_num_Hp, lower = 0, upper = 0.5), 1L)
     expect_lte(verify_unimodal(f = calc_den_Ha, lower = 0, upper = 0.5), 1L)
+    
+    num <- calc_likelihood_numerator_Hp_wTwR(xT = xT, xR = xR, wT = wT, wR = wR, p = p) |> log10() |> sum()
+    expect_equal(-calc_num_Hp(wT), num)
+    den <- calc_likelihood_denominator_Ha_wTwR(xT = xT, xR = xR, wT = wT, wR = wR, p = p) |> log10() |> sum()
+    expect_equal(-calc_den_Ha(wT), den)
   }
 })
 

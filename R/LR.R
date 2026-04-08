@@ -218,3 +218,84 @@ calc_LRs_wTwR <- function(xT, xR, wT, wR, p) {
   return(LRs)
 }
 
+
+#' Calculate numerator (Hp) and denominator (Ha) likelihoods for a profile for sample-specific error probabilities
+#' 
+#' @examples
+#' nums <- calc_likelihood_numerator_Hp_wTwR(c(0, 0), c(0, 1), wT = 1e-2, wR = 1e-6, p = c(0.25, 0.25, 0.5))
+#' dens <- calc_likelihood_denominator_Ha_wTwR(c(0, 0), c(0, 1), wT = 1e-2, wR = 1e-6, p = c(0.25, 0.25, 0.5))
+#' LRs <- calc_LRs_wTwR(c(0, 0), c(0, 1), wT = 1e-2, wR = 1e-6, p = c(0.25, 0.25, 0.5))
+#' isTRUE(all.equal(LRs, nums/dens))
+#' 
+#' p <- reuse_genotype_probs(c(0.25, 0.25, 0.5), 100)
+#' wT <- 1e-2
+#' wR <- 1e-6
+#' Hp_cases <- sample_data_Hp_wTwR(n = 1, wT = wT, wR = wR, p = p)
+#' xT <- Hp_cases$xT[1, ]
+#' xR <- Hp_cases$xR[1, ]
+#' num <- calc_likelihood_numerator_Hp_wTwR(xT = xT, xR = xR, wT = wT, wR = wR, p = p) |> prod()
+#' den <- calc_likelihood_denominator_Ha_wTwR(xT = xT, xR = xR, wT = wT, wR = wR, p = p) |> prod()
+#' LR <- calc_LRs_wTwR(xT = xT, xR = xR, wT = wT, wR = wR, p = p) |> prod()
+#' isTRUE(all.equal(LR, num/den))
+#' 
+#' @param xT profile from case (of 0, 1, 2)
+#' @param xR profile from suspect (of 0, 1, 2)
+#' @param wT error probability for donor sample
+#' @param wR error probability for PoI sample
+#' @param p list of genotype probabilities (same length as `xT`/`xR`, or vector of length 3 for reuse)
+#' 
+#' @name calc_likelihood
+#' 
+#' @export
+calc_likelihood_numerator_Hp_wTwR <- function(xT, xR, wT, wR, p) {
+  xT <- check_x(xT)
+  xR <- check_x(xR)
+  
+  stopifnot(length(xR) == length(xT))
+  
+  check_w(wT)
+  check_w(wR)
+  
+  # reuse
+  p <- reuse_genotype_probs(p = p, n = length(xR))
+  check_p(p)
+  stopifnot(length(p) == length(xT))
+  
+  liks <- unlist(lapply(seq_along(xR), function(i) {
+    pi <- p[[i]]
+    calc_LR_num_Hp_single_no_checks_wTwR(xR = xR[i], xT = xT[i], 
+                                         wT = wT, 
+                                         wR = wR,
+                                         p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L])
+  }))
+  
+  return(liks)
+}
+
+
+#' @rdname calc_likelihood
+#' @export
+calc_likelihood_denominator_Ha_wTwR <- function(xT, xR, wT, wR, p) {
+  xT <- check_x(xT)
+  xR <- check_x(xR)
+  
+  stopifnot(length(xR) == length(xT))
+  
+  check_w(wT)
+  check_w(wR)
+  
+  # reuse
+  p <- reuse_genotype_probs(p = p, n = length(xR))
+  check_p(p)
+  stopifnot(length(p) == length(xT))
+  
+  liks <- unlist(lapply(seq_along(xR), function(i) {
+    pi <- p[[i]]
+    calc_LR_den_Ha_single_no_checks_wTwR(xR = xR[i], xT = xT[i], 
+                                         wT = wT, 
+                                         wR = wR,
+                                         p_0 = pi[1L], p_1 = pi[2L], p_2 = pi[3L])
+  }))
+  
+  return(liks)
+}
