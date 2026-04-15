@@ -362,3 +362,24 @@ posterior_samples <- function(x) {
   stopifnot(methods::is(x, "wgsLR_bayesian_sample"))
   lapply(x, \(y) y$samples) |> unlist()
 }
+
+
+#' Extract posterior samples as data.frame
+#' 
+#' @param x Result from [estimate_w_bayesian()]
+#' 
+#' @examples
+#' tab1 <- matrix(c(1000, 10, 2, 12, 100, 8, 1, 7, 200), nrow = 3)
+#' tab1
+#' y <- estimate_w_bayesian(tab1)
+#' q <- posterior_samples_df(y)
+#' head(q)
+#' mean(q$sample); #ggplot(q, aes(iteration, sample, colour = factor(chain))) + geom_line()
+#' 
+#' @importFrom methods is
+#' 
+#' @export
+posterior_samples_df <- function(x) {
+  stopifnot(methods::is(x, "wgsLR_bayesian_sample"))
+  do.call(rbind, lapply(seq_along(x), \(i) data.frame(chain = i, iteration = seq_along(x[[i]]$samples), sample = x[[i]]$samples)))
+}

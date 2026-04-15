@@ -457,7 +457,7 @@ maximise_DEoptim <- function(f, lower, upper) {
 
 
 
-generate_calc_num_Hp <- function(xT, xR, wR, p) {
+generate_calc_num_Hp_neg <- function(xT, xR, wR, p) {
   calc_num_Hp <- function(wT) {
     lik <- unlist(lapply(seq_along(xT), \(i) {
       pi <- p[[i]]
@@ -471,7 +471,7 @@ generate_calc_num_Hp <- function(xT, xR, wR, p) {
   calc_num_Hp
 }
 
-generate_calc_den_Ha <- function(xT, xR, wR, p) {
+generate_calc_den_Ha_neg <- function(xT, xR, wR, p) {
   calc_den_Ha <- function(wT) {
     lik <- unlist(lapply(seq_along(xT), \(i) {
       pi <- p[[i]]
@@ -564,7 +564,7 @@ calc_WoE_wTwR_profilemax_wT_num <- function(xT, xR, wR, p,
   stopifnot(length(p) == length(xT))
 
   # Hp
-  calc_num_Hp <- generate_calc_num_Hp(xT = xT, xR = xR, wR = wR, p = p)
+  calc_num_Hp <- generate_calc_num_Hp_neg(xT = xT, xR = xR, wR = wR, p = p)
   #calc_num_Hp(1e-3)
   opt_res_Hp <- optminimiser(f = calc_num_Hp, lower = wR, upper = 0.5)
   opt_res_Hp_max <- -opt_res_Hp$f_MLE # again to get lik not -lik
@@ -575,7 +575,7 @@ calc_WoE_wTwR_profilemax_wT_num <- function(xT, xR, wR, p,
 
   
   # Hd
-  calc_den_Ha <- generate_calc_den_Ha(xT = xT, xR = xR, wR = wR, p = p)
+  calc_den_Ha <- generate_calc_den_Ha_neg(xT = xT, xR = xR, wR = wR, p = p)
   #calc_den_Ha(1e-3)
   #opt_res_Ha <- stats::optimise(calc_den_Ha, maximum = TRUE, interval = c(wR, 0.5), tol = 1e-14)
   opt_res_Ha <- optminimiser(f = calc_den_Ha, lower = wR, upper = 0.5)
@@ -659,7 +659,7 @@ calc_WoE_wTwR_mleH2_wT_num <- function(xT, xR, wR, p,
   stopifnot(length(p) == length(xT))
   
   # Hd
-  calc_den_Ha <- generate_calc_den_Ha(xT = xT, xR = xR, wR = wR, p = p)
+  calc_den_Ha <- generate_calc_den_Ha_neg(xT = xT, xR = xR, wR = wR, p = p)
   #calc_den_Ha(1e-3)
   #opt_res_Ha <- stats::optimise(calc_den_Ha, maximum = TRUE, interval = c(wR, 0.5), tol = 1e-14)
   opt_res_Ha <- optminimiser(f = calc_den_Ha, lower = wR, upper = 0.5)
@@ -670,7 +670,7 @@ calc_WoE_wTwR_mleH2_wT_num <- function(xT, xR, wR, p,
   
   
   # Hp
-  calc_num_Hp <- generate_calc_num_Hp(xT = xT, xR = xR, wR = wR, p = p)
+  calc_num_Hp <- generate_calc_num_Hp_neg(xT = xT, xR = xR, wR = wR, p = p)
   likHp <- -calc_num_Hp(wT_mleH2) # minus to get lik instead of -lik
   
   WoE <- likHp - opt_res_Ha_max

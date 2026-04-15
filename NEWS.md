@@ -4,6 +4,8 @@
 * For `calc_WoE_wTwR_profilemax_wT_num()` and `calc_WoE_wTwR_mleH2_wT_num()`:
     + Added options to use different optimisers on top of `stats::optimise()` (a version with an emperical check of unimodality and `DEoptim::DEoptim()`).
 * Added `calc_likelihood_numerator_Hp_wTwR()` and `calc_likelihood_denominator_Ha_wTwR()`
+* Added `add_errors_to_012genotypes()`
+* Added `wT_posterior_H*` functions and `cmdstanr` as a Suggested package
 
 # wgsLR 0.0.2
 * Added a `NEWS.md` file to track changes to the package.

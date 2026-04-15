@@ -2,7 +2,7 @@
 % Please edit documentation in R/simulate.R
 \name{add_errors_to_genotypes}
 \alias{add_errors_to_genotypes}
-\title{Add errors to genotypes}
+\title{Add errors to (phased) genotypes}
 \usage{
 add_errors_to_genotypes(Z, w, overdisp_var = NULL)
 }
@@ -18,7 +18,7 @@ follows a Beta distribution with mean value $w$ and variance \code{overdisp_var}
 list, element for each locus is a matrix with n rows and two columns
 }
 \description{
-Add errors to genotypes
+Add errors to (phased) genotypes
 }
 \examples{
 Z <- sample_profiles_without_error(n = 5, p = list(

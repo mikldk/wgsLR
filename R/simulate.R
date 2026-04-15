@@ -120,7 +120,7 @@ get_beta_parameters_old <- function(mu, sigmasq) {
 
 
 
-#' Add errors to genotypes
+#' Add errors to (phased) genotypes
 #'
 #' @examples
 #' Z <- sample_profiles_without_error(n = 5, p = list(
@@ -222,6 +222,65 @@ add_errors_to_genotypes <- function(Z, w, overdisp_var = NULL) {
   return(Z_errors)
 }
 
+#' Add errors to 0/1/2 genotypes
+#'
+#' @examples
+#' Z <- sample_profiles_without_error(n = 100, p = list(
+#'   c(0.25, 0.25, 0.5), c(0.1, 0.8, 0.1)))
+#' X <- add_errors_to_genotypes(Z, 0.5)
+#' table(to012(X))
+#' X <- add_errors_to_012genotypes(to012(Z), 0.5)
+#' table(X)
+#' estimate_w(tab)
+#' 
+#' Z012 <- to012(Z)
+#' X1 <- add_errors_to_012genotypes(Z012, 0.1)
+#' X2 <- add_errors_to_012genotypes(Z012, 0.1)
+#' tab <- table(X1, X2)
+#' tab
+#' estimate_w(tab)
+#' 
+#' @param Z genotypes in 0/1/2 format, e.g. created by [sample_profiles_without_error()] followed by [to012()]
+#' @param w error probability
+#' 
+#' @return list, element for each locus is a matrix with n rows and two columns
+#' 
+#' @export
+add_errors_to_012genotypes <- function(z, w) {
+  stopifnot(is.integer(z))
+  stopifnot(all(z >= 0L))
+  stopifnot(all(z <= 2L))
+  
+  p_Z0 <- c((1-w)^2, w*(1-w) + w*(1-w), w^2)
+  p_Z1 <- c(w*(1-w) + w*(1-w), (1-w)^2 + w^2 + w^2 + (1-w)^2, w*(1-w) + w*(1-w))
+  p_Z2 <- c(w^2, w*(1-w) + w*(1-w), (1-w)^2)
+  
+  # 0/1 and 1/0 both gives Z = 1:
+  p_Z1 <- p_Z1 / 2
+  stopifnot(abs(sum(p_Z0) - 1) < 1e-14)
+  stopifnot(abs(sum(p_Z1) - 1) < 1e-14)
+  stopifnot(abs(sum(p_Z2) - 1) < 1e-14)
+  
+  x <- z
+  
+  Z0 <- z == 0L
+  x[Z0] <- sample(c(0L, 1L, 2L), size = sum(Z0), prob = p_Z0, replace = TRUE)
+  
+  Z1 <- z == 1L
+  x[Z1] <- sample(c(0L, 1L, 2L), size = sum(Z1), prob = p_Z1, replace = TRUE)
+  
+  Z1 <- z == 1L
+  x[Z1] <- sample(c(0L, 1L, 2L), size = sum(Z1), prob = p_Z1, replace = TRUE)
+  
+  Z2 <- z == 2L
+  x[Z2] <- sample(c(0L, 1L, 2L), size = sum(Z2), prob = p_Z2, replace = TRUE)
+  
+  if (FALSE) {
+    table(x, z)
+  }
+  
+  x
+}
 
 #' Sample cases under Hp for one error probability, $w$
 #' 

@@ -9,6 +9,15 @@ test_that("sample_profiles_without_error", {
   expect_equal(nrow(Z[[1]]), 10L) # 10 individuals
 })
 
+test_that("add_errors_to_012genotypes", {
+  z <- wgsLR::sample_profiles_without_error(n = 1e5, p = c(0.8^2, 2*(1-0.8)*0.8, (1-0.8)^2)) |> wgsLR::to012() |> c()
+  x1 <- add_errors_to_012genotypes(z = z, w = 1/5)
+  x2 <- add_errors_to_012genotypes(z = z, w = 1/5)
+  w <- wgsLR::estimate_w(table(x1, x2))
+  
+  expect_equal(w, 1/5, tolerance = 1e-2)
+})
+
 
 test_that("to012", {
   Z <- sample_profiles_without_error(n = 10, p = list(
