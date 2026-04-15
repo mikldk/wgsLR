@@ -1,0 +1,149 @@
+---
+title: "Posterior likelihood ratio distributions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Posterior likelihood ratio distributions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: references.bib
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(wgsLR)
+```
+
+The following is based on Section 3 in @MeesterSlooten2021.
+
+Assuming everything except trace sample error rate, $w_t$, is known (i.e. reference sample error rate $w_r$ and genotype probabilities $p_0$, $p_1$, and $p_2$), then
+
+\begin{align}
+    LR(E) &= \frac{\int P(E \mid w_t, H_p) f(w_t \mid H_p) d w_t}{\int P(E \mid w_t, H_a) f(w_t \mid H_a) d w_t} .
+\end{align}
+
+Assuming in the rest of this document that the prior of $w_t$ under $H_p$ and $H_a$ coincide such that $f(w_t \mid H_p) = f(w_t \mid H_a)$ then
+
+\begin{equation}
+    LR(E) = \int LR_{w_t}(E) \, f(w_t \mid E, H_a) \, d w_t ,
+\end{equation}
+where
+\begin{align}
+    LR_{w_t}(E) &= \frac{P(E \mid w_t, H_p)}{P(E \mid w_t, H_a)} .
+\end{align}
+
+Thus, 
+\begin{equation}
+    LR(E) = E_{w_t \mid E, H_a} \left [ LR_{w_t}(E) \right ] .
+\end{equation}
+
+So if we can sample from $w_t \mid E, H_a$ and calculate the $LR$'s as if $w_t$ was known, we get 
+the posterior likelihood ratio distribution under $H_a$. 
+
+
+There are some interesting points in @MeesterSlooten2021 that are quoted below. 
+Quotation marks were not used as $\theta$ was replaced by $w_t$ and $H_2$ by $H_a$ and points about the posterior likelihood ratio distribution under $H_p$ was removed:
+
+* Thus, sampling from the posterior likelihood ratio distribution under $H_a$ tells us
+what likelihood ratios we expect to obtain if we can eliminate our uncertainty about
+$w_t$, but we do not expect the likelihood ratio to change in either direction.
+
+* When we repeatedly sample $LR_{w_t}(E)$ using $f(w_t \mid E, H_a)$,
+we can, by disregarding the, say, 5% most extreme outcomes, construct an interval.
+This interval tells us something about the values of future likelihood ratios that
+we would obtain, were we to remove all existing uncertainty about the model
+parameters $w_t$.
+
+### Example
+
+```{r, cache=TRUE}
+set.seed(2026)
+m <- 100
+q <- runif(m, min = 0.2, max = 0.8)
+p <- lapply(q, \(q0) c(q0^2, 2*q0*(1-q0), (1-q0)^2))
+wR <- 1/100
+cases <- sample_data_Ha_wTwR(n = m, wT = 1/10, wR = wR, p = p)
+xT <- cases$xT[, 1L]
+xR <- cases$xR[, 1L]
+table(xT, xR)
+```
+
+We can calculate $LR$'s, or rather $WoE = \log_{10}(LR)$:
+
+```{r}
+WoE_full_knowledge <- calc_LRs_wTwR(
+  xT = xT, 
+  xR = xR, 
+  wR = wR, 
+  wT = 1/10,
+  p = p
+) |> 
+  log10() |> 
+  sum()
+WoE_full_knowledge
+WoE_marginalisation <- calc_WoE_wTwR_integrate_wT_mc(
+  xT = xT, 
+  xR = xR, 
+  wR = wR, 
+  p = p,
+  shape1T_Hp = 1, 
+  shape2T_Hp = 1,
+  shape1T_Ha = 1, 
+  shape2T_Ha = 1
+)
+WoE_marginalisation
+```
+
+
+```{r}
+wTs <- seq(1/100, 1/2, length.out = 50)
+WoEs <- lapply(wTs, \(wT) {
+  calc_LRs_wTwR(
+    xT = xT, 
+    xR = xR, 
+    wR = wR, 
+    wT = wT,
+    p = p
+  ) |> 
+    log10() |> 
+    sum()
+}) |> unlist()
+plot(wTs, WoEs, type = "b")
+abline(h = 0, lty = 2)
+abline(v = 1/10, lty = 2)
+```
+
+
+```{r, eval=requireNamespace("cmdstanr", quietly = TRUE), cache=TRUE}
+m <- wT_posterior_Ha_stan(xT = xT, xR = xR, wR = wR, p = p,
+                          prior_a = 1, 
+                          prior_b = 1,
+                          chains = 5,
+                          parallel_chains = 5,
+                          iter_warmup = 100,
+                          iter_sampling = 200)
+wT_Ha_E <- m$draws("wT") |> c()
+hist(wT_Ha_E)
+abline(v = mean(wT_Ha_E))
+mean(wT_Ha_E)
+posterior_WoEs <- lapply(wT_Ha_E, \(wT) {
+  calc_LRs_wTwR(
+    xT = xT, 
+    xR = xR, 
+    wR = wR, 
+    wT = wT,
+    p = p
+  ) |> 
+    log10() |> 
+    sum()
+}) |> unlist()
+hist(posterior_WoEs)
+quantile(posterior_WoEs, c(0.025, 0.975))
+```
+
+## References

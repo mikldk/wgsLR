@@ -18,7 +18,7 @@ test_that("wT-posterior-distributions-Ha", {
                                     prior_b = 1,
                                     chains = 2,
                                     iter_warmup = 100,
-                                    iter_sampling = 200,
+                                    iter_sampling = 1000,
                                     parallel_chains = 2)
   m_autogen
   wT_mean_autogen <- m_autogen$draws("wT") |> c() |> mean()
