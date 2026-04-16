@@ -86,21 +86,42 @@ WoE_full_knowledge <- calc_LRs_wTwR(
   log10() |> 
   sum()
 WoE_full_knowledge
+```
+
+
+```{r}
+shps <- get_beta_parameters(mu = 1/10, sigmasq = (1/10)^2/2)
+shps
+qbeta05(c(0.025, 0.975), shape1 = shps[1], shape2 = shps[2])
+```
+
+```{r}
+#| fig-width: 6
+#| fig-height: 3
+prior_x <- seq(0, 0.5, length.out = 100)[-1]
+prior_y <- dbeta05(x, shape1 = shps[1], shape2 = shps[2])
+plot(prior_y ~ prior_x, type = "l", xlab = expression(w[t]), ylab = "Density")
+```
+
+
+```{r}
 WoE_marginalisation <- calc_WoE_wTwR_integrate_wT_mc(
   xT = xT, 
   xR = xR, 
   wR = wR, 
   p = p,
-  shape1T_Hp = 1, 
-  shape2T_Hp = 1,
-  shape1T_Ha = 1, 
-  shape2T_Ha = 1
+  shape1T_Hp = shps[1], 
+  shape2T_Hp = shps[2],
+  shape1T_Ha = shps[1], 
+  shape2T_Ha = shps[2]
 )
 WoE_marginalisation
 ```
 
 
 ```{r}
+#| fig-width: 6
+#| fig-height: 3
 wTs <- seq(1/100, 1/2, length.out = 50)
 WoEs <- lapply(wTs, \(wT) {
   calc_LRs_wTwR(
@@ -113,7 +134,7 @@ WoEs <- lapply(wTs, \(wT) {
     log10() |> 
     sum()
 }) |> unlist()
-plot(wTs, WoEs, type = "b")
+plot(wTs, WoEs, type = "l")
 abline(h = 0, lty = 2)
 abline(v = 1/10, lty = 2)
 ```
@@ -121,16 +142,24 @@ abline(v = 1/10, lty = 2)
 
 ```{r, eval=requireNamespace("cmdstanr", quietly = TRUE), cache=TRUE}
 m <- wT_posterior_Ha_stan(xT = xT, xR = xR, wR = wR, p = p,
-                          prior_a = 1, 
-                          prior_b = 1,
+                          prior_a = shps[1], 
+                          prior_b = shps[2],
                           chains = 5,
                           parallel_chains = 5,
                           iter_warmup = 100,
-                          iter_sampling = 200)
+                          iter_sampling = 1000)
 wT_Ha_E <- m$draws("wT") |> c()
-hist(wT_Ha_E)
-abline(v = mean(wT_Ha_E))
-mean(wT_Ha_E)
+```
+
+```{r, eval=requireNamespace("cmdstanr", quietly = TRUE), cache=TRUE}
+#| fig-width: 6
+#| fig-height: 3
+plot(prior_y ~ prior_x, type = "l", xlab = expression(w[t]), ylab = "Density")
+lines(density(wT_Ha_E), col = "red")
+legend("topright", c("Prior", "Posterior"), col = c("black", "red"), lty = 1, lwd = 2)
+```
+
+```{r, eval=requireNamespace("cmdstanr", quietly = TRUE), cache=TRUE}
 posterior_WoEs <- lapply(wT_Ha_E, \(wT) {
   calc_LRs_wTwR(
     xT = xT, 
@@ -142,8 +171,27 @@ posterior_WoEs <- lapply(wT_Ha_E, \(wT) {
     log10() |> 
     sum()
 }) |> unlist()
-hist(posterior_WoEs)
+```
+
+```{r, eval=requireNamespace("cmdstanr", quietly = TRUE), cache=TRUE}
+#| fig-width: 6
+#| fig-height: 3
+
+plot(density(posterior_WoEs))
+```
+
+```{r, eval=requireNamespace("cmdstanr", quietly = TRUE), cache=TRUE}
+mean(10^posterior_WoEs)
+10^WoE_marginalisation
+```
+
+
+Transformation of interval endpoints with monotone increasing transformation okay
+
+```{r, eval=requireNamespace("cmdstanr", quietly = TRUE), cache=TRUE}
 quantile(posterior_WoEs, c(0.025, 0.975))
 ```
+
+
 
 ## References
