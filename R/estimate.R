@@ -383,3 +383,252 @@ posterior_samples_df <- function(x) {
   stopifnot(methods::is(x, "wgsLR_bayesian_sample"))
   do.call(rbind, lapply(seq_along(x), \(i) data.frame(chain = i, iteration = seq_along(x[[i]]$samples), sample = x[[i]]$samples)))
 }
+
+
+
+
+
+#' Log-likelihood of w from a single sample assuming Hardy-Weinberg equilibrium
+#' 
+#' @param x Number of alternative alleles (0/1/2)
+#' @param p list of genotype probabilities or vector of length 3 for single locus
+#' @param w single number, genotyping error probability
+logliks_single_sample <- function(x, p, w) {
+  
+  
+  if (FALSE) {
+    library(tidyverse)
+    library(caracas)
+    
+    d_tmp <- d_formulas_single |> 
+      mutate(p = case_when(
+        Z_MA == 0L ~ "p0",
+        Z_MA == 1L ~ "p1",
+        Z_MA == 2L ~ "p2"
+      )) |> 
+      # p_1 is for both 0/1 and 1/0, so only take half for those cases
+      mutate(weight = ifelse(Z_MA == 1L, 2, 1)) |> 
+      mutate(expr = paste0("(", p, "/", weight, ") * ", expr)) |>
+      group_by(X_MA) |> 
+      summarise(expr = paste0(expr, collapse = " + "), 
+                .groups = "drop") 
+    d_tmp
+    
+    x <- d_tmp |> pull(expr) |> as_sym() |> simplify() 
+    x
+    z <- x |> 
+      subs(nms = c("p0", "p1", "p2", "w"), vls = c("(1-0.25)^2", "2*0.25*(1-0.25)", "0.25^2"))
+    z
+    z |> sum()
+    
+    x
+    x[1]
+    xlog <- x |> log() |> simplify()
+    as_expr(xlog[1])
+    as_expr(xlog[2])
+    as_expr(xlog[3])
+    
+  }
+  
+  n <- length(x)
+  p <- reuse_genotype_probs(p = p, n = n)
+  check_p(p)
+  stopifnot(is.integer(x))
+  stopifnot(all(x == 0L | x == 1L | x == 2L))
+  stopifnot(length(w) == 1L)
+  stopifnot(w >= 0 && w <= 1)
+  a <- (w - 1)^2
+  b <- w * (w - 1)
+  c <- w^2
+  
+  logliks <- vapply(seq_len(n), function(j) {
+    p0 <- p[[j]][1]
+    p1 <- p[[j]][2]
+    p2 <- p[[j]][3]
+    
+    val <- switch(
+      x[j] + 1,
+      
+      # x[j] == 0L
+      p0 * a - p1 * b + p2 * c,
+      
+      # x[j] == 1L
+      -2 * p0 * b + p1 * (a + c) - 2 * p2 * b,
+      
+      # x[j] == 2L
+      p0 * c - p1 * b + p2 * a
+    )
+    
+    log(val)
+  }, numeric(1))
+  
+  
+  if (FALSE) {
+    # For fixed w, it must sum to 1:
+    q <- 0.25
+    y <- logliks_single_sample(x = 0L:2L, p = c((1-q)^2, 2*q*(1-q), q^2), w = 0.1)
+    y
+    exp(y)
+    exp(y) |> sum()
+    y <- logliks_single_sample_old(x = 0L:2L, p = c((1-q)^2, 2*q*(1-q), q^2), w = 0.1)
+    y
+    exp(y)
+    exp(y) |> sum()
+    
+    
+    logliks_single_sample_Rcpp <- function(x, p, w) {
+      n <- length(x)
+      p <- reuse_genotype_probs(p = p, n = n)
+      check_p(p)
+      stopifnot(is.integer(x))
+      stopifnot(all(x == 0L | x == 1L | x == 2L))
+      stopifnot(length(w) == 1L)
+      stopifnot(w >= 0 && w <= 1)
+      
+      logliks_single_sample_Rcpp_wrapper(x, p, w)
+    }
+    
+    library(Rcpp)
+    tmpfile <- paste0(tempfile(), ".cpp")
+    cat(logliks_single_sample_Rcpp_code(), file = tmpfile)
+    sourceCpp(tmpfile)
+    
+    y <- logliks_single_sample_Rcpp(x = 0L:2L, p = c((1-q)^2, 2*q*(1-q), q^2), w = 0.1)
+    y
+    exp(y)
+    exp(y) |> sum()
+    
+    
+    q <- 0.25
+    Z <- sample_profiles_without_error(n = 1000, p = c((1-q)^2, 2*q*(1-q), q^2))
+    X <- add_errors_to_genotypes(Z, 0.25) |> to012() |> c()
+    
+    microbenchmark::microbenchmark(
+      logliks_single_sample(x = X, p = c((1-q)^2, 2*q*(1-q), q^2), w = 0.1),
+      logliks_single_sample_old(x = X, p = c((1-q)^2, 2*q*(1-q), q^2), w = 0.1),
+      times = 10
+    )
+    
+    microbenchmark::microbenchmark(
+      logliks_single_sample(x = X, p = c((1-q)^2, 2*q*(1-q), q^2), w = 0.1),
+      logliks_single_sample_old(x = X, p = c((1-q)^2, 2*q*(1-q), q^2), w = 0.1),
+      logliks_single_sample_Rcpp(x = X, p = c((1-q)^2, 2*q*(1-q), q^2), w = 0.1),
+      times = 10
+    )
+    
+    q1 <- 0.25
+    q2 <- 0.99
+    y <- lapply(0L:2L, \(xi) logliks_single_sample(x = c(xi, xi), p = list(
+      c((1-q1)^2, 2*q1*(1-q1), q1^2),
+      c((1-q2)^2, 2*q2*(1-q2), q2^2)
+    ), w = 0.1))
+    y <- purrr::transpose(y) |> lapply(unlist)
+    y
+    lapply(y, exp)
+    lapply(y, exp) |> lapply(sum)
+    
+    # For multiple samples, it must be maximal at w
+    q <- 0.25
+    Z <- sample_profiles_without_error(n = 1000, p = c((1-q)^2, 2*q*(1-q), q^2))
+    X <- add_errors_to_genotypes(Z, 0.25) |> to012() |> c()
+
+    #ws <- seq(0, 1, length.out = 101)
+    ws <- seq(0.2, 0.3, length.out = 101)
+    library(parallel)
+    options(mc.cores = 8)
+    logliks <- mclapply(ws, \(w) {
+      #logliks_single_sample(x = X, p = c((1-q)^2, 2*q*(1-q), q^2), w = w) |> sum()
+      logliks_single_sample_Rcpp(x = X, p = c((1-q)^2, 2*q*(1-q), q^2), w = w) |> sum()
+    }) |> unlist()
+    logliks
+    plot(ws, logliks)
+    abline(v = 0.25)
+  }
+  
+  return(logliks)
+}
+
+
+
+
+logliks_single_sample_old <- function(x, p, w) {
+  
+  
+  n <- length(x)
+  p <- reuse_genotype_probs(p = p, n = n)
+  check_p(p)
+  stopifnot(is.integer(x))
+  stopifnot(all(x == 0L | x == 1L | x == 2L))
+  stopifnot(length(w) == 1L)
+  stopifnot(w >= 0 && w <= 1)
+  
+  
+  logliks <- lapply(seq_len(n), \(j) {
+    pj <- p[[j]]
+    p0 <- pj[1L]
+    p1 <- pj[2L]
+    p2 <- pj[3L]
+    
+    xj <- x[j]
+    
+    if (xj == 0L) {
+      log(p0 * (w - 1)^2 - p1 * w * (w - 1) + p2 * w^2)
+    } else if (xj == 1L) {
+      log(-2 * p0 * w * (w - 1) + p1 * w^2 + p1 * (w - 1)^2 - 2 * p2 * w * (w - 1))
+    } else {
+      # xj == 2L
+      log(p0 * w^2 - p1 * w * (w - 1) + p2 * (w - 1)^2)
+    }
+  }) |> unlist()
+  
+  
+  return(logliks)
+}
+
+
+
+logliks_single_sample_Rcpp_code <- function() {
+  paste0('
+    #include <Rcpp.h>
+    using namespace Rcpp;
+    
+    // [[Rcpp::export]]
+    NumericVector logliks_single_sample_Rcpp_wrapper(IntegerVector x, List p, double w) {
+      const int n = x.size();
+      NumericVector out(n);
+    
+      const double a = (w - 1.0) * (w - 1.0);
+      const double b = w * (w - 1.0);
+      const double c = w * w;
+    
+      for (int j = 0; j < n; ++j) {
+        NumericVector pj = p[j];
+    
+        const double p0 = pj[0];
+        const double p1 = pj[1];
+        const double p2 = pj[2];
+    
+        double val;
+    
+        switch (x[j]) {
+        case 0:
+          val = p0 * a - p1 * b + p2 * c;
+          break;
+        case 1:
+          val = -2.0 * p0 * b +
+                p1 * (a + c) -
+                2.0 * p2 * b;
+          break;
+        default: // x[j] == 2
+          val = p0 * c - p1 * b + p2 * a;
+        }
+    
+        out[j] = std::log(val);
+      }
+    
+      return out;
+    }        
+             
+    ')
+}
+
