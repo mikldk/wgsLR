@@ -388,7 +388,18 @@ posterior_samples_df <- function(x) {
 
 
 
-#' Log-likelihood of w from a single sample assuming Hardy-Weinberg equilibrium
+#' Log-likelihood of $w$ from a single sample
+#' 
+#' Note that if `p = c(1/4, 1/2, 1/4)`, the likelihood does not depend on `w` 
+#' (and is equal to `log(p)`).
+#' In other words, the parameter `w` is weakly identifiable when 
+#' allele frequencies are close to $0.5$. 
+#' Under HWE, the expected information for $w$ decreases as 
+#' the MAF approaches $0.5$ and vanishes at MAF = 0.5 due to 
+#' symmetry of the genotype distribution.
+#' 
+#' Rare alleles (low MAF) will generally contribute more information 
+#' about $w$ than common variants near MAF = 0.5, assuming comparable sample sizes.
 #' 
 #' @param x Number of alternative alleles (0/1/2)
 #' @param p list of genotype probabilities or vector of length 3 for single locus
@@ -464,6 +475,14 @@ logliks_single_sample <- function(x, p, w) {
   
   
   if (FALSE) {
+    # q = 0.5 => independent of w
+    q <- 0.5
+    y <- logliks_single_sample(x = 0L:2L, p = c((1-q)^2, 2*q*(1-q), q^2), w = 0.1)
+    exp(y)
+    y <- logliks_single_sample(x = 0L:2L, p = c((1-q)^2, 2*q*(1-q), q^2), w = 0.9)
+    exp(y)
+    
+    
     # For fixed w, it must sum to 1:
     q <- 0.25
     y <- logliks_single_sample(x = 0L:2L, p = c((1-q)^2, 2*q*(1-q), q^2), w = 0.1)
