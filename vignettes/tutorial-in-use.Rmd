@@ -1,0 +1,199 @@
+---
+title: "Tutorial in use"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Tutorial in use}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(wgsLR)
+```
+
+## Load data
+
+Load in allele frequencies, columns `Chr`, `Position`, `Ref`, and `AF` required::
+
+```{r}
+d_AF <- data.frame(Chr = c("chr1", "chr1", "chr2", "chr2"), 
+                   Position = c(111, 112, 221, 222), 
+                   Ref = c("A", "G", "T", "T"),
+                   AF = c(0.4, 0.3, 0.2, 0.25)) # AF for reference
+d_AF
+```
+
+
+Load in trace and reference samples.
+
+For **trace**, columns `Chr`, `Position`, `cM`, `Ref`, and `GT` required:
+
+```{r}
+d_trace <- data.frame(Chr = c("chr1", "chr1", "chr2", "chr2"), 
+                      Position = c(111, 112, 221, 222),  # dummy for tutorial only
+                      cM = c(0.1, 0.11, 0.2, 0.21), # dummy for tutorial only
+                      Ref = c("A", "G", "T", "T"),
+                      GT = c("0/0", "1/1", "0/1", "0/0"))
+d_trace
+```
+
+For **reference**, columns `Chr`, `Position`, and `GT` required (trace has information about `cM` and `Ref`):
+
+```{r}
+d_ref <- data.frame(Chr = c("chr1", "chr1", "chr2", "chr2"), 
+                    Position = c(111, 112, 221, 222),  # dummy for tutorial only
+                    GT = c("0/1", "1/1", "0/1", "0/0"))
+d_ref
+```
+
+
+## Merge (join) data
+
+Annotate trace sample with reference sample and `AF` info:
+
+```{r}
+d_trace$GT012 <- GT_convert_to_012(d_trace$GT)
+d_ref$GT012 <- GT_convert_to_012(d_ref$GT)
+d_trace_AF <- merge(x = d_trace, 
+                    y = d_AF, 
+                    suffixes = c("_trace", "_AF"),
+                    by = c("Chr", "Position"),
+                    all = FALSE)
+d_trace_AF
+```
+
+Be sure that the `Ref` is correct:
+
+```{r}
+all(d_trace_AF$Ref_trace == d_trace_AF$Ref_AF)
+```
+
+Prepare case data:
+
+```{r}
+d_trace_ref <- merge(x = d_trace_AF, 
+                     y = d_ref, 
+                     suffixes = c("", "_ref"),
+                     by = c("Chr", "Position"),
+                    all = FALSE)
+d_trace_ref
+```
+
+
+## Generate profile sets
+
+Generate a number of profile sets from minimal `cM` requirement:
+
+```{r}
+set.seed(1)
+lst_profilesets_loose <- generate_profilesets(d = d_trace_ref, cM_thres = 0.00001, n = 4)
+lst_profilesets_loose
+rm(lst_profilesets_loose)  # not useds
+lst_profilesets <- generate_profilesets(d = d_trace_ref, cM_thres = 1, n = 4)
+lst_profilesets
+```
+
+Prepare genotype probabilities. Here, we assume Hardy-Weinberg equilibrium 
+and that the `AF` column is the `Ref` allele probability:
+
+```{r}
+lst_GTprobs <- lapply(lst_profilesets, \(d) {
+  lapply(d$AF, \(q) {
+    c(q^2, 2*(1-q)*q, (1-q)^2)
+  })
+})
+lst_GTprobs
+```
+
+## Compute evidential weight
+
+Compute the WoE's.
+
+
+### No errors possible
+
+First with fixed error probabilities of 0:
+
+```{r}
+LRs_w0 <- lapply(seq_along(lst_profilesets), \(i) {
+  d_SNPs <- lst_profilesets[[i]]
+  genotype_probs <- lst_GTprobs[[i]]
+  calc_LRs_w(xT = d_SNPs$GT012, xR = d_SNPs$GT012_ref, w = 0, p = genotype_probs)
+})
+LRs_w0
+WoE_w0 <- sapply(LRs_w0, \(lr) sum(log10(lr)))
+WoE_w0
+WoE_w0_avg <- mean(WoE_w0)
+WoE_w0_avg
+```
+
+### Fixed, known error rates
+
+Then with `wT = 1/100` and `wR = 1/1000`
+
+```{r}
+LRs_wT0_01wR0_001 <- lapply(seq_along(lst_profilesets), \(i) {
+  d_SNPs <- lst_profilesets[[i]]
+  genotype_probs <- lst_GTprobs[[i]]
+  calc_LRs_wTwR(xT = d_SNPs$GT012, xR = d_SNPs$GT012_ref, 
+                wT = 1/100, wR = 1/1000,
+                p = genotype_probs)
+})
+LRs_wT0_01wR0_001
+WoE_wT0_01wR0_001 <- sapply(LRs_wT0_01wR0_001, \(lr) sum(log10(lr)))
+WoE_wT0_01wR0_001
+WoE_wT0_01wR0_001_avg <- mean(WoE_wT0_01wR0_001)
+WoE_wT0_01wR0_001_avg
+```
+
+### Fixed reference sample error rates, integrate over trace sample error rate
+
+And now `wR = 1/1000` and integrating over `wT` with this prior distribution (red dotted is `wR`, grey dashed mark 5% and 95% quantiles):
+
+```{r}
+prior_mean <- 1/100
+prior_var <- prior_mean^2/2
+prior_shp <- wgsLR::get_beta_parameters(mu = prior_mean,
+                                        sigmasq = prior_var,
+                                        a = 0,
+                                        b = 0.5)
+
+curve(dbeta05(x, prior_shp[1], prior_shp[2]), from = 0, to = 0.05) 
+abline(v = prior_mean)
+abline(v = qbeta05(0.05, prior_shp[1], prior_shp[2]), lty = 2, col = "darkgrey")
+abline(v = qbeta05(0.95, prior_shp[1], prior_shp[2]), lty = 2, col = "darkgrey")
+abline(v = 1/1000, lty = 3, col = "red")
+
+qbeta05(0.05, prior_shp[1], prior_shp[2])
+qbeta05(0.95, prior_shp[1], prior_shp[2])
+```
+
+So that 90% central probability of the prior is between `r signif(qbeta05(0.05, prior_shp[1], prior_shp[2]), 2)` and `r signif(qbeta05(0.95, prior_shp[1], prior_shp[2]), 2)`.
+
+Using the same prior under both hypotheses, we get:
+
+```{r}
+WoE_int <- lapply(seq_along(lst_profilesets), \(i) {
+  d_SNPs <- lst_profilesets[[i]]
+  genotype_probs <- lst_GTprobs[[i]]
+  
+  calc_WoE_wTwR_integrate_wT_mc(
+    xT = d_SNPs$GT012, xR = d_SNPs$GT012_ref, 
+    wR = 1/1000, 
+    shape1T_Hp = prior_shp[1], shape2T_Hp = prior_shp[2],
+    shape1T_Ha = prior_shp[1], shape2T_Ha = prior_shp[2],
+    p = genotype_probs, 
+    n_samples = 1000)
+}) |> unlist()
+WoE_int
+WoE_int_avg <- mean(WoE_int)
+WoE_int_avg
+```
+
