@@ -1056,3 +1056,20 @@ usethis::use_data(d_LR_wTwR, overwrite = TRUE, version = 3, compress = "bzip2")
 usethis::use_data(d_probtable_Hp_wTwR, overwrite = TRUE, version = 3, compress = "bzip2")
 usethis::use_data(d_probtable_Ha_wTwR, overwrite = TRUE, version = 3, compress = "bzip2")
 
+##########################################
+
+if (FALSE) {
+  library(tidyverse)
+  library(caracas)
+  
+  #e <- d_prob_Hp_wTwR |> pull(expr_chr)
+  e <- d_prob_Hd_wTwR |> pull(expr_chr)
+  e
+  
+  s <- as_sym(e)
+  s
+  subs(s, c("wR", "wT"), c("0", "0"))
+  
+}
+
+

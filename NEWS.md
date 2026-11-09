@@ -6,6 +6,7 @@
 * Added `calc_likelihood_numerator_Hp_wTwR()` and `calc_likelihood_denominator_Ha_wTwR()`
 * Added `add_errors_to_012genotypes()`
 * Added `wT_posterior_H*` functions and `cmdstanr` as a Suggested package
+* Added `logliks_single_sample()` 
 
 # wgsLR 0.0.2
 * Added a `NEWS.md` file to track changes to the package.

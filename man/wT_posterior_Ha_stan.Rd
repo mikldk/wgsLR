@@ -31,7 +31,7 @@ wT_posterior_Ha_stan(
 
 \item{chains}{Number of chains to run}
 
-\item{\dots}{Passed to \code{\link[cmdstanr:model-method-sample]{cmdstanr::sample()}}}
+\item{\dots}{Passed to \code{\link[cmdstanr:sample]{cmdstanr::sample()}}}
 }
 \description{
 Sample from posterior distribution of \code{wT} conditional on Ha using Stan

@@ -3,10 +3,13 @@
 <url><loc>/articles/error-rate-uncertainty.html</loc></url>
 <url><loc>/articles/index.html</loc></url>
 <url><loc>/articles/introduction.html</loc></url>
+<url><loc>/articles/posterior-LR-distributions.html</loc></url>
+<url><loc>/articles/tutorial-in-use.html</loc></url>
 <url><loc>/articles/using-stan.html</loc></url>
 <url><loc>/authors.html</loc></url>
 <url><loc>/index.html</loc></url>
 <url><loc>/news/index.html</loc></url>
+<url><loc>/reference/GT_convert_to_012.html</loc></url>
 <url><loc>/reference/add_errors_Ha_w.html</loc></url>
 <url><loc>/reference/add_errors_Ha_wTwR.html</loc></url>
 <url><loc>/reference/add_errors_Hd.html</loc></url>
@@ -17,6 +20,7 @@
 <url><loc>/reference/add_errors_Hp_w.html</loc></url>
 <url><loc>/reference/add_errors_Hp_wDwS.html</loc></url>
 <url><loc>/reference/add_errors_Hp_wTwR.html</loc></url>
+<url><loc>/reference/add_errors_to_012genotypes.html</loc></url>
 <url><loc>/reference/add_errors_to_genotypes.html</loc></url>
 <url><loc>/reference/allele_probs_to_geno_probs.html</loc></url>
 <url><loc>/reference/beta05.html</loc></url>
@@ -31,7 +35,9 @@
 <url><loc>/reference/calc_WoE_wTwR_integrate_wT_mc.html</loc></url>
 <url><loc>/reference/calc_WoE_wTwR_integrate_wT_mc_markerwise.html</loc></url>
 <url><loc>/reference/calc_WoE_wTwR_integrate_wT_num.html</loc></url>
+<url><loc>/reference/calc_WoE_wTwR_mleH2_wT_num.html</loc></url>
 <url><loc>/reference/calc_WoE_wTwR_profilemax_wT_num.html</loc></url>
+<url><loc>/reference/calc_likelihood.html</loc></url>
 <url><loc>/reference/d_LR_w.html</loc></url>
 <url><loc>/reference/d_LR_wTwR.html</loc></url>
 <url><loc>/reference/d_formulas_Ha_w.html</loc></url>
@@ -73,6 +79,7 @@
 <url><loc>/reference/estimate_w_se.html</loc></url>
 <url><loc>/reference/extract_profile.html</loc></url>
 <url><loc>/reference/extract_profile_v1.html</loc></url>
+<url><loc>/reference/generate_profilesets.html</loc></url>
 <url><loc>/reference/get_beta_mu_sigma.html</loc></url>
 <url><loc>/reference/get_beta_parameters.html</loc></url>
 <url><loc>/reference/get_ns.html</loc></url>
@@ -88,8 +95,10 @@
 <url><loc>/reference/graph_Hp_wTwR.html</loc></url>
 <url><loc>/reference/graph_single.html</loc></url>
 <url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/logliks_single_sample.html</loc></url>
 <url><loc>/reference/marker_candidates_v1.html</loc></url>
 <url><loc>/reference/posterior_samples.html</loc></url>
+<url><loc>/reference/posterior_samples_df.html</loc></url>
 <url><loc>/reference/reuse_genotype_probs.html</loc></url>
 <url><loc>/reference/sample_data_Ha_w.html</loc></url>
 <url><loc>/reference/sample_data_Ha_wTwR.html</loc></url>
@@ -103,5 +112,7 @@
 <url><loc>/reference/sample_data_Hp_wTwR.html</loc></url>
 <url><loc>/reference/sample_profiles_without_error.html</loc></url>
 <url><loc>/reference/to012.html</loc></url>
+<url><loc>/reference/wT_posterior_Ha_naive.html</loc></url>
+<url><loc>/reference/wT_posterior_Ha_stan.html</loc></url>
 </urlset>
 

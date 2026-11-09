@@ -7,7 +7,7 @@
 allele_probs_to_geno_probs(x)
 }
 \arguments{
-\item{x}{Allele probs}
+\item{x}{Allele probs for reference (0, so P(00) = q^2 etc.)}
 }
 \description{
 Allele probabilities to genotype probabilities assuming Hardy-Weinberg equilibrium

@@ -99,7 +99,7 @@ qbeta05(c(0.025, 0.975), shape1 = shps[1], shape2 = shps[2])
 #| fig-width: 6
 #| fig-height: 3
 prior_x <- seq(0, 0.5, length.out = 100)[-1]
-prior_y <- dbeta05(x, shape1 = shps[1], shape2 = shps[2])
+prior_y <- dbeta05(prior_x, shape1 = shps[1], shape2 = shps[2])
 plot(prior_y ~ prior_x, type = "l", xlab = expression(w[t]), ylab = "Density")
 ```
 
